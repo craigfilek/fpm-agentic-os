@@ -1,0 +1,59 @@
+{
+  "inputNeededNotifEnabled": true,
+  "skipDangerousModePermissionPrompt": true,
+  "env": {
+    "CLAUDE_CODE_AUTOCOMPACT_PCT_OVERRIDE": "100"
+  },
+  "permissions": {
+    "defaultMode": "plan",
+    "deny": [
+      "Read(**/.env*)",
+      "Read(**/.env)",
+      "Read(~/.ssh/id_*)",
+      "Read(~/.config/gws/*)",
+      "Edit(**/.env*)",
+      "Edit(**/.env)",
+      "Write(**/.env*)",
+      "Write(**/.env)",
+      "Edit",
+      "Write",
+      "NotebookEdit",
+      "Bash(rm -rf *)",
+      "Bash(rm -r *)",
+      "Bash(git push*)",
+      "Bash(git commit*)",
+      "Bash(git reset --hard*)",
+      "Bash(git branch -D*)",
+      "Bash(git checkout -- *)",
+      "Bash(git restore*)",
+      "Bash(git clean*)",
+      "Bash(gh pr create*)",
+      "Bash(gh pr merge*)",
+      "Bash(gh pr close*)",
+      "Bash(gh pr comment*)",
+      "Bash(gh pr edit*)",
+      "Bash(gh issue create*)",
+      "Bash(gh issue close*)",
+      "Bash(gh issue comment*)",
+      "Bash(gh release create*)"
+    ]
+  },
+  "model": "claude-opus-4-8",
+  "hooks": {
+    "PreCompact": [
+      {
+        "matcher": "auto",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'Auto-compact disabled by user (PreCompact hook).' >&2; exit 2"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "python3 __HOME__/.claude/statusline.py"
+  }
+}
