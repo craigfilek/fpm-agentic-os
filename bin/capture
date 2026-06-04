@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# capture <file-or-url>  —  the belt: markitdown front door → gbrain librarian
+set -uo pipefail
+IN="${1:-}"; [ -z "$IN" ] && { echo "usage: capture <file-or-url>"; exit 1; }
+MD="$HOME/.local/bin/markitdown"; GB="$HOME/.bun/bin/gbrain"
+slug="captures/$(date +%Y-%m-%d)-$(printf '%s' "$IN" | shasum | cut -c1-8)"
+echo "→ front door: converting"
+text="$("$MD" "$IN" 2>/dev/null)"
+[ -z "$text" ] && { echo "  nothing came out (unsupported, or needs a key)"; exit 1; }
+echo "→ librarian: filing as $slug ($(printf '%s' "$text" | wc -w | tr -d ' ') words)"
+printf '%s' "$text" | "$GB" put "$slug" >/dev/null 2>&1 && echo "✓ captured → $slug" || echo "  gbrain put failed"

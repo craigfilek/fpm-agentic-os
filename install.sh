@@ -348,12 +348,12 @@ for rc in "$HOME/.zshrc" "$HOME/.bash_profile"; do
   grep -q "FPM_MEMORY_BACKEND=gbrain" "$rc" 2>/dev/null || echo 'export FPM_MEMORY_BACKEND=gbrain' >> "$rc"
 done
 echo "fpm-ai now reads/writes gbrain (FPM_MEMORY_BACKEND=gbrain)"
-PKG="$HOME/fpm-ai-os"; [ -f "./bin/obsidian-to-gbrain" ] && PKG="$(pwd)"
-if [ -f "$PKG/bin/obsidian-to-gbrain" ]; then
+PKG="$HOME/fpm-ai-os"; [ -d "./bin" ] && PKG="$(pwd)"
+if [ -d "$PKG/bin" ]; then
   mkdir -p "$HOME/.local/bin"
-  cp "$PKG/bin/obsidian-to-gbrain" "$HOME/.local/bin/obsidian-to-gbrain"
-  chmod +x "$HOME/.local/bin/obsidian-to-gbrain"
-  echo "Obsidian→gbrain bridge installed (run: obsidian-to-gbrain)"
+  cp "$PKG"/bin/* "$HOME/.local/bin/" 2>/dev/null
+  chmod +x "$HOME"/.local/bin/* 2>/dev/null
+  echo "bin tools installed: $(ls "$PKG/bin" 2>/dev/null | tr '\n' ' ')"
 fi
 
 say "install.sh complete"
