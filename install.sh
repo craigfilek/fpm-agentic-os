@@ -70,6 +70,15 @@ else
   echo "uv present: $(uv --version)"
 fi
 
+# ── 5b. markitdown (ingestion front door: anything → Markdown) ────────────────
+# [VERIFIED] uv tool install 'markitdown[all]' → ~/.local/bin/markitdown (v0.1.5).
+# Turns PDFs, Office docs, HTML, CSV/JSON, EPUB, ZIP, and YouTube links into clean
+# Markdown the brain can hold. Needs ffmpeg (audio/video) + exiftool (metadata).
+say "markitdown (ingestion front door)"
+command -v markitdown &>/dev/null || uv tool install 'markitdown[all]' || echo "markitdown install returned non-zero"
+for t in ffmpeg exiftool; do brew list "$t" &>/dev/null || brew install "$t"; done
+echo "markitdown: $(command -v markitdown || echo 'not on PATH yet')"
+
 # ── 6. clone the component repos ──────────────────────────────────────────────
 # [VERIFIED URLS] your own private product repos are intentionally NOT cloned —
 # they are not part of the shareable OS.
