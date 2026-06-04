@@ -7,7 +7,7 @@ _Captured 2026-06-02_
 | fpm-ai | a774c00 | `git rev-parse --short HEAD` |
 | hermes-agent | 272c2f30a (v2026.5.29-433) | `git describe --tags --always` |
 | stack-primer | 7c713a9 | `git rev-parse --short HEAD` |
-| fpm-ai-os | 6280918 | `git rev-parse --short HEAD` |
+| fpm-agentic-os | 6280918 | `git rev-parse --short HEAD` |
 | gStack | 1.55.1.0 | `cat ~/gstack/VERSION` |
 | gbrain | 0.42.10.0 | `gbrain --version` |
 | hermes binary | 0.15.1 (2026.5.29) | `hermes --version` |

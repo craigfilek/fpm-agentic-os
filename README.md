@@ -3,7 +3,7 @@
 > Open **Claude** (the Claude Code terminal), paste the line below, and press enter. Then sit back — it unpacks itself, sets itself up, and interviews you to fill in the rest. Answer its questions in plain English.
 >
 > ```
-> Clone https://github.com/craigfilek/fpm-ai-os, read its AGENTS.md, and set up my whole agentic OS step by step. I am not technical — do everything for me and ask me anything you need in plain English.
+> Clone https://github.com/craigfilek/fpm-agentic-os, read its AGENTS.md, and set up my whole agentic OS step by step. I am not technical — do everything for me and ask me anything you need in plain English.
 > ```
 >
 > That is the entire job. Everything below is detail the assistant handles for you.
@@ -25,7 +25,7 @@
 If you'd rather paste one line yourself, open the **Terminal** app and paste:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/craigfilek/fpm-ai-os/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/craigfilek/fpm-agentic-os/main/install.sh | bash
 ```
 
 Press Enter. macOS asks for your Mac password **once** (that's the installer

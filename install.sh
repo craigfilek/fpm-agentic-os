@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# install.sh — fpm-ai-os bootstrap
+# install.sh — fpm-agentic-os bootstrap
 # Target: macOS 13+, invoked via: curl -fsSL .../install.sh | bash
 #
 # STATUS 2026-06-03: Fleshed out from the original skeleton. Commands marked
@@ -331,7 +331,7 @@ echo "# To enable: open Obsidian (with its MCP plugin), then  claude mcp add obs
 # guards (rm -rf, git push/commit, gh ...), plan default mode, statusline, and
 # the starter house-rule memories. Idempotent; skips gracefully if files absent.
 say "Claude Code customizations"
-PKG="$HOME/fpm-ai-os"
+PKG="$HOME/fpm-agentic-os"
 [ -f "./claude-settings.json" ] && PKG="$(pwd)"
 if [ -f "$PKG/claude-settings.json" ]; then
   mkdir -p "$HOME/.claude"
@@ -347,7 +347,7 @@ if [ -f "$PKG/claude-settings.json" ]; then
   done
   echo "settings + statusline + house-rule memory in place"
 else
-  echo "# fpm-ai-os package files not found on disk — apply claude-settings.json + claude-memory/ from the repo manually"
+  echo "# fpm-agentic-os package files not found on disk — apply claude-settings.json + claude-memory/ from the repo manually"
 fi
 
 # ── 19. wire the bus: fpm-ai → gbrain + Obsidian bridge ───────────────────────
@@ -358,7 +358,7 @@ for rc in "$HOME/.zshrc" "$HOME/.bash_profile"; do
   grep -q "FPM_MEMORY_BACKEND=gbrain" "$rc" 2>/dev/null || echo 'export FPM_MEMORY_BACKEND=gbrain' >> "$rc"
 done
 echo "fpm-ai now reads/writes gbrain (FPM_MEMORY_BACKEND=gbrain)"
-PKG="$HOME/fpm-ai-os"; [ -d "./bin" ] && PKG="$(pwd)"
+PKG="$HOME/fpm-agentic-os"; [ -d "./bin" ] && PKG="$(pwd)"
 if [ -d "$PKG/bin" ]; then
   mkdir -p "$HOME/.local/bin"
   cp "$PKG"/bin/* "$HOME/.local/bin/" 2>/dev/null

@@ -41,7 +41,7 @@ A Mac running macOS 13 (Ventura) or later. That is it.
 Open the Terminal app (in `Applications > Utilities`). Paste this exactly:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/craigfilek/fpm-ai-os/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/craigfilek/fpm-agentic-os/main/install.sh | bash
 ```
 
 Press Enter. macOS will ask for your Mac password ONCE — this is the install authorizing itself to add software, the same prompt you see when installing any new app. Type your password, press Enter.

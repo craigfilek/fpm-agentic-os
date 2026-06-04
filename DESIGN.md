@@ -1,4 +1,4 @@
-# fpm-ai-os Design Decisions
+# fpm-agentic-os Design Decisions
 
 This file captures the architectural decisions made while building the integrated agentic OS. Each entry: the decision, the date, the reason. New decisions append to the bottom.
 
@@ -23,21 +23,21 @@ This file captures the architectural decisions made while building the integrate
 3. **gbrain** — shared memory and knowledge layer (graph + synthesis with citations + nightly dream cycle, exposes itself as MCP)
 4. **Obsidian Vault** — human-facing notes surface
 5. **stack-primer** — web-app scaffold for shipping products (Next.js + Tailwind + Supabase + Claude)
-6. **fpm-ai-os** — this repo. The install manual + design log + operator's manual.
+6. **fpm-agentic-os** — this repo. The install manual + design log + operator's manual.
 
 **Reason:** fpm-ai and Hermes are different layers (opinionated personal-dev vs general-purpose runtime), not competitors. gbrain serves as shared memory both consume. stack-primer is the only repo covering web-app scaffolding. Obsidian is where the human already lives.
 
 ---
 
-## 2026-06-02 — CEO agent lives in fpm-ai (not fpm-ai-os)
+## 2026-06-02 — CEO agent lives in fpm-ai (not fpm-agentic-os)
 
 **Decision:** The CEO agent's code, prompt, and config live in fpm-ai:
 - `fpm-ai/fpm/prompts/ceo.md` — the prompt
 - `fpm-ai/config/agents.yaml` — the agent entry (trust, model, tool set, etc.)
 
-fpm-ai-os holds the blueprint document `CEO-INTERVIEW.md` describing what the CEO does for a new user (what it asks, what it generates, sample transcript).
+fpm-agentic-os holds the blueprint document `CEO-INTERVIEW.md` describing what the CEO does for a new user (what it asks, what it generates, sample transcript).
 
-**Reason:** fpm-ai is the agent framework. It already has the orchestrator, checker integration, trust system, multi-provider routing, dashboard. Building the CEO in fpm-ai-os would mean duplicating or importing that infrastructure. The code-vs-manual split keeps fpm-ai-os a clean install guide and fpm-ai a real code framework.
+**Reason:** fpm-ai is the agent framework. It already has the orchestrator, checker integration, trust system, multi-provider routing, dashboard. Building the CEO in fpm-agentic-os would mean duplicating or importing that infrastructure. The code-vs-manual split keeps fpm-agentic-os a clean install guide and fpm-ai a real code framework.
 
 ---
 
@@ -143,4 +143,4 @@ fpm-ai-os holds the blueprint document `CEO-INTERVIEW.md` describing what the CE
 - `install.sh` gets a step: `git clone https://github.com/garrytan/gstack ~/gstack`, then its Bun-based `setup`, then `setup-gbrain` to wire it to the existing brain.
 - Preserve attribution to Garry Tan. Stay lean: adopt gStack's skills as-is; do NOT fork-and-customize (that was the Build A failure mode).
 
-**Component count is now 7:** fpm-ai · Hermes · gbrain · Obsidian · stack-primer (standards + scaffold only) · **gStack (dev/ship skills)** · fpm-ai-os (manual).
+**Component count is now 7:** fpm-ai · Hermes · gbrain · Obsidian · stack-primer (standards + scaffold only) · **gStack (dev/ship skills)** · fpm-agentic-os (manual).

@@ -39,7 +39,7 @@ Seven pieces that work together as a second brain plus an always-on assistant:
 | 4 | **Obsidian** | The notes app where the human reads and writes. |
 | 5 | **stack-primer** | A web-app starter kit (for building products later). |
 | 6 | **gStack** | 58 ready-made commands for planning, building, QA, and shipping. Pairs natively with gbrain. |
-| 7 | **fpm-ai-os** | This repo — the install manual + design log. |
+| 7 | **fpm-agentic-os** | This repo — the install manual + design log. |
 
 The simple frame (the **Four Cs**, a term from Nate Herk™):
 **Context** (it knows you → gbrain + the interview) ·
@@ -69,7 +69,7 @@ Tell the human in one sentence what's already in place vs. fresh.
 The whole stack installs from `install.sh` in this repo. On a fresh Mac:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/craigfilek/fpm-ai-os/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/craigfilek/fpm-agentic-os/main/install.sh | bash
 ```
 
 What to tell the human while it runs (~30 min):
