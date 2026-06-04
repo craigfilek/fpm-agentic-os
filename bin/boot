@@ -1,0 +1,69 @@
+#!/bin/sh
+# brain — boot the second brain: incremental sync, then a GREEN/red health lamp.
+# Idempotent: run it 100x, same state. Reattaches the index, never rebuilds.
+# Run this in a terminal (PGLite is single-writer — close Claude/MCP first).
+
+VAULT="${OBSIDIAN_VAULT:-$HOME/Obsidian Vault}"
+VOICE="$VAULT/Voice Memos"
+STAMP="$HOME/.gbrain/last-boot"
+G="OK "; R="XX "; W="~~ "; ok=1
+
+# 1. vault reachable
+if [ -d "$VAULT" ]; then l_vault="$G vault reachable"; else l_vault="$R vault MISSING ($VAULT)"; ok=0; fi
+
+# 2. incremental sync of brain sources (advisory: recall works even if deferred).
+#    Single-writer: a running gbrain serve (Claude/MCP) blocks CLI sync.
+blocked=0; failed=0; okcount=0
+for pair in "inbox:$VAULT/Inbox" "distilled:$VAULT/Distilled"; do
+  sid=${pair%%:*}; spath=${pair#*:}
+  [ -d "$spath/.git" ] || { failed=1; continue; }
+  # auto-commit anything dropped in, so capture is just "drop a file + boot"
+  (cd "$spath" && git add -A >/dev/null 2>&1 && git commit -q -m "capture $(date +%F-%H%M%S)" >/dev/null 2>&1)
+  out=$(cd "$spath" && gbrain sync --source "$sid" --no-pull 2>&1)
+  if [ $? -eq 0 ]; then okcount=$((okcount+1))
+  elif printf '%s' "$out" | grep -qiE 'lock|single-writer|in use|EBUSY|another'; then blocked=1
+  else failed=1; fi
+done
+if [ "$blocked" = 1 ]; then
+  l_sync="$W sync deferred — close Claude/MCP and re-run to pull in new captures"
+elif [ "$failed" = 1 ]; then
+  l_sync="$R sync error (try: cd Voice\ Memos && gbrain sync --source voice --no-pull)"
+else
+  date +%s > "$STAMP"; l_sync="$G sync ok ($okcount sources)"
+fi
+
+# 3. index has pages
+pages=$(gbrain sources list 2>/dev/null | awk '$1=="inbox"||$1=="distilled"{s+=$3} END{print s}')
+if [ -n "$pages" ] && [ "$pages" -gt 0 ] 2>/dev/null; then
+  l_index="$G index: $pages pages"
+else
+  l_index="$R index empty (run a sync)"; ok=0
+fi
+
+# 4. search tool registered
+if claude mcp list 2>/dev/null | grep -qi 'gbrain'; then
+  l_mcp="$G search tool registered (MCP)"
+else
+  l_mcp="$R MCP not registered (claude mcp add gbrain -- gbrain serve)"; ok=0
+fi
+
+# freshness
+age="unknown"
+if [ -f "$STAMP" ]; then
+  d=$(( $(date +%s) - $(cat "$STAMP") ))
+  if [ "$d" -lt 60 ]; then age="just now";
+  elif [ "$d" -lt 3600 ]; then age="$((d/60))m ago";
+  else age="$((d/3600))h ago"; fi
+fi
+
+echo "________ brain ________"
+echo "$l_vault"
+echo "$l_index   (synced: $age)"
+echo "$l_mcp"
+echo "$l_sync"
+echo "_______________________"
+if [ "$ok" = 1 ]; then
+  echo "READY $G  flip it on and ask."
+else
+  echo "NOT READY $R  fix the line(s) marked XX above."
+fi
