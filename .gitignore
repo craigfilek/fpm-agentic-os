@@ -1,9 +1,21 @@
-# Personal — never ship in the kit. Each person's brain/identity is their own.
-claude-memory/
-SOUL.md
-REBUILD-PACKAGE.md
-RESTORE.md
-obsidian-bridge-decision.md
+# PRIVATE BY DEFAULT.
+# Ignore everything, then allow ONLY the kit files that are meant to ship.
+# Reason: a brand-new file is hidden automatically. You must DELIBERATELY add it
+# below for it to ever reach the public repo. Safe by default, not safe-if-you-remember.
+/*
 
-# stray backups
-*.bak
+# ── kit files that DO ship (the public shelf) ───────────────────────────────
+!/.gitignore
+!/AGENTS.md
+!/ceo-interview.md
+!/claude-settings.json
+!/DESIGN.md
+!/INSTALL.md
+!/install.sh
+!/README.md
+!/statusline.py
+!/VERSIONS.md
+!/bin/
+
+# Everything else — SOUL.md, claude-memory/, RESTORE.md, REBUILD-PACKAGE.md,
+# obsidian-bridge-decision.md, *.bak, and anything new — stays on your machine only.
