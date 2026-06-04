@@ -222,7 +222,7 @@ fi
 # [VERIFIED command shape from gStack docs] gives gbrain tools to Claude Code too.
 say "wire gbrain → Claude Code (MCP)"
 if command -v claude &>/dev/null; then
-  claude mcp list 2>/dev/null | grep -q gbrain || claude mcp add gbrain -- "$GBRAIN" serve
+  claude mcp list 2>/dev/null | grep -q gbrain || claude mcp add gbrain -s user -- "$GBRAIN" serve
 else
   echo "claude not on PATH — skipping (re-run after Claude Code is installed)"
 fi
@@ -329,6 +329,22 @@ if [ -f "$PKG/claude-settings.json" ]; then
   echo "settings + statusline + house-rule memory in place"
 else
   echo "# fpm-ai-os package files not found on disk — apply claude-settings.json + claude-memory/ from the repo manually"
+fi
+
+# ── 19. wire the bus: fpm-ai → gbrain + Obsidian bridge ───────────────────────
+# Plug the last two cards onto the gbrain bus so a fresh machine boots integrated.
+say "wire fpm-ai + Obsidian to the brain"
+for rc in "$HOME/.zshrc" "$HOME/.bash_profile"; do
+  [ -f "$rc" ] || touch "$rc"
+  grep -q "FPM_MEMORY_BACKEND=gbrain" "$rc" 2>/dev/null || echo 'export FPM_MEMORY_BACKEND=gbrain' >> "$rc"
+done
+echo "fpm-ai now reads/writes gbrain (FPM_MEMORY_BACKEND=gbrain)"
+PKG="$HOME/fpm-ai-os"; [ -f "./bin/obsidian-to-gbrain" ] && PKG="$(pwd)"
+if [ -f "$PKG/bin/obsidian-to-gbrain" ]; then
+  mkdir -p "$HOME/.local/bin"
+  cp "$PKG/bin/obsidian-to-gbrain" "$HOME/.local/bin/obsidian-to-gbrain"
+  chmod +x "$HOME/.local/bin/obsidian-to-gbrain"
+  echo "Obsidian→gbrain bridge installed (run: obsidian-to-gbrain)"
 fi
 
 say "install.sh complete"

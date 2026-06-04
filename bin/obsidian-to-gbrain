@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Obsidian → gbrain bridge (selective, per the bridge-decision memo: push SIGNAL only).
+# Usage: obsidian-to-gbrain [--dry-run]
+set -uo pipefail
+VAULT="${OBSIDIAN_VAULT:-$HOME/Obsidian Vault}"
+GBRAIN="$HOME/.bun/bin/gbrain"
+# The signal folders worth keeping in the brain. Edit this list to taste.
+FOLDERS=("01 Projects" "20 PurposeMapping-Canon")
+DRY=""; [ "${1:-}" = "--dry-run" ] && DRY="1"
+
+echo "Obsidian → gbrain bridge"
+echo "  vault: $VAULT"
+[ -d "$VAULT" ] || { echo "  vault not found — set OBSIDIAN_VAULT"; exit 1; }
+
+for f in "${FOLDERS[@]}"; do
+  d="$VAULT/$f"
+  if [ ! -d "$d" ]; then echo "  skip (missing): $f"; continue; fi
+  n=$(find "$d" -name '*.md' 2>/dev/null | wc -l | tr -d ' ')
+  if [ -n "$DRY" ]; then
+    echo "  WOULD import: $f  ($n notes)"
+  else
+    echo "  importing: $f  ($n notes)..."
+    "$GBRAIN" import "$d" || echo "    (import returned non-zero — often = nothing new)"
+  fi
+done
+echo "done.${DRY:+  (dry-run — re-run without --dry-run to actually import)}"
