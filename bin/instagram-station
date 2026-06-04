@@ -1,0 +1,96 @@
+#!/usr/bin/env bash
+# instagram-station <reel-url>  —  the IG belt: yt-dlp (caption-first) → gbrain
+#   --backlog   loop over every IG link in the gbrain page ideas/telegram-backlog
+#
+# Instagram has no downloadable subtitle track (yt-dlp issue #15874), so the only
+# free text is the creator's caption. We file that. Spoken-only reels (blank
+# caption) get flagged as thin — that's where a future Whisper pass would slot in.
+set -uo pipefail
+YTDLP="$HOME/.local/bin/yt-dlp"; GB="$HOME/.bun/bin/gbrain"
+CFG="$HOME/.config/instagram-station/browser"   # cached winning browser
+
+probe() { # <browser> <url> -> prints id on success
+  "$YTDLP" --cookies-from-browser "$1" --skip-download --no-warnings \
+           --print "%(id)s" "$2" 2>/dev/null
+}
+
+pick_browser() { # <url> -> prints a browser whose cookies have a live IG session
+  local url="$1" b cached
+  [ -f "$CFG" ] && cached="$(cat "$CFG" 2>/dev/null)" || cached=""
+  if [ -n "$cached" ] && [ -n "$(probe "$cached" "$url")" ]; then echo "$cached"; return 0; fi
+  for b in chrome safari firefox brave edge; do
+    if [ -n "$(probe "$b" "$url")" ]; then
+      mkdir -p "$(dirname "$CFG")"; printf '%s' "$b" > "$CFG"; echo "$b"; return 0
+    fi
+  done
+  return 1
+}
+
+file_reel() { # <url> <browser>
+  local url="$1" browser="$2"
+  local meta; meta="$("$YTDLP" --cookies-from-browser "$browser" --skip-download \
+                        --no-warnings --dump-json "$url" 2>/dev/null)"
+  [ -z "$meta" ] && { echo "  ✗ couldn't read $url (gated/removed) — skipped"; return 1; }
+
+  local id desc uploader title page date dur
+  id=$(printf '%s' "$meta" | jq -r '.id // empty')
+  desc=$(printf '%s' "$meta" | jq -r '.description // ""')
+  uploader=$(printf '%s' "$meta" | jq -r '.uploader // .channel // "unknown"')
+  title=$(printf '%s' "$meta" | jq -r '.title // ""')
+  page=$(printf '%s' "$meta" | jq -r '.webpage_url // empty')
+  date=$(printf '%s' "$meta" | jq -r '.upload_date // ""')
+  dur=$(printf '%s' "$meta" | jq -r '.duration // ""')
+  [ -z "$id" ] && { echo "  ✗ no id parsed for $url — skipped"; return 1; }
+
+  local words; words=$(printf '%s' "$desc" | wc -w | tr -d ' ')
+  local thin="no"; [ "$words" -lt 5 ] && thin="yes"
+
+  local slug="instagram/$(printf '%s' "$id" | tr 'A-Z' 'a-z')"  # gbrain slugs must be lowercase
+  {
+    echo "# Instagram reel: ${title:-$id}"
+    echo
+    echo "- Source: $page"
+    echo "- Uploader: $uploader"
+    [ -n "$date" ] && echo "- Posted: $date"
+    [ -n "$dur" ] && echo "- Duration: ${dur}s"
+    echo "- Caption words: $words"
+    [ "$thin" = "yes" ] && echo "- NOTE: caption is thin/empty — likely spoken-only, needs a Whisper pass."
+    echo
+    echo "Tags: instagram, reel, captured"
+    echo
+    echo "## Caption"
+    echo
+    printf '%s\n' "${desc:-(no caption)}"
+  } | "$GB" put "$slug" >/dev/null 2>&1 \
+      && { local tag=""; [ "$thin" = "yes" ] && tag=" — THIN, needs Whisper"; echo "  ✓ $slug ($words caption words$tag)"; return 0; } \
+      || { echo "  ✗ gbrain put failed for $slug"; return 1; }
+}
+
+# ---- main ----
+MODE="${1:-}"; [ -z "$MODE" ] && { echo "usage: instagram-station <instagram-url> | --backlog"; exit 1; }
+
+if [ "$MODE" = "--backlog" ]; then
+  links=$("$GB" get ideas/telegram-backlog 2>/dev/null \
+          | grep -oE 'https://www\.instagram\.com/(reel|p)/[A-Za-z0-9_-]+/' | sort -u)
+  [ -z "$links" ] && { echo "no instagram links found in ideas/telegram-backlog"; exit 1; }
+  total=$(printf '%s\n' "$links" | wc -l | tr -d ' ')
+  echo "→ backlog: $total reels to file"
+  first=$(printf '%s\n' "$links" | head -1)
+  echo "→ detecting a live Instagram session…"
+  BROWSER="$(pick_browser "$first")" || { echo "  no browser has a working Instagram session. Log into IG in Chrome/Safari/Firefox and retry."; exit 1; }
+  echo "→ using $BROWSER cookies"
+  ok=0; n=0
+  while IFS= read -r url; do
+    n=$((n+1)); printf '[%d/%d] %s\n' "$n" "$total" "$url"
+    file_reel "$url" "$BROWSER" && ok=$((ok+1))
+    sleep 1   # be polite to IG
+  done <<< "$links"
+  echo "→ done: $ok/$total filed"
+  exit 0
+fi
+
+# single URL
+echo "→ detecting a live Instagram session…"
+BROWSER="$(pick_browser "$MODE")" || { echo "  no browser has a working Instagram session. Log into IG in Chrome/Safari/Firefox and retry."; exit 1; }
+echo "→ using $BROWSER cookies"
+file_reel "$MODE" "$BROWSER"

@@ -4,8 +4,30 @@ set -uo pipefail
 IN="${1:-}"; [ -z "$IN" ] && { echo "usage: capture <file-or-url>"; exit 1; }
 MD="$HOME/.local/bin/markitdown"; GB="$HOME/.bun/bin/gbrain"
 slug="captures/$(date +%Y-%m-%d)-$(printf '%s' "$IN" | shasum | cut -c1-8)"
+
+# Instagram is login-gated: markitdown only ever gets the login wall, never the
+# reel. Refuse up front and point at the dedicated belt instead of filing junk.
+case "$IN" in
+  *instagram.com/*|*instagr.am/*)
+    echo "  Instagram is login-gated — capture can't read it."
+    echo "  Use the IG belt:  instagram-station \"$IN\""
+    exit 1 ;;
+esac
+
 echo "→ front door: converting"
 text="$("$MD" "$IN" 2>/dev/null)"
 [ -z "$text" ] && { echo "  nothing came out (unsupported, or needs a key)"; exit 1; }
-echo "→ librarian: filing as $slug ($(printf '%s' "$text" | wc -w | tr -d ' ') words)"
+
+# Login-wall guard: a gated page still returns text (the login chrome), so an
+# empty check isn't enough. If the output carries a strong login-wall marker and
+# is short (real captures are longer), treat it as a failed capture, not success.
+words=$(printf '%s' "$text" | wc -w | tr -d ' ')
+if printf '%s' "$text" | grep -qiE 'log ?in to (see|continue|instagram)|login • |sign up to see|you must log in|create an account or log in|this page isn.?t available|enable javascript to' \
+   && [ "$words" -lt 150 ]; then
+  echo "  looks like a login wall / blocked page ($words words) — NOT filed."
+  echo "  (source is probably gated; nothing real to capture.)"
+  exit 1
+fi
+
+echo "→ librarian: filing as $slug ($words words)"
 printf '%s' "$text" | "$GB" put "$slug" >/dev/null 2>&1 && echo "✓ captured → $slug" || echo "  gbrain put failed"

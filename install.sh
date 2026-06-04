@@ -79,6 +79,16 @@ command -v markitdown &>/dev/null || uv tool install 'markitdown[all]' || echo "
 for t in ffmpeg exiftool; do brew list "$t" &>/dev/null || brew install "$t"; done
 echo "markitdown: $(command -v markitdown || echo 'not on PATH yet')"
 
+# ── 5c. yt-dlp (Instagram station: reel captions → brain) ─────────────────────
+# [VERIFIED] uv tool install yt-dlp → ~/.local/bin/yt-dlp (v2026.3.17).
+# Powers bin/instagram-station: pulls each reel's caption using your browser login
+# (cookie auto-detect across Firefox/Chrome/Safari, no password) → gbrain. Instagram
+# exposes no subtitle track, so the caption is the free text; spoken-only reels get
+# flagged for a future Whisper pass. Reuses the ffmpeg installed above.
+say "yt-dlp (Instagram station)"
+command -v yt-dlp &>/dev/null || uv tool install yt-dlp || echo "yt-dlp install returned non-zero"
+echo "yt-dlp: $(command -v yt-dlp || echo 'not on PATH yet')"
+
 # ── 6. clone the component repos ──────────────────────────────────────────────
 # [VERIFIED URLS] your own private product repos are intentionally NOT cloned —
 # they are not part of the shareable OS.
