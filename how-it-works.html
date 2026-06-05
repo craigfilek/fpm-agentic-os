@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How It Works — Capture &rarr; Recall Second Brain</title>
+<style>
+  :root{
+    --intake:#2563eb;   --intake-bg:#eff6ff;
+    --process:#d97706;  --process-bg:#fffbeb;
+    --store:#16a34a;    --store-bg:#f0fdf4;
+    --retrieve:#7c3aed; --retrieve-bg:#f5f3ff;
+    --ink:#1f2937;      --muted:#6b7280;
+    --line:#cbd5e1;     --panel:#ffffff;
+    --andon:#0f172a;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#f8fafc;color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;}
+  .sheet{max-width:1280px;margin:0 auto;padding:28px 32px 40px;}
+  header.title{border-bottom:3px solid var(--ink);padding-bottom:14px;margin-bottom:18px;}
+  header.title h1{margin:0;font-size:30px;letter-spacing:-.5px;}
+  header.title p.sub{margin:6px 0 0;font-size:14px;color:var(--muted);}
+  .verbtag{display:inline-block;font-weight:700;font-size:11px;letter-spacing:1px;
+    padding:3px 9px;border-radius:3px;vertical-align:middle;margin-left:4px;}
+  .verb-in{background:var(--intake-bg);color:var(--intake);border:1px solid var(--intake);}
+  .verb-out{background:var(--retrieve-bg);color:var(--retrieve);border:1px solid var(--retrieve);}
+
+  /* legend */
+  .legend{display:flex;flex-wrap:wrap;gap:18px;align-items:center;margin:0 0 22px;
+    font-size:12px;color:var(--muted);}
+  .legend .item{display:flex;align-items:center;gap:7px;}
+  .swatch{width:14px;height:14px;border-radius:3px;border:1px solid rgba(0,0,0,.15);}
+  .sw-intake{background:var(--intake);}
+  .sw-process{background:var(--process);}
+  .sw-store{background:var(--store);}
+  .sw-retrieve{background:var(--retrieve);}
+  .legend .arrowkey{display:flex;align-items:center;gap:6px;margin-left:auto;}
+
+  /* andon board */
+  .andon{background:var(--andon);color:#e2e8f0;border-radius:10px;padding:14px 18px;
+    margin:0 0 24px;display:flex;gap:26px;align-items:center;flex-wrap:wrap;
+    box-shadow:0 1px 3px rgba(0,0,0,.18);}
+  .andon h3{margin:0;font-size:12px;letter-spacing:1.5px;color:#94a3b8;text-transform:uppercase;}
+  .andon .lamps{display:flex;gap:22px;flex-wrap:wrap;}
+  .lamp{display:flex;align-items:center;gap:8px;font-size:13px;}
+  .dot{width:11px;height:11px;border-radius:50%;background:#22c55e;
+    box-shadow:0 0 8px #22c55e;flex:none;}
+  .andon .cmd{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;
+    background:#1e293b;color:#7dd3fc;padding:3px 8px;border-radius:4px;}
+
+  /* floor grid */
+  .floor{display:grid;grid-template-columns:200px 60px 1fr;gap:0;align-items:stretch;}
+  .lane-label{writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;}
+
+  .row{display:grid;grid-template-columns:200px 1fr;gap:14px;margin-bottom:18px;align-items:stretch;}
+  .laneband{border-radius:10px;display:flex;align-items:center;justify-content:center;
+    padding:10px;font-weight:700;font-size:14px;letter-spacing:.5px;text-align:center;
+    border:1px solid rgba(0,0,0,.06);}
+  .laneband small{display:block;font-weight:500;font-size:11px;opacity:.85;margin-top:5px;
+    letter-spacing:0;}
+  .band-intake{background:var(--intake-bg);color:var(--intake);}
+  .band-process{background:var(--process-bg);color:var(--process);}
+  .band-store{background:var(--store-bg);color:var(--store);}
+  .band-retrieve{background:var(--retrieve-bg);color:var(--retrieve);}
+
+  .cells{display:flex;align-items:center;gap:10px;flex-wrap:nowrap;overflow:visible;}
+
+  .station{border:2px solid var(--line);background:var(--panel);border-radius:10px;
+    padding:12px 14px;min-width:0;flex:1;box-shadow:0 1px 2px rgba(0,0,0,.05);position:relative;}
+  .station .num{position:absolute;top:-13px;left:-13px;width:28px;height:28px;border-radius:50%;
+    color:#fff;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;
+    box-shadow:0 1px 3px rgba(0,0,0,.25);}
+  .station h4{margin:0 0 7px;font-size:14px;}
+  .station p{margin:0;font-size:12px;color:var(--muted);line-height:1.45;}
+  .station .tool{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;
+    background:#f1f5f9;color:#0f172a;padding:1px 5px;border-radius:3px;}
+
+  .b-intake{border-color:var(--intake);} .n-intake{background:var(--intake);}
+  .b-process{border-color:var(--process);} .n-process{background:var(--process);}
+  .b-store{border-color:var(--store);} .n-store{background:var(--store);}
+  .b-retrieve{border-color:var(--retrieve);} .n-retrieve{background:var(--retrieve);}
+
+  .arrow{flex:none;color:var(--muted);}
+
+  .chip{border:1.5px dashed var(--line);border-radius:8px;padding:8px 10px;font-size:11.5px;
+    background:#fff;text-align:left;line-height:1.35;}
+  .chip b{font-size:12px;}
+  .chip-stack{display:flex;flex-direction:column;gap:7px;flex:1;}
+
+  .bay{border:1.5px solid var(--store);border-radius:8px;padding:9px 11px;background:#fff;flex:1;}
+  .bay b{font-size:12.5px;color:var(--store);}
+  .bay span{display:block;font-size:11.5px;color:var(--muted);margin-top:3px;}
+
+  .gate{font-size:11px;color:var(--process);background:#fff7ed;border:1px dashed var(--process);
+    border-radius:7px;padding:7px 9px;margin-top:9px;line-height:1.4;}
+
+  /* truth vs catalog callout */
+  .insight{display:grid;grid-template-columns:1fr 70px 1fr;gap:0;align-items:center;
+    margin:6px 0 22px;}
+  .insight .card{border-radius:10px;padding:14px 16px;}
+  .insight .truth{background:var(--store-bg);border:2px solid var(--store);}
+  .insight .catalog{background:var(--retrieve-bg);border:2px solid var(--retrieve);border-style:dashed;}
+  .insight .card h4{margin:0 0 4px;font-size:14px;}
+  .insight .truth h4{color:var(--store);}
+  .insight .catalog h4{color:var(--retrieve);}
+  .insight .card p{margin:0;font-size:12px;color:var(--muted);line-height:1.45;}
+  .insight .vs{text-align:center;font-size:12px;font-weight:700;color:var(--muted);
+    display:flex;flex-direction:column;align-items:center;gap:4px;}
+  .insight .point{font-size:22px;color:var(--retrieve);}
+  .insight-cap{text-align:center;font-size:12.5px;font-style:italic;color:var(--ink);
+    margin:-12px 0 26px;}
+
+  /* human + return loop */
+  .loop{border:2px solid var(--retrieve);border-radius:10px;background:var(--retrieve-bg);
+    padding:14px 16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:24px;}
+  .human{flex:none;display:flex;align-items:center;gap:10px;}
+  .human .who{font-weight:700;font-size:14px;color:var(--retrieve);}
+  .loop .step{font-size:12px;color:var(--muted);background:#fff;border:1px solid var(--line);
+    border-radius:7px;padding:7px 11px;}
+  .loop .ra{color:var(--retrieve);font-weight:700;}
+
+  footer.legendfoot{border-top:2px solid var(--ink);margin-top:6px;padding-top:14px;
+    display:flex;gap:30px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);line-height:1.5;}
+  footer .v b{color:var(--ink);}
+
+  svg.ico{vertical-align:middle;flex:none;}
+
+  @media print{
+    body{background:#fff;}
+    .sheet{padding:0;}
+    .andon{box-shadow:none;}
+    .station,.loop,.insight .card{box-shadow:none;}
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <!-- TITLE -->
+  <header class="title">
+    <h1>The Second-Brain Shop Floor</h1>
+    <p class="sub">A capture&rarr;recall production line: raw notes enter on the left, move through four numbered stations, land in the warehouse, and get picked on request.
+      <span class="verbtag verb-in">CAPTURE&nbsp;&darr;</span><span class="verbtag verb-out">RECALL&nbsp;&uarr;</span></p>
+  </header>
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="item"><span class="swatch sw-intake"></span>Intake lane</div>
+    <div class="item"><span class="swatch sw-process"></span>Process lane</div>
+    <div class="item"><span class="swatch sw-store"></span>Store lane</div>
+    <div class="item"><span class="swatch sw-retrieve"></span>Retrieve lane</div>
+    <div class="arrowkey">
+      <svg class="ico" width="42" height="14" viewBox="0 0 42 14" aria-hidden="true">
+        <line x1="0" y1="7" x2="34" y2="7" stroke="#6b7280" stroke-width="2"/>
+        <polygon points="34,2 42,7 34,12" fill="#6b7280"/>
+      </svg>
+      material flow (forward)
+      <svg class="ico" width="42" height="14" viewBox="0 0 42 14" aria-hidden="true" style="margin-left:14px;">
+        <line x1="8" y1="7" x2="42" y2="7" stroke="#7c3aed" stroke-width="2" stroke-dasharray="4 3"/>
+        <polygon points="8,2 0,7 8,12" fill="#7c3aed"/>
+      </svg>
+      <span style="color:#7c3aed;">recall return</span>
+    </div>
+  </div>
+
+  <!-- ANDON BOARD -->
+  <div class="andon">
+    <h3>Andon&nbsp;Board<br><span style="font-weight:400;text-transform:none;letter-spacing:0;">is the line running?</span></h3>
+    <div class="lamps">
+      <div class="lamp"><span class="dot"></span>Vault reachable</div>
+      <div class="lamp"><span class="dot"></span>Index fresh</div>
+      <div class="lamp"><span class="dot"></span>Search tool registered</div>
+      <div class="lamp"><span class="dot"></span>Sync OK</div>
+    </div>
+    <div class="cmd">boot &mdash; prints the 4-line green health lamp</div>
+  </div>
+
+  <!-- ================= STATION 1 : INTAKE + FRONT DOOR ================= -->
+  <div class="row">
+    <div class="laneband band-intake">RAW MATERIALS IN<small>Intake &mdash; whatever you throw at it</small></div>
+    <div class="cells">
+      <div class="chip-stack">
+        <div class="chip"><b>Markdown file</b> &middot; <b>web URL</b> &middot; <b>PDF / Office doc</b></div>
+        <div class="chip"><b>YouTube / audio / video</b> &middot; <b>Instagram reel</b></div>
+        <div class="chip"><b>Voice memo</b> &middot; <b>text pasted into chat</b></div>
+      </div>
+
+      <!-- forward arrow -->
+      <svg class="ico arrow" width="44" height="24" viewBox="0 0 44 24" aria-hidden="true">
+        <line x1="0" y1="12" x2="34" y2="12" stroke="#6b7280" stroke-width="2.5"/>
+        <polygon points="34,5 44,12 34,19" fill="#6b7280"/>
+      </svg>
+
+      <!-- STATION 1 -->
+      <div class="station b-process" style="flex:1.4;">
+        <span class="num n-process">1</span>
+        <h4>Front Door &mdash; Conversion</h4>
+        <p><span class="tool">capture &lt;file-or-url&gt;</span> runs everything through <b>markitdown</b> (anything &rarr; clean Markdown).<br>
+           <span class="tool">instagram-station &lt;reel&gt;</span> runs <b>yt-dlp</b> (reel caption &rarr; Markdown).</p>
+        <div class="gate"><b>Quality gate:</b> login-walled / blocked pages are rejected; thin or empty captions get flagged for a future Whisper pass.</div>
+        <p style="margin-top:8px;color:var(--process);font-weight:600;">Output &rarr; clean Markdown</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= STATION 2 : WAREHOUSE ================= -->
+  <div class="row">
+    <div class="laneband band-store">THE WAREHOUSE<small>Store &mdash; single source of truth</small></div>
+    <div class="cells">
+      <svg class="ico arrow" width="44" height="24" viewBox="0 0 44 24" aria-hidden="true">
+        <line x1="0" y1="12" x2="34" y2="12" stroke="#16a34a" stroke-width="2.5"/>
+        <polygon points="34,5 44,12 34,19" fill="#16a34a"/>
+      </svg>
+
+      <div class="station b-store" style="flex:2;">
+        <span class="num n-store">2</span>
+        <h4>The Warehouse &mdash; Obsidian Vault</h4>
+        <p>Plain Markdown files on disk. <b>The books / the truth &mdash; everything else is rebuildable from here.</b></p>
+        <div class="cells" style="margin-top:10px;gap:12px;">
+          <div class="bay"><b>Inbox/</b><span>raw drop zone</span></div>
+          <svg class="ico arrow" width="34" height="20" viewBox="0 0 34 20" aria-hidden="true">
+            <line x1="0" y1="10" x2="24" y2="10" stroke="#16a34a" stroke-width="2"/>
+            <polygon points="24,4 34,10 24,16" fill="#16a34a"/>
+          </svg>
+          <div class="bay"><b>Distilled/</b><span>refined, long-lived canon</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= STATION 3 : CARD CATALOG ================= -->
+  <div class="row">
+    <div class="laneband band-process">THE CARD CATALOG<small>Index &mdash; pointers, not content</small></div>
+    <div class="cells">
+      <svg class="ico arrow" width="44" height="24" viewBox="0 0 44 24" aria-hidden="true">
+        <line x1="0" y1="12" x2="34" y2="12" stroke="#6b7280" stroke-width="2.5"/>
+        <polygon points="34,5 44,12 34,19" fill="#6b7280"/>
+      </svg>
+
+      <div class="station b-process" style="flex:2;">
+        <span class="num n-process">3</span>
+        <h4>The Card Catalog &mdash; gbrain index</h4>
+        <p><span class="tool">boot</span> / <span class="tool">gbrain sync</span> reads the vault <b>incrementally</b> and builds <b>gbrain</b> &mdash; a local PGLite index (keyword + vector embeddings via a ZeroEntropy key).
+           It does <b>not</b> hold your content &mdash; it points at the files.</p>
+        <div class="gate" style="color:var(--store);background:#f0fdf4;border-color:var(--store);">
+          <b>Side belt:</b> the capture line can also write straight into gbrain's searchable store via <span class="tool" style="background:#dcfce7;">gbrain put</span>.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= STATION 4 : PICKERS ================= -->
+  <div class="row">
+    <div class="laneband band-retrieve">THE PICKERS<small>Retrieve &mdash; cited recall</small></div>
+    <div class="cells">
+      <svg class="ico arrow" width="44" height="24" viewBox="0 0 44 24" aria-hidden="true">
+        <line x1="0" y1="12" x2="34" y2="12" stroke="#7c3aed" stroke-width="2.5"/>
+        <polygon points="34,5 44,12 34,19" fill="#7c3aed"/>
+      </svg>
+
+      <div class="station b-retrieve" style="flex:2;">
+        <span class="num n-retrieve">4</span>
+        <h4>The Pickers &mdash; AI Agent</h4>
+        <p>An <b>AI agent</b> (Claude Code / Hermes) reaches gbrain through a <b>read-only MCP</b> search tool and answers your questions in your own <b>cited</b> words &mdash; pulling the source files back off the shelf.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= KEY INSIGHT ================= -->
+  <div class="insight">
+    <div class="card truth">
+      <h4>Obsidian = the books (TRUTH)</h4>
+      <p>Your real content lives here as Markdown. If everything downstream burned down, the books still stand.</p>
+    </div>
+    <div class="vs">
+      <span class="point">&rarr;</span>
+      <span>points<br>at</span>
+    </div>
+    <div class="card catalog">
+      <h4>gbrain = the catalog (POINTER)</h4>
+      <p>Just an index of where things are. Rebuildable in one <span class="tool" style="background:#ede9fe;">gbrain sync</span>.</p>
+    </div>
+  </div>
+  <p class="insight-cap">&ldquo;Delete the catalog and your brain is untouched.&rdquo;</p>
+
+  <!-- ================= HUMAN + RETURN LOOP ================= -->
+  <div class="loop">
+    <div class="human">
+      <svg class="ico" width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+        <circle cx="17" cy="10" r="6" fill="#7c3aed"/>
+        <path d="M5 30 C5 20 29 20 29 30 Z" fill="#7c3aed"/>
+      </svg>
+      <span class="who">The Human</span>
+    </div>
+    <div class="step">Reads the books directly in the <b>Obsidian</b> app</div>
+    <svg class="ico" width="40" height="20" viewBox="0 0 40 20" aria-hidden="true">
+      <line x1="0" y1="10" x2="30" y2="10" stroke="#7c3aed" stroke-width="2" stroke-dasharray="4 3"/>
+      <polygon points="30,4 40,10 30,16" fill="#7c3aed"/>
+    </svg>
+    <div class="step"><span class="ra">Asks</span> the agent in chat</div>
+    <svg class="ico" width="40" height="20" viewBox="0 0 40 20" aria-hidden="true">
+      <line x1="0" y1="10" x2="30" y2="10" stroke="#7c3aed" stroke-width="2" stroke-dasharray="4 3"/>
+      <polygon points="30,4 40,10 30,16" fill="#7c3aed"/>
+    </svg>
+    <div class="step">Agent <span class="ra">recalls</span> from gbrain</div>
+    <svg class="ico" width="40" height="20" viewBox="0 0 40 20" aria-hidden="true">
+      <line x1="0" y1="10" x2="30" y2="10" stroke="#7c3aed" stroke-width="2" stroke-dasharray="4 3"/>
+      <polygon points="30,4 40,10 30,16" fill="#7c3aed"/>
+    </svg>
+    <div class="step">Gets <b>cited recall</b> back &rarr; Human</div>
+  </div>
+
+  <!-- ================= FOOTER LEGEND ================= -->
+  <footer class="legendfoot">
+    <div class="v"><span class="verbtag verb-in">CAPTURE (in)</span> &nbsp;<b>Stations 1&ndash;3.</b> Anything you throw at the front door is converted to clean Markdown, shelved in the Obsidian vault, and indexed by gbrain.</div>
+    <div class="v"><span class="verbtag verb-out">RECALL (out)</span> &nbsp;<b>Station 4 + the loop.</b> You ask; the agent searches the catalog and hands back your own words, cited to the source files.</div>
+  </footer>
+
+</div>
+</body>
+</html>

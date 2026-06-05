@@ -10,12 +10,16 @@
 !/ceo-interview.md
 !/claude-settings.json
 !/DESIGN.md
+!/how-it-works.html
 !/INSTALL.md
 !/install.sh
+!/KEYS.md
+!/OBSIDIAN-MIGRATION.md
 !/README.md
 !/statusline.py
 !/VERSIONS.md
 !/bin/
+!/starter/
 
 # Everything else — SOUL.md, claude-memory/, RESTORE.md, REBUILD-PACKAGE.md,
 # obsidian-bridge-decision.md, *.bak, and anything new — stays on your machine only.

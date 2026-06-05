@@ -112,7 +112,9 @@ echo "gbrain: $("$GBRAIN" --version 2>/dev/null || echo 'not on PATH yet')"
 # [VERIFIED] command shape: gbrain init --pglite  (data lives at ~/.gbrain)
 say "gbrain init"
 if [ ! -d "$HOME/.gbrain" ]; then
-  "$GBRAIN" init --pglite
+  # --no-embedding keeps init NON-INTERACTIVE (curl|bash has no tty). Embeddings
+  # are configured right after in 8a/8b once the provider key is supplied.
+  "$GBRAIN" init --pglite --no-embedding
 else
   echo "~/.gbrain already exists — skipping init"
 fi
@@ -176,6 +178,8 @@ if [ -n "$_GB_HAS_KEY" ]; then
 elif [ ! -f "$_GB_CFG" ]; then
   echo "# ~/.gbrain/config.json not found (gbrain init may have been skipped) — set the embedding key later"
 elif [ -t 0 ]; then
+  echo "  RECOMMENDED — upgrades recall to semantic (search by meaning). Skip and you"
+  echo "  still get keyword recall; add it any time later (see KEYS.md). Get one from ZeroEntropy."
   read -rsp "Paste your ZeroEntropy embedding key (input hidden; Enter to skip): " _EK; echo
   if [ -n "${_EK:-}" ]; then
     # Pass the key via env (EK), NOT argv, so it never shows in `ps`.
@@ -198,6 +202,34 @@ else
   echo "# non-interactive shell — set an embedding key before first search:"
   echo "#   add \"zeroentropy_api_key\": \"ze-…\" to ~/.gbrain/config.json (chmod 600), then re-run import"
 fi
+
+# ── 8c. seed the vault + register the brain source (makes bin/boot green) ──────
+# [SCAFFOLD] install.sh installs the engine; this turns the key. bin/boot syncs
+# the vault and lights a green lamp only when content is actually findable. We
+# register ONE source at the vault root with Inbox/ (drop zone) + Distilled/
+# (canon) as SUBFOLDERS — a single source keeps cross-folder recall working
+# (3+ top-level federated sources trip a gbrain cross-source-search quirk).
+# Idempotent; never clobbers an existing vault.
+say "vault + brain source"
+_VAULT="${OBSIDIAN_VAULT:-$HOME/Obsidian Vault}"
+_PKG="$HOME/fpm-agentic-os"; [ -f "./starter/welcome.md" ] && _PKG="$(pwd)"
+_STARTER="$_PKG/starter/welcome.md"
+mkdir -p "$_VAULT/Inbox" "$_VAULT/Distilled"
+[ -f "$_STARTER" ] && [ ! -e "$_VAULT/Inbox/welcome.md" ] && cp "$_STARTER" "$_VAULT/Inbox/welcome.md"
+[ ! -e "$_VAULT/Distilled/.gitkeep" ] && : > "$_VAULT/Distilled/.gitkeep"
+if [ ! -d "$_VAULT/.git" ]; then
+  ( cd "$_VAULT" && git init -q && git add -A && \
+    git -c user.email=brain@local -c user.name=brain commit -q --allow-empty -m "seed vault" 2>/dev/null || true )
+fi
+# --federated = the source appears in default cross-source recall.
+"$GBRAIN" sources list 2>/dev/null | awk '{print $1}' | grep -qx vault \
+  || "$GBRAIN" sources add vault --path "$_VAULT" --federated
+# --no-embed imports structurally even with no embedding key yet, so the brain is
+# green + keyword-searchable from zero; embeddings are a bonus layer below.
+"$GBRAIN" sync --all --no-embed --no-pull || echo "vault sync returned non-zero"
+# Bonus semantic layer: if an embedding key was set in 8b, embed the seeded pages
+# now so first-day recall is semantic, not just keyword. Non-blocking.
+"$GBRAIN" embed --stale >/dev/null 2>&1 || true
 
 # ── 9. import memory sources + embed ──────────────────────────────────────────
 # [VERIFIED] command shape: gbrain import <dir>. Embeddings need a provider key
@@ -281,15 +313,19 @@ say "Anthropic API key"
 mkdir -p "$HOME/.hermes"
 if ! grep -q "ANTHROPIC_API_KEY=" "$HOME/.hermes/.env" 2>/dev/null; then
   if [ -t 0 ]; then
+    echo "  REQUIRED — this is the agent's brain; nothing talks without it."
+    echo "  Make a free key at console.anthropic.com/settings/keys (see KEYS.md)."
     read -rsp "Paste your Anthropic API key (input hidden): " _AK; echo
     if [ -n "${_AK:-}" ]; then
       printf 'ANTHROPIC_API_KEY=%s\n' "$_AK" >> "$HOME/.hermes/.env"
       printf 'ANTHROPIC_API_KEY=%s\n' "$_AK" >  "$HOME/.env.anthropic"
       chmod 600 "$HOME/.hermes/.env" "$HOME/.env.anthropic"
       unset _AK
+    else
+      echo "  ! No key entered — REQUIRED. Add ANTHROPIC_API_KEY to ~/.hermes/.env before first run (see KEYS.md)."
     fi
   else
-    echo "# non-interactive shell — set ANTHROPIC_API_KEY in ~/.hermes/.env before first run"
+    echo "# non-interactive shell — ANTHROPIC_API_KEY is REQUIRED: set it in ~/.hermes/.env before first run (see KEYS.md)"
   fi
 else
   echo "Anthropic key already present in ~/.hermes/.env"

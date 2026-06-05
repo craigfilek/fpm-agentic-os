@@ -2,10 +2,6 @@
 
 > **The 83-year-old-mom test.** This install assumes you don't know what `git` is, you've never opened Terminal before, and you don't want to. Paste one line, type your Mac password when asked, walk away. When you come back, your CEO is waiting to interview you. That's the whole job.
 
-> **STATUS (2026-06-03)** — `install.sh` is now fleshed out with verified commands and a safe secret prompt, but it has not yet been proven end-to-end on a fresh Mac. A few steps (Homebrew sudo, Claude Code install channel, Telegram, the CEO handoff) are marked VERIFY-LIVE in the script and need one real test run before this is mom-test ready.
-
-> **Build status as of 2026-06-02:** gbrain v0.42.10.0 is up (PGLite + zembed-1 embeddings). fpm-ai memory migrated in (11 pages / 30 chunks, semantic search live). Hermes 0.15.1 installed and wired to gbrain as a stdio MCP server (88 tools, connection verified). Remaining before Phase 1 closes: Anthropic API key in `~/.hermes/.env`; Telegram bot token; Obsidian bridge decision. Phase 2 (one-command installer) not yet started.
-
 ---
 
 ## What you're installing
