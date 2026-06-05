@@ -103,9 +103,11 @@ clone https://github.com/nickscarabosio/stack-primer.git   stack-primer
 clone https://github.com/garrytan/gstack.git               gstack
 
 # ── 7. gbrain (memory) — install globally via bun ─────────────────────────────
-# [VERIFIED] bun install -g gbrain  →  ~/.bun/bin/gbrain
+# gbrain ships from GitHub (garrytan/gbrain), NOT npm — the npm package named
+# "gbrain" is an unrelated GPU/ML library. Installing from the GitHub source is
+# the only thing that yields the real ~/.bun/bin/gbrain CLI.
 say "gbrain"
-"$GBRAIN" --version &>/dev/null 2>&1 || bun install -g gbrain
+"$GBRAIN" --version &>/dev/null 2>&1 || bun install -g github:garrytan/gbrain
 echo "gbrain: $("$GBRAIN" --version 2>/dev/null || echo 'not on PATH yet')"
 
 # ── 8. gbrain init (PGLite, embedded Postgres, no server) ─────────────────────
