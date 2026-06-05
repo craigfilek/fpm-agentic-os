@@ -9,7 +9,7 @@ STAMP="$HOME/.gbrain/last-boot"
 G="OK "; R="XX "; W="~~ "; ok=1
 
 # 1. vault reachable
-if [ -d "$VAULT" ]; then l_vault="$G vault reachable"; else l_vault="$R vault MISSING ($VAULT)"; ok=0; fi
+if [ -d "$VAULT" ]; then l_vault="$G vault reachable"; vault_ok=1; else l_vault="$R vault MISSING ($VAULT)"; ok=0; vault_ok=0; fi
 
 # 2. incremental sync of ALL brain sources (advisory: recall works even if deferred).
 #    Single-writer: a running gbrain serve (Claude/MCP) blocks CLI sync.
@@ -45,9 +45,9 @@ fi
 
 # 4. search tool registered
 if claude mcp list 2>/dev/null | grep -qi 'gbrain'; then
-  l_mcp="$G search tool registered (MCP)"
+  l_mcp="$G search tool registered (MCP)"; mcp_ok=1
 else
-  l_mcp="$R MCP not registered (claude mcp add gbrain -- gbrain serve)"; ok=0
+  l_mcp="$R MCP not registered (claude mcp add gbrain -- gbrain serve)"; ok=0; mcp_ok=0
 fi
 
 # freshness
@@ -70,3 +70,20 @@ if [ "$ok" = 1 ]; then
 else
   echo "NOT READY $R  fix the line(s) marked XX above."
 fi
+
+# ── emit a live-status file the rig map reads to color itself from REAL state ──
+# Git-ignored by the kit's allow-list .gitignore, so it never ships. The public
+# site has no such file and falls back to the default snapshot.
+_emit_status() {
+  vN=$([ "${vault_ok:-0}" = 1 ] && echo live || echo todo)
+  gN=$([ "${pages:-0}" -gt 0 ] 2>/dev/null && echo live || echo todo)
+  rN=$([ "${mcp_ok:-0}" = 1 ] && echo live || echo todo)
+  rE=$([ "${mcp_ok:-0}" = 1 ] && echo g || echo r)
+  printf 'window.AIOS_STATUS = { synced:"%s", nodes:{ vault:"%s", gb:"%s", tg:"%s", cc:"%s" }, edges:{ "gb->tg":"%s", "gb->cc":"%s" } };\n' \
+    "$age" "$vN" "$gN" "$rN" "$rN" "$rE" "$rE"
+}
+for _d in "$HOME/fpm-agentic-os" "$HOME"; do
+  if [ -f "$_d/rig-map.html" ] || [ -f "$_d/rig-flow.html" ]; then
+    _emit_status > "$_d/aios-status.js" 2>/dev/null && echo "map status -> $_d/aios-status.js"
+  fi
+done

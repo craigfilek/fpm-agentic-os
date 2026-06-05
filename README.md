@@ -1,8 +1,23 @@
 # fpm-agentic-os
 
-Your own AI second brain + assistant. It **sets itself up** from a 15-minute interview
-and **grows itself** one workflow a week. Start featherweight; add the heavy engine only
-when you want it.
+**Your own AI second brain + assistant, on your own Mac.** It captures anything you
+throw at it, remembers it, and hands it back in your own cited words. It **sets itself
+up** from a short interview and **grows itself** one workflow a week. Start
+featherweight; add the heavy engine only when you want it.
+
+**Who it's for:** anyone with a Mac who wants a private, local assistant that actually
+remembers their stuff — no servers, no lock-in. You don't need to know how to code.
+
+**What you run:** clone the repo and run `/onboard` in Claude Code (Tier 0, below), or
+the one-line installer for the full engine (Tier 1).
+
+> 🗺️ **[See the whole system as a live flowchart →](https://craigfilek.github.io/fpm-agentic-os/rig-map.html)**
+> An interactive map of every piece and how they wire together.
+
+> ⚠️ **Early preview.** This is shared openly but is not yet battle-tested on a fresh
+> machine — the one-line installer's OS-level steps (Homebrew, Claude Code) still need a
+> real first run by someone other than the author. The Tier 0 path below is the safe,
+> proven place to start. Expect rough edges and read before you run.
 
 > ## ⚡ Start here — Tier 0 (15 minutes, nothing to install)
 >
@@ -33,13 +48,14 @@ when you want it.
 
 ## How it works
 
-A **capture → recall** production line. Picture a shop floor: raw notes enter on the left,
-get converted to Markdown, land in your Obsidian vault (the source of truth), get indexed
-by gbrain (the searchable catalog), and an AI agent picks them back out on request — in your
-own cited words.
+A **capture → recall** production line. Raw notes enter on the left, get converted to
+Markdown, land in your Obsidian vault (the source of truth), get indexed by gbrain (the
+searchable catalog), and an AI agent picks them back out on request — in your own cited
+words.
 
-> **See the floor plan:** open [`how-it-works.html`](how-it-works.html) in a browser for the
-> full graphical map (intake → process → store → retrieve, with the health "andon" board).
+> **See it as a flowchart:** the [live interactive map](https://craigfilek.github.io/fpm-agentic-os/rig-map.html)
+> shows the whole system, and [`how-it-works.html`](how-it-works.html) is the shop-floor
+> diagram (intake → process → store → retrieve, with the health "andon" board).
 
 The one idea that unlocks it: **Obsidian = the books (your content, the truth); gbrain = the
 card catalog (an index that points at the books).** Delete the catalog and your brain is
@@ -85,8 +101,9 @@ Then just ask your agent: *"what did I save about ___?"*
 
 ## More
 
+- **[Live interactive map](https://craigfilek.github.io/fpm-agentic-os/rig-map.html)** — the whole system as a flowchart
 - **`/onboard`** & **`/level-up`** — the two skills that set it up and grow it (`.claude/skills/`)
-- **[how-it-works.html](how-it-works.html)** — the living map of the whole machine
+- **[how-it-works.html](how-it-works.html)** — the shop-floor diagram of the whole machine
 - **[INSTALL.md](INSTALL.md)** — what the Tier-1 installer does, step by step
 - **[KEYS.md](KEYS.md)** — every key, where to get it, where it's stored
 - **[AGENTS.md](AGENTS.md)** — the runbook an AI agent follows to set you up

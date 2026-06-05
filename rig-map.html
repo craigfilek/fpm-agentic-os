@@ -131,6 +131,7 @@
     <button class="btn" id="fixBtn">Align to grid</button>
     <button class="btn ghost" id="resetBtn">Reset to original</button>
     <span class="hint">drag boxes anywhere — Align tidies them onto a grid in the order you placed them</span>
+    <span class="state" id="liveLbl">snapshot</span>
     <span class="state" id="stateLbl">layout: clean</span>
   </div>
 
@@ -409,6 +410,26 @@ document.getElementById('resetBtn').onclick=()=>{
   tweenTo(n=>({tx:n.hx,ty:n.hy}));
   dirty=false; stateLbl.textContent='layout: clean';
 };
+
+// ── live status overlay ──────────────────────────────────────────────
+// On your own machine `bin/boot` writes aios-status.js (git-ignored, never
+// shipped). The map loads it and colors itself from REAL state. The public
+// site has no such file, so visitors just see the default snapshot.
+const liveLbl=document.getElementById('liveLbl');
+function applyStatus(S){
+  try{
+    if(S&&S.nodes) for(const id in S.nodes){ const n=byId[id]; if(!n) continue;
+      n.st=S.nodes[id]; const dot=n.el.querySelector('.st'); if(dot) dot.className='st '+n.st; }
+    if(S&&S.edges) for(const k in S.edges){ const p=k.split('->');
+      const e=edges.find(x=>x[0]===p[0]&&x[1]===p[1]); if(e) e[2]=S.edges[k]; }
+    renderEdges();
+    if(liveLbl){ liveLbl.textContent='● live'+(S&&S.synced?(' · synced '+S.synced):''); liveLbl.style.color='#46d39a'; }
+  }catch(e){}
+}
+(function(){ var s=document.createElement('script'); s.src='aios-status.js';
+  s.onload=function(){ if(window.AIOS_STATUS) applyStatus(window.AIOS_STATUS); };
+  s.onerror=function(){ if(liveLbl) liveLbl.textContent='snapshot'; };
+  document.head.appendChild(s); })();
 </script>
 </body>
 </html>
