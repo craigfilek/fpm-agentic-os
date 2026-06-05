@@ -406,6 +406,12 @@ if [ -d "$PKG/bin" ]; then
   chmod +x "$HOME"/.local/bin/* 2>/dev/null
   echo "bin tools installed: $(ls "$PKG/bin" 2>/dev/null | tr '\n' ' ')"
 fi
+# Make the self-setup / self-evolve skills available globally (not just in the repo).
+if [ -d "$PKG/.claude/skills" ]; then
+  mkdir -p "$HOME/.claude/skills"
+  cp -R "$PKG/.claude/skills/." "$HOME/.claude/skills/" 2>/dev/null
+  echo "skills installed: $(ls "$PKG/.claude/skills" 2>/dev/null | tr '\n' ' ')"
+fi
 
 say "install.sh complete"
-echo "Next: open Claude Code and meet your CEO (the interview collects remaining keys + preferences)."
+echo "Next: open Claude Code and run /onboard — it sets the system up around you."

@@ -185,3 +185,32 @@ works." All other docs link to it rather than re-describing the architecture in 
 **Still open (the last mile):** one real fresh-Mac/VM run by a first user — only the
 OS-level downloads (Homebrew, bun, uv, Claude Code) remain unexercised; all custom
 logic is proven end-to-end in a sandbox.
+
+---
+
+## 2026-06-05 — Two-tier onboarding + self-evolution (mirror Nate Herk's AIS-OS)
+
+**Decision:** Add a featherweight front door and make the system grow itself, modeled
+on Nate Herk's **AIS-OS** (github.com/nateherkai/AIS-OS, MIT) — whose newbie magic is
+*clone → run `/onboard` → working in 15 minutes, zero infrastructure*.
+
+- **Tier 0 (the door):** two Claude Code skills shipped in `.claude/skills/` —
+  **`/onboard`** (the CEO interview, markdown-only, fills `CLAUDE.md` + `context/`;
+  bridges to gbrain only if installed) and **`/level-up`** (the weekly ritual). Works
+  the instant you have Claude Code; nothing to install, nothing that can break. This
+  is now the README's primary start.
+- **Tier 1 (the engine):** the `curl|bash` installer (gbrain, capture belt, Hermes,
+  the component repos) is repositioned as the *opt-in upgrade*, not step one.
+- **Self-evolution:** `/level-up` ships one workflow per week into a **department**
+  folder; the department's **manager** (a charter + a retro, NOT an always-on agent)
+  improves its own workflows from real `runs/` logs. Departments accrue one at a time;
+  none are designed up front. Reuses gStack role skills (managers), fpm-ai council +
+  weekly-retro, and Hermes's learning loop as the improvement engine.
+
+**Why this is not Build A:** the apparatus that sank the last system was always-on
+machinery. Here a department is a *folder*, a manager is a *retro you run* (Hermes
+cadence is opt-in and only after a workflow works manually), and growth is by
+accretion. Nate's own rule, kept verbatim: *workflows beat agents; boring is
+beautiful.* Borrow the **3 Ms** (operator method: find constraint → EAD → map →
+autonomy → outcome) and the **Four Cs** (already adopted) as the thinking frames.
+Attribution to Nate Herk preserved (both are his trademarks).

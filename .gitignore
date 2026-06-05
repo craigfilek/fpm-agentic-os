@@ -18,8 +18,13 @@
 !/README.md
 !/statusline.py
 !/VERSIONS.md
+!/aios-intake.md
 !/bin/
 !/starter/
+!/.claude/
+!/context/
+!/departments/
+!/decisions/
 
 # Everything else — SOUL.md, claude-memory/, RESTORE.md, REBUILD-PACKAGE.md,
 # obsidian-bridge-decision.md, *.bak, and anything new — stays on your machine only.
