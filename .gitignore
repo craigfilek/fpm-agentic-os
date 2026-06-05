@@ -23,8 +23,16 @@
 !/bin/
 !/starter/
 !/.claude/
+# context/ + departments/ hold the USER's filled instance data. A cloner has NO leak
+# hooks (hooks don't travel with a clone), so the .gitignore is their only guard:
+# ship ONLY the scaffolding, ignore everything /onboard + /level-up fill in.
 !/context/
+/context/*
+!/context/README.md
 !/departments/
+/departments/*
+!/departments/README.md
+!/departments/_template/
 !/decisions/
 
 # Everything else — SOUL.md, claude-memory/, RESTORE.md, REBUILD-PACKAGE.md,

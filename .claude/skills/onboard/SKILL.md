@@ -18,8 +18,10 @@ and how they work. This is Tier 0 — markdown only, works before any install.
    example." Cover these (this is the CEO interview — see `ceo-interview.md` for the
    long form):
    - **Who you are** — name, what you do, how you spend your time.
-   - **Voice** — paste 2–3 samples of how you actually write (must be *pasted*, not
-     described). This is how every agent will sound back to you.
+   - **Voice** — ask them to paste 2–3 samples of how they actually write (pasted
+     beats described). If they'd rather not, don't block: capture the *rule* they
+     state, write it to `context/voice.md` with a clear "samples pending" note, and
+     move on. They can paste samples and re-run any time.
    - **Vision** — what your work is *for*, in one coffee-shop sentence.
    - **Priorities** — the 2–3 things that must move this month.
    - **Decision rights** — what agents decide alone, surface, or just-do-and-tell.
@@ -36,9 +38,15 @@ Create/overwrite, using **their words, lightly cleaned — never paraphrase**:
 - `connections.md` — the registry of systems to reach (status: wired / not yet).
 - Append the date + "onboarded" to `decisions/log.md`.
 
-**Bridge to the engine (only if present):** if `~/.bun/bin/gbrain` exists, also
-`gbrain put context/<each>` so recall works over the interview answers. If gbrain
-isn't installed, skip silently — the markdown is the source of truth either way.
+**Bridge to the engine (only if present):** if `~/.bun/bin/gbrain` exists, index each
+context file into *their* brain so recall works over the answers — one per file:
+`gbrain put context/about-you < context/about-you.md` (and the same for `voice`,
+`vision`). If gbrain isn't installed, skip silently — the markdown is the source of
+truth either way.
+
+**Safe-by-default:** the files you write (`CLAUDE.md`, `context/*`) are git-ignored by
+the kit's `.gitignore`, so they never ship even if they push the repo. Still: never
+run `git add .` on their instance, and never push their personal answers anywhere.
 
 ## Close — hand off the two verbs
 
