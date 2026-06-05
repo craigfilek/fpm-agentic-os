@@ -4,25 +4,38 @@
 
 ---
 
+## How it works (one picture)
+
+Open **[how-it-works.html](how-it-works.html)** in a browser — a shop-floor map of
+the whole thing: notes come in on the left, get filed in your Obsidian vault (the
+truth), get indexed by gbrain (the catalog), and an AI agent hands them back on
+request. That diagram is the living map; everything below is just how to install it.
+
 ## What you're installing
 
-A coordinated set of AI tools that work together as your second brain plus an always-on assistant fleet:
+**The core — a second brain with two verbs, CAPTURE and RECALL.** This is what you
+use every day:
 
-- **A personal control layer** that runs verified, opinionated AI workflows (fpm-ai)
-- **An agent runtime** that talks to you via Telegram, Discord, Slack and schedules work (Hermes)
-- **A memory layer** that remembers everything and synthesizes answers with citations (gbrain)
-- **A knowledge surface** where you read and write notes (Obsidian)
-- **A web-app scaffold** for shipping your own products (stack-primer)
-- **A dev/ship skill toolkit** of 58 role-based Claude Code commands — CEO, designer, eng-manager, QA, release (gStack)
+- **Obsidian** — your notes, as plain files on your disk. The source of truth.
+- **gbrain** — a local memory that reads your notes so the agent can find anything by
+  meaning (no cloud, runs on your Mac).
+- **the capture belt** — `capture <file-or-url>` files anything (docs, web pages,
+  PDFs, YouTube) into your notes; `instagram-station` files reel captions.
+- **`boot`** — a one-line green health lamp that tells you the brain is live.
 
-**The four jobs of an agentic OS (the "Four Cs").** Borrowed from the *Four Cs of an AIOS™* (a trademark of Nate Herk), the simplest way to think about what all of the above adds up to:
+**The engine room — installed, but not what you touch day-one.** For building,
+automating, and messaging later: **Hermes** (runtime + Telegram messenger + scheduled
+jobs), **fpm-ai** (careful AI workflows), **gStack** (58 build/ship commands), and
+**stack-primer** (a web-app starter kit).
 
-- **Context** — it *knows you* (your memory layer + the CEO interview)
-- **Connections** — it *reaches your stuff* (secure links to Gmail, Drive, Telegram, and more)
-- **Capabilities** — it *does the work* (verified workflows and skills)
-- **Cadence** — it *runs unasked* (scheduled jobs that fire on their own)
+**The four jobs of an agentic OS (the "Four Cs", a trademark of Nate Herk):**
+**Context** (it knows you → gbrain + the interview) · **Connections** (it reaches
+your stuff → Gmail, Drive, Telegram) · **Capabilities** (it does the work → fpm-ai +
+gStack) · **Cadence** (it runs unasked → Hermes).
 
-You will meet your **CEO** at the end of the install — an AI agent that interviews you, learns who you are, and configures the rest of the system to your specific way of working. After the CEO interview, your agentic OS knows you. Every assistant in the system reads from the same memory of who you are and what you want.
+You meet your **CEO** at the end of the install — an AI agent that interviews you,
+learns who you are, and seeds the memory every assistant reads from. After that, the
+OS knows you and you never re-explain yourself.
 
 ---
 
@@ -52,7 +65,7 @@ A terminal window will be open with the **CEO interview** in progress. You'll se
 
 1. **Who you are** — name, what you do for work, how you spend your time
 2. **Your voice rule** — how you want the assistants to talk to you (formal, casual, terse, detailed)
-3. **Your API keys** — the CEO tells you exactly where to sign up for each one. You sign up; you paste each key when the CEO asks
+3. **Any keys you skipped** — the install already asked for your Anthropic key (required) and offered a ZeroEntropy key (recommended). If you skipped one, the CEO points you to where to get it (see [KEYS.md](KEYS.md))
 4. **Your features** — which parts to turn on (Telegram bridge, scheduled retros, voice memos, etc.)
 5. **Your first project** — what you actually want this system to help you with
 
@@ -62,22 +75,44 @@ When the CEO finishes, your agentic OS is alive. Everything the CEO learned is w
 
 ## After install — your first day
 
-_Section in progress — will link to `OPERATING-MANUAL.md` once it exists._
+Everything runs off two verbs. That's it:
 
-The short version: open Claude Code, type `fpm` to see your available commands, type `hermes` to start a conversation with your runtime agent, or just open Obsidian and start writing — the system is watching.
+1. **CAPTURE** — file anything into your brain:
+   ```bash
+   capture <file-or-url>          # a doc, a web page, a PDF, a YouTube link
+   ```
+   Or just drop a note into your Obsidian `Inbox/` folder.
+2. **Check the lamp** — confirm the brain is live:
+   ```bash
+   boot          # four OK lines + "READY OK" = good to go
+   ```
+3. **RECALL** — open Claude Code and ask in plain English: *"What did I save about
+   ___?"* Your own words come back, cited to the source.
+
+The engine room is there when you want it: type `hermes` to talk to your assistant,
+or open Obsidian and just start writing.
 
 ---
 
 ## If something goes wrong
 
-_Section in progress — common errors and the fix for each._
+Re-running `install.sh` is always safe — every step checks "already done?" first.
+For specific symptoms, the fix table lives in [AGENTS.md](AGENTS.md#4-troubleshooting-the-common-ones).
+The quick ones:
 
-If the install script fails partway through, you can re-run it safely; it picks up where it left off.
+- **`boot` shows a red line** — fix that one line; the lamp tells you the command.
+- **Recall comes back empty** — without a ZeroEntropy key you get keyword-only recall
+  (still works); add the key (see [KEYS.md](KEYS.md)) for search-by-meaning.
+- **`gbrain: command not found`** — run `export PATH="$HOME/.bun/bin:$HOME/.local/bin:$PATH"`.
 
 ---
 
 ## What the install actually did, for the curious
 
-_Section in progress — will link to `DESIGN.md` and a future `ARCHITECTURE.md`._
-
-The component repositories on your disk under your home folder, three local language runtimes, one knowledge graph database, one agent runtime, one personal control framework, and a set of MCP servers wiring them all together inside Claude Code.
+On your disk under your home folder: the component repos (`~/fpm-ai`,
+`~/hermes-agent`, `~/stack-primer`, `~/gstack`), two language runtimes (Bun, uv),
+**gbrain** (your local memory, installed from `github:garrytan/gbrain`), and an
+`~/Obsidian Vault` seeded with `Inbox/` + `Distilled/`. It registered gbrain as a
+read-only search tool inside both Claude Code and Hermes, and laid a safety baseline
+into `~/.claude` (auto-compact off, destructive-command guards). The full map is
+[how-it-works.html](how-it-works.html); the *why* is in [DESIGN.md](DESIGN.md).

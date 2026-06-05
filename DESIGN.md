@@ -144,3 +144,44 @@ fpm-agentic-os holds the blueprint document `CEO-INTERVIEW.md` describing what t
 - Preserve attribution to Garry Tan. Stay lean: adopt gStack's skills as-is; do NOT fork-and-customize (that was the Build A failure mode).
 
 **Component count is now 7:** fpm-ai · Hermes · gbrain · Obsidian · stack-primer (standards + scaffold only) · **gStack (dev/ship skills)** · fpm-agentic-os (manual).
+
+---
+
+## 2026-06-05 — Where it landed (the reconciliation)
+
+After the build settled and a real fresh-machine install test, the design is best
+understood as **two layers**, and earlier docs that listed "7 equal components"
+were corrected to match:
+
+- **The core (what the user touches): CAPTURE → RECALL.** Obsidian (the books / the
+  truth) + gbrain (the catalog) + the `capture`/`instagram-station` belt + `boot`
+  (the green health lamp). This is the Apple-IIe experience: one command installs it,
+  one lamp says it's live, two verbs run it. The day this lamp is reliably green, the
+  brain is DONE.
+- **The engine room (installed, not daily): Hermes, fpm-ai, gStack, stack-primer.**
+  For messaging, automation, and building products later. Real, but secondary to the
+  core — they should never be what a new user is asked to think about first.
+
+**The living map.** `how-it-works.html` is the single source of truth for "how it
+works." All other docs link to it rather than re-describing the architecture in prose
+(prose drifts; the diagram is updated in one place and every link stays current).
+
+**Corrections baked in (each was a real fresh-machine bug or drift):**
+- gbrain installs from `github:garrytan/gbrain`, **not** the npm package `gbrain`
+  (an unrelated GPU/ML library) — that wrong source aborted every fresh install.
+- `install.sh` clones **itself** alongside the other repos, or its `bin/` tools and
+  Claude settings never land when run via `curl | bash`.
+- The brain is **one vault source** (`Inbox/` + `Distilled/` as subfolders), not
+  several top-level sources — 3+ federated sources trip a gbrain cross-source-search
+  quirk that silently breaks recall.
+- Recall works on **keyword alone**; the ZeroEntropy embedding key upgrades it to
+  search-by-meaning. So the key is *recommended*, not *required* (see `KEYS.md`).
+- `boot` is source-agnostic (`sync --all`, total page count) and imports with
+  `--no-embed` so a keyless brain is still searchable; embeddings are a bonus layer.
+- The repo is **public** (verified leak-clean: allow-list `.gitignore` + neutral
+  authorship + full-history scan), so the `curl | bash` URL actually resolves for
+  strangers. Personal data lives only in separate private repos.
+
+**Still open (the last mile):** one real fresh-Mac/VM run by a first user — only the
+OS-level downloads (Homebrew, bun, uv, Claude Code) remain unexercised; all custom
+logic is proven end-to-end in a sandbox.

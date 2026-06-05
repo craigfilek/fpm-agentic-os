@@ -1,51 +1,61 @@
 # AGENTS.md — Read this first
 
-**You are the agent that just loaded this repo.** Your job: stand up a complete
-7-component agentic OS for the person in front of you, who is **not technical**
-(assume the 83-year-old-mom test), and get them to "it works" almost instantly.
+**You are the agent that just loaded this repo.** Your job: stand up this agentic
+OS for the person in front of you, who is **not technical** (the 83-year-old-mom
+test), and get them to a **green health lamp** almost instantly.
 
-Follow the phases below in order. Do not improvise architecture. When you need a
-human action you cannot take (a click, a password, an API-key signup), ask for it
-in plain English and wait.
+**The whole machine, in one picture:** open [`how-it-works.html`](how-it-works.html)
+— a shop-floor map of how information flows in and recall comes back. That diagram
+is the source of truth for "how it works"; this file is the runbook for *standing
+it up*. If the diagram and prose ever disagree, the diagram wins — fix the prose.
 
-**If you were handed only a URL:** clone it first (`git clone <url>`), then run everything below from inside that folder. You drive the entire setup yourself — the install, walking them through the two API keys (where to sign up, what to paste), and conducting the CEO interview at the end. They should only ever answer questions and approve. Never make them open a file or run a command themselves.
+**If you were handed only a URL:** clone it first (`git clone <url>`), then run
+everything below from inside that folder. You drive the entire setup — the install,
+the keys (where to sign up, what to paste), and the CEO interview at the end. They
+only answer questions and approve. Never make them open a file or run a command.
 
 ---
 
 ## 0. How to talk to this person (hard rule)
 
-Talk like a precocious 11th-grader who's built rapport with them — sharp, fast,
-no jargon, no babying. You are their **hands in human land**: they click the
-buttons and paste the keys you can't. So:
+Talk like a precocious 11th-grader who's built rapport — sharp, fast, no jargon,
+no babying. You are their **hands in human land**: they click the buttons and paste
+the keys you can't.
 
 - **Low jargon.** Spell out an acronym once, then move on. Never say "MCP" or
   "PGLite" without a five-word translation.
 - **Short steps with the reason attached**, so they can judge whether to skip.
 - **One question at a time.** Never dump a form.
-- **Yes/no clear** when a choice is binary.
-- When they just need to push a button, don't lecture. Read the room.
+- When they just need to push a button, don't lecture.
 
 ---
 
-## 1. What you're building (say this in plain English if asked)
+## 1. What you're building (the two layers)
 
-Seven pieces that work together as a second brain plus an always-on assistant:
+**The core — a second brain with two verbs: CAPTURE and RECALL.** This is what they
+use daily, and what the install must get green:
 
-| # | Piece | Plain-English job |
-|---|---|---|
-| 1 | **fpm-ai** | The control layer. Runs careful AI workflows and double-checks its own work before you see it. (Python, `fpm` command.) |
-| 2 | **Hermes** | The runtime + messenger. Talks to you via Telegram and runs scheduled jobs. (Python.) |
-| 3 | **gbrain** | The memory. Remembers everything and answers with citations. (Runs locally, no cloud needed.) |
-| 4 | **Obsidian** | The notes app where the human reads and writes. |
-| 5 | **stack-primer** | A web-app starter kit (for building products later). |
-| 6 | **gStack** | 58 ready-made commands for planning, building, QA, and shipping. Pairs natively with gbrain. |
-| 7 | **fpm-agentic-os** | This repo — the install manual + design log. |
+| Piece | Plain-English job |
+|---|---|
+| **Obsidian** | The notes app. Their content, as plain files. **The books — the truth.** |
+| **gbrain** | The librarian. Reads the notes so the agent finds anything by meaning. Local, no cloud. **The card catalog.** |
+| **the capture belt** | `capture <file-or-url>` (any doc/web/PDF → notes) and `instagram-station <reel>` (reel caption → notes). |
+| **`boot`** | The green health lamp — "is the brain live?" One command, four OK lines. |
 
-The simple frame (the **Four Cs**, a term from Nate Herk™):
-**Context** (it knows you → gbrain + the interview) ·
-**Connections** (it reaches your stuff → Gmail, Drive, Telegram) ·
-**Capabilities** (it does the work → fpm-ai + gStack) ·
-**Cadence** (it runs unasked → Hermes cron).
+**The engine room — heavier pieces, installed but not touched day-one.** They power
+building, automating, and messaging *later*:
+
+| Piece | Job |
+|---|---|
+| **Hermes** | Runtime + messenger — talk to the assistant via Telegram, run scheduled jobs. |
+| **fpm-ai** | Control layer — careful AI workflows that check their own work. |
+| **gStack** | 58 ready-made build/ship commands (plan, QA, release). Pairs natively with gbrain. |
+| **stack-primer** | A web-app starter kit, for shipping products later. |
+
+The simple frame (the **Four Cs**, a term from Nate Herk™): **Context** (knows you →
+gbrain + the interview) · **Connections** (reaches your stuff → Gmail, Drive,
+Telegram) · **Capabilities** (does the work → fpm-ai + gStack) · **Cadence** (runs
+unasked → Hermes cron).
 
 ---
 
@@ -53,110 +63,90 @@ The simple frame (the **Four Cs**, a term from Nate Herk™):
 
 ### Phase A — Recon (know before you touch)
 
-Check what already exists so you don't redo finished work:
-
 ```bash
 ls -d ~/fpm-ai ~/hermes-agent ~/gstack ~/stack-primer 2>/dev/null
 ~/.bun/bin/gbrain --version 2>/dev/null
-~/hermes-agent/.venv/bin/hermes --version 2>/dev/null
 ls ~/.claude/skills 2>/dev/null | grep -c gstack
 ```
-
-Tell the human in one sentence what's already in place vs. fresh.
+Tell them in one sentence what's already in place vs. fresh.
 
 ### Phase B — Install (the one command)
-
-The whole stack installs from `install.sh` in this repo. On a fresh Mac:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/craigfilek/fpm-agentic-os/main/install.sh | bash
 ```
+While it runs (~30 min), tell them:
+- macOS asks for their **Mac password once** (Homebrew authorizing itself).
+- It pauses for the **Anthropic key** (required) and offers a **ZeroEntropy key**
+  (recommended, for smarter recall). See [`KEYS.md`](KEYS.md) for what each does and
+  where to get it. Input is hidden.
+- Everything else is automatic: runtimes, the component repos, gbrain (from
+  `github:garrytan/gbrain` — NOT the npm package of the same name), and the wiring.
 
-What to tell the human while it runs (~30 min):
-- macOS will ask for their **Mac password once** (Homebrew authorizing itself — the
-  same prompt as installing any app). They type it, press Enter.
-- Near the end the script asks them to **paste their Anthropic API key** (input is
-  hidden). If they don't have one, send them to
-  `https://console.anthropic.com/settings/keys`, have them create one, paste it.
-- Everything else is automatic: it installs the runtimes, clones the repos,
-  stands up the memory, and wires the pieces together.
+**If `install.sh` fails partway:** it's safe to re-run — every step checks "already
+done?" first. The one part no sandbox can prove is the first-boot *downloads*
+(Homebrew, bun, uv, Claude Code) on a truly fresh Mac; if it breaks there, it's one
+of those four standard installers — read the error and resolve before re-running.
 
-**If `install.sh` fails partway:** it's safe to re-run — every step checks
-"already done?" first. A few steps are marked `[VERIFY-LIVE]` in the script
-(Homebrew sudo, the Claude Code install channel, Telegram); if one of those is
-the failure, read that block and resolve it before re-running.
+### Phase C — Verify: one green lamp (don't trust, check)
 
-### Phase C — Verify each piece (don't trust, check)
-
-Run these and confirm each is green before moving on. Report results plainly.
+The single check that matters is the health lamp. Run it:
 
 ```bash
-# 1. API key works (expect output containing PING!)
-set -a; source ~/.env.anthropic; set +a
-python3 -c "from anthropic import Anthropic; print(Anthropic().messages.create(model='claude-opus-4-7', max_tokens=10, messages=[{'role':'user','content':'PONG'}]).content[0].text)"
-
-# 2. memory is alive
-~/.bun/bin/gbrain doctor --json
-
-# 3. runtime sees the memory (expect a line containing gbrain)
-~/hermes-agent/.venv/bin/hermes mcp list | grep gbrain
-
-# 4. Claude Code sees the memory too
-claude mcp list 2>/dev/null | grep gbrain
-
-# 5. the 58 build/ship commands are installed
-ls ~/.claude/skills | grep -c gstack
+boot          # (installed to ~/.local/bin)
 ```
-
-If a check fails, fix that one piece before continuing — see Troubleshooting.
+Expect four `OK` lines and `READY OK`:
+```
+OK  vault reachable
+OK  index: N pages   (synced: just now)
+OK  search tool registered (MCP)
+OK  sync ok
+READY OK   flip it on and ask.
+```
+Then confirm **recall actually works** (the whole point):
+```bash
+gbrain query "welcome"      # should return the starter note
+```
+If any lamp is red, fix that one line (see Troubleshooting) before moving on.
+Recall works on keyword alone; a ZeroEntropy key upgrades it to search-by-meaning.
 
 ### Phase D — The CEO interview (teach the system who they are)
 
-This is what makes the OS *theirs*. Open the file `ceo-interview.md` in this repo
-and run it through Hermes:
+This makes the OS *theirs*. Run [`ceo-interview.md`](ceo-interview.md) through the
+full Hermes agent (memory tools load only in the full agent, not the `-z` one-shot;
+`hermes chat -q "…"` is fine for a one-shot that needs the tools):
+```bash
+~/hermes-agent/.venv/bin/hermes chat
+```
+Paste `ceo-interview.md`, ask the five sections **one question at a time**, reflect
+each answer back in a sentence, push vague ones. Then write one gbrain page per
+section (their words, lightly cleaned), pull durable facts, show the five titles,
+and ask **"Approve, edit, or scrap?"** — don't finalize until they approve.
 
-1. Start a Hermes session that can reach the memory tools. **Use the full agent,
-   not the fast one-shot:**
-   ```bash
-   ~/hermes-agent/.venv/bin/hermes chat
-   ```
-   (The `hermes -z` one-shot does NOT load memory tools — don't use it here.)
-2. Paste `ceo-interview.md` as context.
-3. Ask the five sections **one question at a time** (Vision, Priorities, Working
-   Style, Decision Rights, Success Metrics). Reflect each answer back in one
-   sentence. Push vague answers: "Give me a specific example."
-4. When done, write one gbrain page per section (their words, lightly cleaned —
-   no paraphrase), then pull durable facts into the fact store.
-5. Show them the five page titles and ask: **"Approve, edit, or scrap?"** Do not
-   finalize until they say approved.
+### Phase E — Hand off (the two verbs)
 
-### Phase E — Hand off
+Teach them the whole daily loop in two moves:
+- **Capture:** `capture <file-or-url>` — or just drop a note in their Obsidian
+  `Inbox/`, then run `boot`.
+- **Recall:** ask the agent in chat — *"what did I save about ___?"* — answers come
+  back in their own cited words.
 
-Tell them, plainly, what they now have and the three ways to use it day-1:
-- Type `fpm` in the terminal to see their workflows.
-- Type `hermes` to talk to their assistant.
-- Open Obsidian and just start writing — the system is watching.
-
-Then ask the one question that matters: **"What do you want to do first?"** Don't
-assume.
+Then ask the one question that matters: **"What do you want to do first?"**
 
 ---
 
 ## 3. Guardrails (do NOT violate)
 
-1. **Don't rebuild the old sprawl.** A previous version of this rig drowned in
-   custom skills/hooks/scripts and got deliberately nuked. If something feels
-   missing, write a one-line memory note — **do not** rebuild a custom skill
-   stack.
-2. **Secrets discipline.** Never hardcode or echo an API key. Keys go only into
-   `~/.hermes/.env` / `~/.env.anthropic` via a hidden prompt. Never read, print,
-   or commit a `.env` file.
-3. **Never touch your own private product repos.** Those are live products, not
-   part of this OS. They are intentionally excluded from `install.sh`.
-4. **Verify, don't relay.** Don't tell the human something works because a script
-   "should" have done it. Run the Phase-C check and report what you actually saw.
-5. **Reversible by default.** Don't delete or overwrite their existing files.
-   `install.sh` is built to be idempotent; keep it that way.
+1. **Don't rebuild the old sprawl.** A previous version drowned in custom
+   skills/hooks/scripts and was deliberately nuked. If something feels missing,
+   write a one-line memory note — don't rebuild a custom skill stack.
+2. **Secrets discipline.** Never hardcode or echo a key. Keys go only into their
+   local dotfiles via a hidden prompt (see KEYS.md). Never read, print, or commit a
+   `.env` or `~/.gbrain/config.json`.
+3. **Verify, don't relay.** Don't say it works because a script "should" have done
+   it. Run the `boot` check and report what you actually saw.
+4. **Reversible by default.** Don't delete or overwrite their files. `install.sh` is
+   idempotent and never clobbers an existing vault — keep it that way.
 
 ---
 
@@ -164,21 +154,24 @@ assume.
 
 | Symptom | Fix |
 |---|---|
-| API check returns `401` | The key is bad. Have them make a new one at console.anthropic.com/settings/keys and re-paste. |
-| `gbrain` "command not found" | PATH issue. Run `export PATH="$HOME/.bun/bin:$PATH"` and retry, then add it to their shell file. |
-| `hermes mcp list` shows no gbrain | Re-run the wiring step: `hermes mcp add gbrain --command ~/.bun/bin/gbrain --args serve`. |
-| Hermes can't see memory in a one-shot | You used `hermes -z`. Use `hermes chat` (full agent) — only it loads memory tools. |
-| `gbrain search` returns nothing useful | Embeddings need a provider key (Voyage or OpenAI) set before sync. Without one, search degrades. |
-| Telegram not working | It's optional and set up later: `hermes gateway setup` (needs a bot token from @BotFather), then `hermes gateway install`. |
-| Obsidian memory bridge | Open the Obsidian app first (its local server only runs while it's open), then wire it. |
+| `boot` says `vault MISSING` | The vault didn't get created. Re-run `install.sh` (its §8c seeds `~/Obsidian Vault` with `Inbox/` + `Distilled/`). |
+| `boot` says `index empty` | Run `gbrain sync --all --no-embed`, then `boot` again. |
+| `boot` says `MCP not registered` | `claude mcp add gbrain -s user -- ~/.bun/bin/gbrain serve` |
+| `gbrain` "command not found" | PATH. `export PATH="$HOME/.bun/bin:$HOME/.local/bin:$PATH"` and add it to their shell file. |
+| Recall returns nothing | Without a ZeroEntropy key you get keyword-only recall; that still works. For search-by-meaning, add the key (KEYS.md) then `gbrain embed --stale`. |
+| `bun install -g gbrain` got the wrong thing | The npm `gbrain` is an unrelated ML library. Install `github:garrytan/gbrain`. |
+| Telegram not working | Optional, set up later: `hermes gateway setup` (needs a @BotFather token), then `hermes gateway install`. |
 
 ---
 
-## 5. Pointers
+## 5. Pointers (the whole kit)
 
+- [`how-it-works.html`](how-it-works.html) — **the living map.** Open it first.
+- [`README.md`](README.md) — the front door + one-command quick start.
+- [`INSTALL.md`](INSTALL.md) — the human-facing install guide, step by step.
+- [`KEYS.md`](KEYS.md) — every key, what it powers, where to get it.
+- [`ceo-interview.md`](ceo-interview.md) — the five-section interview for Phase D.
+- [`DESIGN.md`](DESIGN.md) — why the OS is shaped this way (the decision log).
+- [`OBSIDIAN-MIGRATION.md`](OBSIDIAN-MIGRATION.md) — optional: build the vault + migrate Evernote / Apple Notes / Voice Memos.
 - `install.sh` — the actual installer (read it to know exactly what runs).
-- `INSTALL.md` — the human-facing one-page install guide.
-- `DESIGN.md` — why the OS is shaped this way (the decision log).
-- `ceo-interview.md` — the five-section interview script for Phase D.
-- `README.md` — the Obsidian second-brain setup (notes layer), plus the quick start.
-- `claude-settings.json` + `statusline.py` + `claude-memory/` — the safety + behavior baseline `install.sh` (step 18) lays into `~/.claude`: **auto-compact OFF** (PreCompact hook + env override), `.env`/`.ssh` deny rules, destructive-command guards (rm -rf, git push/commit, gh), `plan` default mode, statusline, and the starter house-rule memories (verify-don't-relay, minimal-over-complex, Elon's 5 steps, voice, …). Existing settings are backed up, memories never clobbered.
+- `claude-settings.json` + `statusline.py` — the safety baseline `install.sh` lays into `~/.claude`: **auto-compact OFF** (PreCompact hook), `.env`/`.ssh` deny rules, destructive-command guards (rm -rf, git push/commit), `plan` default mode, statusline. (Personal house-rule memories are NOT shipped — each user's memory is seeded by the CEO interview.)

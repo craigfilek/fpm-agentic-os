@@ -10,6 +10,11 @@ metrics — then seeds gbrain so every agent starts with ground truth.
 3. Vague answers get pushed: "Give me a specific example." Don't settle.
 4. After all five sections, Hermes writes gbrain pages (see Closing).
 
+**Before the questions — keys check.** The install already collected the Anthropic
+key (required) and offered a ZeroEntropy key (recommended for smarter recall). If
+`boot` shows everything green and recall works, skip this. If a key was skipped,
+point them to `KEYS.md` for where to get it and how to drop it in — then continue.
+
 ---
 
 ## 1. Vision
