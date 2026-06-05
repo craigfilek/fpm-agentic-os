@@ -94,6 +94,9 @@ echo "yt-dlp: $(command -v yt-dlp || echo 'not on PATH yet')"
 # they are not part of the shareable OS.
 say "clone component repos"
 clone() { [ -d "$HOME/$2" ] && echo "$2 present" || git clone --depth 1 "$1" "$HOME/$2"; }
+# This kit itself — needed on disk so steps 18-19 can install its package files
+# (claude-settings.json, claude-memory/, bin/) when run via `curl | bash`.
+clone https://github.com/craigfilek/fpm-agentic-os.git  fpm-agentic-os
 clone https://github.com/cgf1812/fpm-ai.git             fpm-ai
 clone https://github.com/NousResearch/hermes-agent.git     hermes-agent
 clone https://github.com/nickscarabosio/stack-primer.git   stack-primer
