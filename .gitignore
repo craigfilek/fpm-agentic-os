@@ -20,9 +20,24 @@
 !/statusline.py
 !/VERSIONS.md
 !/aios-intake.md
+# Shipped DIRECTORIES are allow-listed too: open the dir, re-ignore its contents,
+# then un-ignore ONLY the named files. A new file dropped in any of these stays
+# hidden by default — so even a blanket `git add .` can't publish it by accident.
 !/bin/
+/bin/*
+!/bin/boot
+!/bin/capture
+!/bin/instagram-station
+!/bin/obsidian-to-gbrain
 !/starter/
+/starter/*
+!/starter/welcome.md
 !/.claude/
+/.claude/*
+!/.claude/skills/
+/.claude/skills/*
+!/.claude/skills/onboard/
+!/.claude/skills/level-up/
 # context/ + departments/ hold the USER's filled instance data. A cloner has NO leak
 # hooks (hooks don't travel with a clone), so the .gitignore is their only guard:
 # ship ONLY the scaffolding, ignore everything /onboard + /level-up fill in.
@@ -34,6 +49,9 @@
 !/departments/README.md
 !/departments/_template/
 !/decisions/
+/decisions/*
+!/decisions/log.md
 
 # Everything else — SOUL.md, claude-memory/, RESTORE.md, REBUILD-PACKAGE.md,
 # obsidian-bridge-decision.md, *.bak, and anything new — stays on your machine only.
+.gstack/
