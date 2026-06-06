@@ -1,0 +1,22 @@
+name: Integrator heartbeat
+
+# The always-on mailman. Sends whatever the local rig prepared in cron/daily.md
+# to Telegram — even with the laptop off. Brains stay local; this just delivers.
+
+on:
+  schedule:
+    # ~3:07am PT.  GitHub Actions runs in UTC, so 3am PT (PDT, UTC-7) = 10:07 UTC.
+    # Off-minute on purpose (the :00 marks are congested and get delayed).
+    - cron: "7 10 * * *"
+  workflow_dispatch: {}   # also run by hand from the Actions tab (the dashboard "Run" button)
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Send the daily update to Telegram
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python3 cron/send_telegram.py cron/daily.md

@@ -51,7 +51,29 @@
 !/decisions/
 /decisions/*
 !/decisions/log.md
+# web/ = the public page kit. All pages are meant to ship, so allow web HTML/CSS
+# (and DESIGN.md) freely — "drop a page, it ships." Non-web files still can't leak.
+!/web/
+/web/*
+!/web/*.html
+!/web/*.css
+!/web/DESIGN.md
+!/web/logos/
+/web/logos/*
+!/web/logos/*.png
+!/web/logos/*.svg
 
 # Everything else — SOUL.md, claude-memory/, RESTORE.md, REBUILD-PACKAGE.md,
 # obsidian-bridge-decision.md, *.bak, and anything new — stays on your machine only.
 .gstack/
+
+# ── Cron Central (GitHub Actions home for scheduled jobs) ──
+!/.github/
+/.github/*
+!/.github/workflows/
+/.github/workflows/*
+!/.github/workflows/heartbeat.yml
+!/cron/
+/cron/*
+!/cron/send_telegram.py
+!/cron/daily.md
