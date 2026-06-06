@@ -1,0 +1,73 @@
+#!/usr/bin/env bash
+# doctor — is the rig actually alive? Exit 0 = green, non-zero = something's broken.
+# No mocks: it exercises the real wiring. This is the "could I rebuild if I had to?"
+# green light — run it after install.sh on a clean machine; all green = the rebuild worked.
+# Read-only: it checks, it never changes anything.
+
+fail=0
+ok()   { printf "  \033[32mok\033[0m   %s\n" "$1"; }
+bad()  { printf "  \033[31mFAIL\033[0m %s\n" "$1"; fail=$((fail+1)); }
+note() { printf "  --   %s\n" "$1"; }
+sec()  { printf "\n\033[1m%s\033[0m\n" "$1"; }
+
+VAULT="${OBSIDIAN_VAULT:-$HOME/Obsidian Vault}"
+LOCAL_BIN="${LOCAL_BIN:-$HOME/.local/bin}"
+
+sec "STRUCTURE"
+if [ -d "$VAULT" ]; then ok "vault present: $VAULT"; else bad "vault missing: $VAULT"; fi
+for d in Inbox Distilled; do
+  [ -d "$VAULT/$d" ] && ok "vault/$d" || bad "vault/$d missing"
+done
+dang=0
+while IFS= read -r l; do [ -e "$l" ] || { dang=$((dang+1)); }; done < <(find "$HOME/.claude" -type l 2>/dev/null)
+[ "$dang" -eq 0 ] && ok "all ~/.claude symlinks resolve" || bad "$dang dangling symlink(s) under ~/.claude (run setup)"
+case ":$PATH:" in *":$LOCAL_BIN:"*) ok "$LOCAL_BIN on PATH";; *) bad "$LOCAL_BIN not on PATH";; esac
+
+sec "RUNTIMES"
+for c in brew bun uv git gh ffmpeg claude gbrain; do
+  command -v "$c" >/dev/null 2>&1 && ok "$c" || bad "$c missing"
+done
+for c in markitdown yt-dlp; do
+  command -v "$c" >/dev/null 2>&1 && ok "$c" || note "$c missing (capture belt; optional)"
+done
+[ -x "$HOME/hermes-agent/.venv/bin/hermes" ] && ok "hermes installed" || bad "hermes venv missing"
+
+sec "BRAIN (live)"
+# pglite is single-writer: while the gbrain MCP server is serving, a CLI query hits a
+# lock timeout. That means the brain is ALIVE and serving — not broken. Only a different
+# error (or no brain dir) is a real failure.
+if command -v gbrain >/dev/null 2>&1; then
+  out="$(gbrain query "welcome" 2>&1)"; rc=$?
+  if [ $rc -eq 0 ]; then ok "gbrain answers a query"
+  elif printf '%s' "$out" | grep -qi 'lock'; then ok "gbrain serving (pglite locked by the live MCP — brain is up)"
+  elif [ -d "$HOME/.gbrain" ]; then bad "gbrain query failed: $(printf '%s' "$out" | head -1)"
+  else bad "no brain at ~/.gbrain (run: gbrain init --pglite)"; fi
+else bad "gbrain not on PATH"; fi
+
+sec "HERMES (live)"
+if command -v launchctl >/dev/null 2>&1; then
+  launchctl print "gui/$(id -u)/ai.hermes.gateway" 2>/dev/null | grep -q 'state = running' \
+    && ok "hermes gateway running (launchd)" || note "hermes gateway not running (start: launchctl bootstrap)"
+fi
+if [ -x "$HOME/hermes-agent/.venv/bin/hermes" ]; then
+  "$HOME/hermes-agent/.venv/bin/hermes" mcp list 2>/dev/null | grep -qi gbrain \
+    && ok "gbrain MCP wired into hermes" || note "gbrain MCP not in hermes (run: hermes mcp add gbrain ...)"
+fi
+
+sec "MCP (Claude Code)"
+if command -v claude >/dev/null 2>&1; then
+  claude mcp list 2>/dev/null | grep -qi gbrain && ok "gbrain MCP wired into Claude Code" || note "gbrain MCP not in Claude Code"
+fi
+
+sec "PLIST HYGIENE"
+PL="$HOME/Library/LaunchAgents/ai.hermes.gateway.plist"
+if [ -f "$PL" ]; then
+  grep -q 'Cellar/node' "$PL" && bad "hermes plist pins a versioned node path (breaks on brew upgrade) — use /opt/homebrew/bin" || ok "hermes plist node path is unversioned"
+fi
+
+echo
+if [ "$fail" -eq 0 ]; then
+  printf "\033[32mDOCTOR GREEN\033[0m — the rig is alive. You could rebuild from this.\n"; exit 0
+else
+  printf "\033[31mDOCTOR: %d FAIL(s)\033[0m — fix the above; re-run ./setup if symlinks/tools are off.\n" "$fail"; exit 1
+fi

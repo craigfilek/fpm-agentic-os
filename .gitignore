@@ -28,6 +28,7 @@
 !/bin/
 /bin/*
 !/bin/boot
+!/bin/doctor
 !/bin/capture
 !/bin/instagram-station
 !/bin/obsidian-to-gbrain

@@ -45,7 +45,13 @@ done
 # cask is the current path; npm is the fallback.
 say "Claude Code"
 if ! command -v claude &>/dev/null; then
-  brew install --cask claude-code || npm install -g @anthropic-ai/claude-code
+  # Canonical channel = Homebrew cask (deterministic). If it fails, STOP and show the
+  # npm fallback rather than silently installing a different artifact (the old `||` smell).
+  if ! brew install --cask claude-code; then
+    echo "  ! Homebrew cask 'claude-code' failed. Install it manually, then re-run install.sh:"
+    echo "      npm install -g @anthropic-ai/claude-code"
+    exit 1
+  fi
 else
   echo "claude present: $(claude --version 2>/dev/null | head -1)"
 fi
@@ -423,6 +429,21 @@ if [ -d "$HOME/fpm-ai/skills/gsd" ]; then
   mkdir -p "$HOME/.claude/skills"
   ln -snf "$HOME/fpm-ai/skills/gsd" "$HOME/.claude/skills/gsd"
   echo "gsd skill linked: ~/.claude/skills/gsd -> ~/fpm-ai/skills/gsd"
+fi
+
+# ── 20. plist hygiene: never pin a versioned node path (breaks on `brew upgrade node`) ──
+PL="$HOME/Library/LaunchAgents/ai.hermes.gateway.plist"
+if [ -f "$PL" ] && grep -q 'Cellar/node' "$PL"; then
+  sed -i '' -E 's#/opt/homebrew/Cellar/node/[^/]*/bin#/opt/homebrew/bin#g' "$PL"
+  launchctl bootout "gui/$(id -u)/ai.hermes.gateway" 2>/dev/null
+  launchctl bootstrap "gui/$(id -u)" "$PL" 2>/dev/null
+  echo "hermes plist node path de-pinned → /opt/homebrew/bin"
+fi
+
+# ── 21. DOCTOR — prove the install actually works. Green = you could rebuild from this. ──
+say "doctor (verifying the install end-to-end)"
+if [ -x "$PKG/bin/doctor" ]; then
+  "$PKG/bin/doctor" || echo "  ! doctor found issues above — installed, but not fully green yet. Fix, then re-run."
 fi
 
 say "install.sh complete"
