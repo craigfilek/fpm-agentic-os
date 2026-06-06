@@ -402,15 +402,27 @@ echo "fpm-ai now reads/writes gbrain (FPM_MEMORY_BACKEND=gbrain)"
 PKG="$HOME/fpm-agentic-os"; [ -d "./bin" ] && PKG="$(pwd)"
 if [ -d "$PKG/bin" ]; then
   mkdir -p "$HOME/.local/bin"
-  cp "$PKG"/bin/* "$HOME/.local/bin/" 2>/dev/null
-  chmod +x "$HOME"/.local/bin/* 2>/dev/null
-  echo "bin tools installed: $(ls "$PKG/bin" 2>/dev/null | tr '\n' ' ')"
+  # SYMLINK, never copy: a copy silently drifts from the repo (sift-bench did).
+  # Links keep ~/.local/bin and the repo as one source of truth. Same as ./setup.
+  for f in "$PKG"/bin/*; do
+    case "$(basename "$f")" in __pycache__|*.pyc) continue ;; esac
+    [ -f "$f" ] && ln -snf "$f" "$HOME/.local/bin/$(basename "$f")"
+  done
+  echo "bin tools linked: $(ls "$PKG/bin" 2>/dev/null | grep -v __pycache__ | tr '\n' ' ')"
 fi
 # Make the self-setup / self-evolve skills available globally (not just in the repo).
 if [ -d "$PKG/.claude/skills" ]; then
   mkdir -p "$HOME/.claude/skills"
   cp -R "$PKG/.claude/skills/." "$HOME/.claude/skills/" 2>/dev/null
   echo "skills installed: $(ls "$PKG/.claude/skills" 2>/dev/null | tr '\n' ' ')"
+fi
+
+# GSD project router — its skill lives in fpm-ai (the thin face that drives
+# fpm-ai's organs: pm/trust/council/promote). Symlink so updates are live.
+if [ -d "$HOME/fpm-ai/skills/gsd" ]; then
+  mkdir -p "$HOME/.claude/skills"
+  ln -snf "$HOME/fpm-ai/skills/gsd" "$HOME/.claude/skills/gsd"
+  echo "gsd skill linked: ~/.claude/skills/gsd -> ~/fpm-ai/skills/gsd"
 fi
 
 say "install.sh complete"

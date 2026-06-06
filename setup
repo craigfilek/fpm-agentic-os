@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+# Portable bootstrap for the rig. Clone the folder anywhere, run ./setup, it works.
+# Idempotent: safe to re-run after any move or edit.
+set -euo pipefail
+
+REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+BIN_SRC="$REPO/bin"
+BIN_DST="${LOCAL_BIN:-$HOME/.local/bin}"
+
+echo "rig setup — repo at: $REPO"
+mkdir -p "$BIN_DST"
+
+# 1) Symlink every tool in bin/ onto PATH (symlinks, never copies, so they can't drift).
+echo "linking tools -> $BIN_DST"
+linked=0
+for f in "$BIN_SRC"/*; do
+  name="$(basename "$f")"
+  case "$name" in __pycache__|*.pyc) continue ;; esac
+  [ -f "$f" ] || continue
+  ln -snf "$f" "$BIN_DST/$name"
+  linked=$((linked+1))
+done
+echo "  linked $linked tools"
+
+# 2) PATH check.
+case ":$PATH:" in
+  *":$BIN_DST:"*) : ;;
+  *) echo "  WARN: $BIN_DST is not on PATH. Add to your shell rc:"; echo "        export PATH=\"$BIN_DST:\$PATH\"" ;;
+esac
+
+# 3) Generate .env.example (key names only, no secrets) from the live ~/.sift.env if present.
+EXAMPLE="$REPO/.env.example"
+{
+  echo "# Copy to ~/.sift.env and fill in. The rig's cloud chunker reads these."
+  if [ -f "$HOME/.sift.env" ]; then
+    sed -E 's/=.*/=/' "$HOME/.sift.env" | awk -F= '!seen[$1]++' | grep -E '^[A-Z]'
+  else
+    echo "OPENROUTER_API_KEY="
+    echo "SIFT_CLOUD_MODEL="
+  fi
+} > "$EXAMPLE"
+echo "wrote $EXAMPLE"
+
+# 4) Dependency + external-file check (report only, don't fail).
+echo "checking deps:"
+for dep in python3 uv node; do
+  if command -v "$dep" >/dev/null 2>&1; then echo "  ok  $dep"; else echo "  MISSING  $dep"; fi
+done
+echo "checking external config the rig expects:"
+for ext in "$HOME/.sift.env" "$HOME/.hermes/config.yaml"; do
+  if [ -e "$ext" ]; then echo "  ok  $ext"; else echo "  MISSING  $ext (see .env.example)"; fi
+done
+
+# 5) DOCTOR — the real "is it portable" test: wiring intact + services up.
+# Portability here means "the rig works", not "folders can be dragged around".
+echo "doctor:"
+dangling=0
+while IFS= read -r l; do
+  [ -e "$l" ] || { echo "  DANGLING symlink: $l -> $(readlink "$l")"; dangling=$((dangling+1)); }
+done < <(find "$HOME/.claude" -type l 2>/dev/null)
+[ "$dangling" -eq 0 ] && echo "  ok  all ~/.claude symlinks resolve" || echo "  $dangling dangling symlink(s) — re-run setup from each repo or check the move"
+if command -v launchctl >/dev/null 2>&1; then
+  launchctl print "gui/$(id -u)/ai.hermes.gateway" 2>/dev/null | grep -q 'state = running' \
+    && echo "  ok  hermes gateway running" || echo "  note hermes gateway not running (launchctl)"
+fi
+
+echo "setup done."
