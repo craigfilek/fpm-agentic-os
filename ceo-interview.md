@@ -1,70 +1,60 @@
-# CEO Interview — Hermes onboards you as founder
+# CEO Interview — the JVC setup (answer these, your OS builds itself)
 
-**Purpose:** Hermes interviews you (one question at a time, conversational)
-to extract your vision, priorities, working style, decision rights, and success
-metrics — then seeds gbrain so every agent starts with ground truth.
+**Purpose:** these are the questions Jake Van Clief's course makes you answer to stand up a
+"folders over agents" system. Answer them once and the installer builds your folder
+structure, routing, and the four core files the right way — **no videos required.**
 
-**How to run:**
-1. Open a fresh Hermes session and paste this file as context.
-2. Hermes asks one question, listens, reflects back in one sentence, then moves on.
-3. Vague answers get pushed: "Give me a specific example." Don't settle.
-4. After all five sections, Hermes writes gbrain pages (see Closing).
-
-**Before the questions — keys check.** The install already collected the Anthropic
-key (required) and offered a ZeroEntropy key (recommended for smarter recall). If
-`boot` shows everything green and recall works, skip this. If a key was skipped,
-point them to `KEYS.md` for where to get it and how to drop it in — then continue.
+**How to run:** one question at a time, conversational. Talk like a sharp 11th-grader, no
+jargon. Reflect each answer back in one sentence. Push vague answers: "Give me a specific
+example." If `aios-intake.md` already holds an answer, confirm it instead of re-asking. If a
+prior build/archive exists, read it to *inform* the answers — but write fresh.
 
 ---
 
-## 1. Vision
+## The big picture
+1. What do you ultimately want this system to **produce** for you?
 
-- What is your product *actually* for — in one sentence you'd say to a stranger
-  at a coffee shop, not a pitch deck?
-- Who is the primary person it serves, and what does their life look like
-  *after* it works?
-- What has to exist about this that no one else will build?
+## Who & voice
+2. Who are you, and what is this project/work?
+3. What role should the AI play for you?
+4. How do you actually write/talk? (paste 2–3 real samples — pasted beats described)
 
-## 2. Current Priorities
+## What "good" looks like
+5. What does a great result look like — and what should it always **avoid**?
+6. What background should it **know** but never act on directly? (references)
 
-- What are the two or three things that *must* move this month for you to feel
-  the company is alive?
-- What is currently broken or stuck that is costing you the most time or
-  energy?
-- What are you deliberately *not* working on right now, and why?
+## System vs. one-off
+7. Are you doing one-off tasks, or building a repeatable system? What's specific to **you**
+   that's worth building around (your data, relationships, knowledge)?
 
-## 3. Working Style
+## Your workspaces (the heart)
+8. What are your **2–4 modes of work**? (the test: would you want the AI to forget what it's
+   doing and switch focus? → that's a separate workspace)
+9. For each mode: what's it for, the process, what good looks like, what to avoid?
 
-- How do you think best — talking it out, writing, building, or something else?
-- What does a great day look like structurally (time, context switches, energy)?
-- What do agents or collaborators do that drives you crazy? What do they do
-  that makes you trust them immediately?
+## Routing & naming
+10. For a given task — where does it go, and what should it **read vs. skip**? (the routing table)
+11. How should files be **named** so it finds and files them with no database?
+12. Which tools/skills belong to which workspace?
 
-## 4. Decision Rights
+## Day-to-day & first build
+13. How will you use it day-to-day — building vs. thinking?
+14. What's the **first real thing** you'll build with it?
 
-- Which decisions do you make alone, no input needed?
-- Which decisions do you want agents to surface but not act on without
-  your sign-off?
-- Which decisions can agents just handle and tell you after?
-
-## 5. Success Metrics
-
-- Six months from now, what one number or outcome would make you say
-  "we're on track"?
-- What would make you say the whole thing was a mistake?
-- How will you know when gbrain is actually useful vs. just noise?
+## Sorting / opt-in (basic setup)
+- **Connections** — what systems should it reach? (Gmail, Drive, Telegram, calendar…) List, don't wire yet.
+- **Decision rights** — what do agents decide alone · surface for your yes · just-do-and-tell?
+- **Keys check** — the install collected the required key(s). If `bin/doctor` is green, skip.
+  If one was skipped, see `KEYS.md` for where to get it and drop it in, then continue.
 
 ---
 
-## Closing — storing answers in gbrain
-
-After the interview, Hermes:
-
-1. Calls `put_page` once per section (Vision, Priorities, Working Style,
-   Decision Rights, Success Metrics) — title = section name, body =
-   your words lightly cleaned, no paraphrase.
-2. Calls `extract_facts` on each page to pull durable facts (names,
-   numbers, non-negotiables) into the fact store so any agent can query
-   them cold.
-3. Shows you the five page titles and asks: "Approve, edit, or scrap?"
-4. Does NOT finalize until you say approved.
+## Closing — write the four core files + seed the brain
+After the interview, write (their words, lightly cleaned — never paraphrase):
+1. **`CLAUDE.md`** — operating manual (the Step-0 root router + identity, voice, decision rights, priorities).
+2. **`SOUL.md`** — who they are at the core: essence, values, what the work is *for* (from Q1–7 + archive).
+3. **`FOCUS.md`** — north star (Q1) + this-month priorities + first build (Q14).
+4. **Seed `memory/MEMORY.md`** + one short memory per durable preference.
+Plus `context/*` long-form and `connections.md`. If `gbrain` is installed, index each context file.
+Show the titles, ask **"Approve, edit, or scrap?"** — don't finalize until they say approved.
+Then **prove it:** run `bin/test-onboard` — green = they're set up.
