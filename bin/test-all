@@ -1,0 +1,28 @@
+#!/bin/bash
+# test-all — walk the rig and run every folder's TEST.md, report green/red.
+# Convention: each folder carries a TEST.md with ONE fenced ```bash block (the "## Check").
+# The block runs from inside that folder; exit 0 = pass. This is "prove it at each junction"
+# (like testing camera + mic after granting an app access) — never assume a folder works.
+#
+# Usage: bin/test-all [root]   (default root = this repo; pass a workspace path to test an instance)
+
+root="${1:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+pass=0; fail=0; nocheck=0
+
+while IFS= read -r t; do
+  d=$(dirname "$t")
+  short="${d/#$HOME/~}"
+  check=$(awk '/^```bash/{f=1;next} /^```/{f=0} f' "$t")
+  if [ -z "$check" ]; then
+    printf "  ?  %s  (no check yet)\n" "$short"; nocheck=$((nocheck+1)); continue
+  fi
+  if ( cd "$d" && bash -c "$check" ) >/dev/null 2>&1; then
+    printf "  \033[32m✓\033[0m  %s\n" "$short"; pass=$((pass+1))
+  else
+    printf "  \033[31m✗\033[0m  %s\n" "$short"; fail=$((fail+1))
+  fi
+done < <(find "$root" -name TEST.md -not -path '*/node_modules/*' -not -path '*/.git/*' 2>/dev/null | sort)
+
+echo
+echo "test-all: ${pass} green · ${fail} red · ${nocheck} no-check-yet"
+[ "$fail" -eq 0 ]

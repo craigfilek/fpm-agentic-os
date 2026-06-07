@@ -9,6 +9,13 @@ You are standing this agentic OS up for the person in front of you. Goal: in ~15
 minutes, with **zero infrastructure**, give them a system that knows who they are
 and how they work. This is Tier 0 — markdown only, works before any install.
 
+## Step 0 — lay the JVC structure FIRST (before you ask anything)
+Structure precedes content. Run JVC right away:
+1. Copy `starter/CONSTITUTION.md` → the workspace root `CLAUDE.md` — the folder standard that governs everything (code flat · thinking in the vault · gbrain prefix = recall lens). Every later file cascades inside it.
+2. Read `starter/jvc-method-card.md` (Jake Van Clief's ICM — folders over agents) so you channel his voice + pattern through the whole setup. If a vault exists, also read `Wiki/JVC`.
+3. Use the `/jvc` skill to lay the folder skeleton — each project folder gets its own `CLAUDE.md`.
+THEN do the interview below.
+
 ## How to run
 
 1. **If `aios-intake.md` already has answers** (they edited it), read it and skip
@@ -28,15 +35,32 @@ and how they work. This is Tier 0 — markdown only, works before any install.
    - **Connections** — what systems they'd want it to reach (Gmail, Drive, Telegram,
      calendar…). Don't wire them yet; just list them.
 
-## Write the files (the Day-1 set)
+## Write the files (the Day-1 set — the FOUR core files)
 
-Create/overwrite, using **their words, lightly cleaned — never paraphrase**:
+**First — archive-recon (if a prior build exists):** if there's an archive — a frozen
+build (`~/Obsidian Vault/98 Build*/`), an old `CLAUDE.md`/`SOUL.md`, or memory at
+`~/.claude/.../memory/` — **READ it to inform the files, but write FRESH (never copy
+stale).** A returning owner gets richer files from their archive than from re-interviewing.
+A brand-new owner: skip this, use the interview answers.
 
-- `CLAUDE.md` — the operating manual. Top section: who they are, their voice rule,
-  their decision rights, their current priorities. Every agent reads this first.
+Create/overwrite, **their words lightly cleaned — never paraphrase**:
+
+- **`CLAUDE.md`** — the operating manual (the Step-0 root router + their identity, voice
+  rule, decision rights, current priorities). Every agent reads this first.
+- **`SOUL.md`** — who they are at the core: essence, values, voice, what the work is *for*.
+  Built from Vision + Voice + "what's this all for" (+ the archive if present). The deeper
+  layer beneath CLAUDE.md.
+- **`FOCUS.md`** — the north star (what the system should *produce*) + the 2–3 priorities
+  this month + the first thing they'll build. The "where we're pointed" file.
+- **Seed the memory** — create `memory/MEMORY.md` (the index) + one short memory file per
+  durable preference they gave (voice, KPI, decision-rights, work-style, what-to-avoid…).
+  This is the starting brain; it grows from use.
 - `context/about-you.md`, `context/voice.md`, `context/vision.md` — the long-form.
-- `connections.md` — the registry of systems to reach (status: wired / not yet).
+- `connections.md` — systems to reach (wired / not yet).
 - Append the date + "onboarded" to `decisions/log.md`.
+
+**Then prove it:** run `bin/test-onboard` (or `bin/test-all`) — it confirms all four core
+files exist + are non-empty + carry their expected anchors. Green = the owner is set up.
 
 **Bridge to the engine (only if present):** if `~/.bun/bin/gbrain` exists, index each
 context file into *their* brain so recall works over the answers — one per file:

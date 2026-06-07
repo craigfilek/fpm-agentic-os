@@ -1,0 +1,14 @@
+# TEST — agentic OS root (install proof)
+
+**PASS WHEN:** the kit is portable + self-verifying — `bin/doctor` is green and the JVC + onboard
+pieces ship in the repo.
+
+## Check
+```bash
+test -x bin/doctor || exit 1
+test -s starter/CONSTITUTION.md || exit 1          # JVC structure ships
+test -s starter/jvc-method-card.md || exit 1       # the method ships (portable)
+test -x bin/test-onboard || exit 1                 # onboard is provable
+grep -q "Step 0 — lay the JVC structure FIRST" .claude/skills/onboard/SKILL.md || exit 1
+./bin/doctor >/dev/null 2>&1
+```

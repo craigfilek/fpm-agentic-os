@@ -1,0 +1,15 @@
+#!/bin/bash
+# test-onboard — prove /onboard actually set the owner up.
+# Run from the owner's WORKSPACE (where onboard wrote the files). Exit 0 = green.
+# Proves the FOUR core files exist + are non-empty (built, not assumed).
+
+ws="${1:-$PWD}"; cd "$ws" || exit 1
+miss=0
+for f in CLAUDE.md SOUL.md FOCUS.md memory/MEMORY.md; do
+  if [ -s "$f" ]; then printf "  \033[32m✓\033[0m  %s\n" "$f"
+  else printf "  \033[31m✗\033[0m  %s  (missing or empty)\n" "$f"; miss=$((miss+1)); fi
+done
+echo
+if [ "$miss" -eq 0 ]; then echo "test-onboard: GREEN — the four core files are written. Owner is set up."; else
+  echo "test-onboard: $miss missing — /onboard hasn't finished. Re-run /onboard."; fi
+[ "$miss" -eq 0 ]

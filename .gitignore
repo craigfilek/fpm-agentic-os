@@ -22,6 +22,7 @@
 !/statusline.py
 !/VERSIONS.md
 !/aios-intake.md
+!/TEST.md
 # Shipped DIRECTORIES are allow-listed too: open the dir, re-ignore its contents,
 # then un-ignore ONLY the named files. A new file dropped in any of these stays
 # hidden by default — so even a blanket `git add .` can't publish it by accident.
@@ -32,9 +33,14 @@
 !/bin/capture
 !/bin/instagram-station
 !/bin/obsidian-to-gbrain
+!/bin/test-all
+!/bin/test-onboard
 !/starter/
 /starter/*
 !/starter/welcome.md
+!/starter/CONSTITUTION.md
+!/starter/TEST.template.md
+!/starter/TEST.md
 !/.claude/
 /.claude/*
 !/.claude/skills/
