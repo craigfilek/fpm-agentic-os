@@ -4,5 +4,5 @@
 
 ## Check
 ```bash
-test -s CONSTITUTION.md && test -s jvc-method-card.md && test -s TEST.template.md
+test -s CONSTITUTION.md && test -s TEST.template.md
 ```

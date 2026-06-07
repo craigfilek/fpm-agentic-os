@@ -12,7 +12,7 @@ and how they work. This is Tier 0 — markdown only, works before any install.
 ## Step 0 — lay the JVC structure FIRST (before you ask anything)
 Structure precedes content. Run JVC right away:
 1. Copy `starter/CONSTITUTION.md` → the workspace root `CLAUDE.md` — the folder standard that governs everything (code flat · thinking in the vault · gbrain prefix = recall lens). Every later file cascades inside it.
-2. Read `starter/jvc-method-card.md` (Jake Van Clief's ICM — folders over agents) so you channel his voice + pattern through the whole setup. If a vault exists, also read `Wiki/JVC`.
+2. Read `starter/jvc-method-card.md` **if present** to channel Jake Van Clief's voice + the folders-over-agents pattern. (It's held from the public ship — Jake's paid course; the Constitution carries the high-level pattern either way, so don't block if it's absent.) If a vault exists, also read `Wiki/JVC`.
 3. Use the `/jvc` skill to lay the folder skeleton — each project folder gets its own `CLAUDE.md`.
 THEN do the interview below.
 
