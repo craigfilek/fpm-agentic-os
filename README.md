@@ -49,6 +49,72 @@ the one-line installer for the full engine (Tier 1).
 
 ---
 
+## What setup actually feels like
+
+One pasted line turns a blank Mac into a system that knows who you are. Total time to
+"alive" is about **45 minutes** — and you're only *present* for about **15** of them.
+Here's exactly what you'll see on your screen at each stage.
+
+![At a glance: 1 line, 1 password, 14 questions, 4 files built for you](docs/img/00-glance.png)
+
+> 🚶 Prefer the interactive version? The full styled walkthrough is at
+> **[craigfilek.github.io/fpm-agentic-os/journey.html](https://craigfilek.github.io/fpm-agentic-os/journey.html)**.
+
+### 1. Paste one line · ~30 seconds of your time
+
+You open the Terminal app and paste a single command. macOS asks for your Mac password
+**once** — the same prompt you see installing any app — then you walk away.
+
+![Terminal: the one-line installer pasted, macOS asking for your password once](docs/img/01-terminal-paste.png)
+
+### 2. Walk away · ~30 minutes · fully automatic
+
+Hands-off. The installer lays down the whole engine in order — Homebrew, the language
+runtimes (Bun, uv), the helper tools, Claude Code, the component repos, and **gbrain**
+(your local memory). It collects your API key with a *hidden* prompt, wires everything
+together, then runs a doctor check to prove the install end-to-end.
+
+![The install scrolling by, ending in READY OK](docs/img/02-install-scroll.png)
+
+### 3. Meet your CEO · ~15 minutes · the only part you actively do
+
+You come back to the **CEO interview**. It talks like a sharp 11th-grader, asks **one
+question at a time**, and reflects each answer back in a sentence.
+
+![The CEO interview: one question at a time, your answers in plain English](docs/img/03-ceo-interview.png)
+
+Every answer becomes part of your system. The 14 questions map cleanly onto the files
+they build:
+
+![The 14 questions mapped to the files each answer builds](docs/img/questions-table.png)
+
+### 4. Your answers become the system · ~1–2 minutes
+
+The CEO writes your words (lightly cleaned, never paraphrased) into the **four core
+files** and seeds your memory, then asks **"Approve, edit, or scrap?"** — nothing
+finalizes until you say so. Then it proves it: `bin/test-onboard` goes green.
+
+![The four files written, your approval, and test-onboard going green](docs/img/04-signoff.png)
+
+> Your answers stay yours: everything the CEO writes is git-ignored by the kit, so your
+> personal files never ship even if you push the repo.
+
+### 5. Day one: two verbs
+
+The whole system runs on **CAPTURE** and **RECALL**. File anything in; ask for it back
+in plain English and get your own words, cited to the source.
+
+![capture, boot, and a plain-English recall with a cited answer](docs/img/05-two-verbs.png)
+
+### 6. It grows itself: `/level-up`
+
+Run it weekly. Each run ships **one** new workflow and improves **one** existing one —
+the system accrues capability one piece at a time, never an org chart drawn up front.
+
+![A /level-up run: one workflow shipped, one improved, logged](docs/img/06-level-up.png)
+
+---
+
 ## How it works
 
 A **capture → recall** production line. Raw notes enter on the left, get converted to

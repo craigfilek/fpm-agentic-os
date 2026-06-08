@@ -73,6 +73,13 @@
 !/web/logos/*.png
 !/web/logos/*.svg
 
+# docs/img/ = screenshots embedded in the README essay. Ship only the PNGs.
+!/docs/
+/docs/*
+!/docs/img/
+/docs/img/*
+!/docs/img/*.png
+
 # Everything else — SOUL.md, claude-memory/, RESTORE.md, REBUILD-PACKAGE.md,
 # obsidian-bridge-decision.md, *.bak, and anything new — stays on your machine only.
 .gstack/
