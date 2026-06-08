@@ -29,7 +29,7 @@ Anything markdown can enter gbrain at any stage. Focus is **not** a gate — it'
 - Grow from use. 15-minute pieces. Collapse anything that doesn't route somewhere *different*. (Anti-sprawl law.)
 
 ## JVC is the law
-This whole rig is built Jake-Van-Clief style — folders over agents, layers over libraries. The method + voice: `starter/jvc-method-card.md` (and `Wiki/JVC` once the vault exists). Channel Jake or build new folders with the `/jvc` skill.
+This whole rig is built Jake-Van-Clief style — folders over agents, layers over libraries. **Credit + the full method: Jake Van Clief's course → https://www.skool.com/cliefnotes** (go learn it from him). Our local notes (`starter/jvc-method-card.md`, if present) stay private out of respect for his paid work. Channel Jake or build new folders with the `/jvc` skill.
 
 ## The one rule
 Strike the structure first; everything else falls in behind it and cascades. If a piece can't say which prefix/room it belongs to, it doesn't get installed until it can.
