@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Opening fpm-agentic-os — the CEO journey</title>
+<style>
+  :root{
+    --ink:#1a1a1a; --soft:#5b5b5b; --line:#e3e0d8; --paper:#faf8f3;
+    --card:#ffffff; --accent:#b5532a; --accent2:#2a6b6b; --gold:#9a7b1f;
+    --good:#2f7d32; --chip:#f1ede3;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font:17px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:860px; margin:0 auto; padding:48px 22px 96px}
+  header.hero{margin-bottom:8px}
+  .kicker{font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); font-weight:700}
+  h1{font-size:40px; line-height:1.12; margin:.25em 0 .3em; letter-spacing:-.5px}
+  .sub{font-size:20px; color:var(--soft); margin:0 0 26px; max-width:60ch}
+  .meta{font-size:14px; color:var(--soft); border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:12px 0; margin-bottom:36px; display:flex; gap:18px; flex-wrap:wrap}
+  .meta b{color:var(--ink)}
+
+  /* at-a-glance bar */
+  .glance{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:0 0 44px}
+  .glance .g{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px}
+  .glance .num{font-size:26px; font-weight:800; letter-spacing:-.5px}
+  .glance .lab{font-size:12.5px; color:var(--soft); margin-top:2px}
+  @media(max-width:640px){.glance{grid-template-columns:repeat(2,1fr)}}
+
+  /* timeline */
+  .timeline{position:relative; margin-top:10px}
+  .timeline::before{content:""; position:absolute; left:19px; top:8px; bottom:8px; width:2px; background:var(--line)}
+  .step{position:relative; padding:0 0 34px 58px}
+  .dot{position:absolute; left:8px; top:2px; width:24px; height:24px; border-radius:50%; background:var(--accent); color:#fff; font-size:13px; font-weight:800; display:flex; align-items:center; justify-content:center; box-shadow:0 0 0 4px var(--paper)}
+  .step.auto .dot{background:var(--accent2)}
+  .step.live .dot{background:var(--gold)}
+  .phase{font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--soft); font-weight:700}
+  h2{font-size:24px; margin:.1em 0 .15em; letter-spacing:-.3px}
+  .time{display:inline-block; font-size:12.5px; font-weight:700; color:var(--accent); background:var(--chip); border-radius:999px; padding:3px 11px; margin-bottom:10px}
+  .step.auto .time{color:var(--accent2)}
+  .step.live .time{color:var(--gold)}
+
+  .twocol{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:14px 0 4px}
+  @media(max-width:640px){.twocol{grid-template-columns:1fr}}
+  .lane{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px}
+  .lane h4{margin:0 0 8px; font-size:13px; letter-spacing:.06em; text-transform:uppercase}
+  .lane.you h4{color:var(--accent)}
+  .lane.we h4{color:var(--accent2)}
+  .lane ul{margin:0; padding-left:18px}
+  .lane li{margin:5px 0; font-size:15px}
+  p.note{font-size:15.5px; color:var(--soft); margin:10px 0 0}
+
+  code, .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:14px; background:#f3efe6; border:1px solid var(--line); border-radius:5px; padding:1px 6px}
+  pre{background:#1e1c19; color:#f4efe3; border-radius:10px; padding:16px 18px; overflow:auto; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:14px; line-height:1.5}
+  pre .c{color:#9a958a}
+
+  /* question → file mapping */
+  .map{width:100%; border-collapse:collapse; margin:16px 0 4px; font-size:14.5px; background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden}
+  .map th{background:#f3efe6; text-align:left; padding:10px 12px; font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--soft)}
+  .map td{padding:10px 12px; border-top:1px solid var(--line); vertical-align:top}
+  .map td:first-child{font-weight:600; width:42%}
+  .map .arrow{color:var(--accent2); font-weight:700}
+  .file{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:13px; color:var(--gold); white-space:nowrap}
+
+  .callout{background:#fdf6ec; border:1px solid #ecdcbf; border-left:4px solid var(--gold); border-radius:10px; padding:14px 18px; margin:18px 0; font-size:15.5px}
+  .callout b{color:var(--gold)}
+  .safe{background:#eef6ee; border-color:#cfe6cf; border-left-color:var(--good)}
+  .safe b{color:var(--good)}
+
+  /* ── screen mockups: "what you'll see" ── */
+  .shot-label{font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--soft); font-weight:800; margin:20px 0 0; display:flex; align-items:center; gap:9px}
+  .shot-label::before{content:""; width:18px; height:2px; background:var(--accent); border-radius:2px}
+  .screen{border-radius:12px; overflow:hidden; border:1px solid #d9d4c8; box-shadow:0 10px 26px rgba(0,0,0,.12); margin:9px 0 4px; background:#1e1c19}
+  .screen .bar{display:flex; align-items:center; gap:7px; padding:9px 12px; background:#2a2724; border-bottom:1px solid #100f0d}
+  .screen .bar .d{width:11px; height:11px; border-radius:50%}
+  .screen .bar .d.r{background:#ff5f57} .screen .bar .d.y{background:#febc2e} .screen .bar .d.g{background:#28c840}
+  .screen .bar .t{margin-left:9px; color:#b9b3a7; font:12px ui-monospace,SFMono-Regular,Menlo,monospace}
+  .scr{padding:15px 17px; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:13.5px; line-height:1.7; color:#f4efe3; white-space:pre-wrap; overflow-x:auto}
+  .scr .p{color:#7fd18a}      /* $ prompt */
+  .scr .c{color:#9a958a}      /* comment */
+  .scr .h{color:#febc2e; font-weight:700}  /* == header == */
+  .scr .ok{color:#3ddc5f; font-weight:700}
+  .scr .k{color:#6fb3c6}      /* command/key */
+  .scr .cur{background:#f4efe3; color:#1e1c19; animation:bl 1.1s steps(1) infinite}
+  @keyframes bl{50%{opacity:0}}
+  /* light app window (the interview) */
+  .screen.app{background:#fbf9f4}
+  .screen.app .bar{background:#efece3; border-bottom:1px solid var(--line)}
+  .screen.app .bar .t{color:#8a857a}
+  .chat{padding:15px 15px 17px; display:flex; flex-direction:column; gap:9px}
+  .bub{max-width:84%; padding:9px 13px; border-radius:15px; font-size:14.5px; line-height:1.5}
+  .bub .who{display:block; font-size:10.5px; letter-spacing:.07em; text-transform:uppercase; opacity:.7; margin-bottom:2px}
+  .bub.ceo{align-self:flex-start; background:#eef2f2; border:1px solid #d6e0e0; color:#1a1a1a; border-bottom-left-radius:4px}
+  .bub.me{align-self:flex-end; background:var(--accent); color:#fff; border-bottom-right-radius:4px}
+  .bub.me .who{color:#ffe6db}
+
+  .legend{display:flex; gap:18px; flex-wrap:wrap; font-size:13.5px; color:var(--soft); margin:0 0 28px}
+  .legend .k{display:inline-flex; align-items:center; gap:7px}
+  .legend .sw{width:13px; height:13px; border-radius:50%}
+  footer{margin-top:50px; padding-top:20px; border-top:1px solid var(--line); color:var(--soft); font-size:13.5px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="kicker">UX Journey · Agentic OS</div>
+    <h1>What happens when you open this file</h1>
+    <p class="sub">One pasted line turns a blank Mac into a system that knows who you are. Here's every step — what the system does, what you do, how long it takes, and exactly where your answers become a built, customized OS.</p>
+    <div class="meta">
+      <span><b>Repo:</b> fpm-agentic-os</span>
+      <span><b>Total time to "alive":</b> ~45 min</span>
+      <span><b>You're actually present for:</b> ~15 min</span>
+      <span><b>Prerequisite:</b> a Mac (macOS 13+)</span>
+    </div>
+  </header>
+
+  <div class="glance">
+    <div class="g"><div class="num">1</div><div class="lab">line you paste</div></div>
+    <div class="g"><div class="num">1</div><div class="lab">password prompt</div></div>
+    <div class="g"><div class="num">14</div><div class="lab">CEO questions</div></div>
+    <div class="g"><div class="num">4</div><div class="lab">core files built for you</div></div>
+  </div>
+
+  <div class="legend">
+    <span class="k"><span class="sw" style="background:#b5532a"></span> You do this</span>
+    <span class="k"><span class="sw" style="background:#2a6b6b"></span> The system does this (you walk away)</span>
+    <span class="k"><span class="sw" style="background:#9a7b1f"></span> It's now alive — ongoing</span>
+  </div>
+
+  <div class="timeline">
+
+    <!-- PHASE 0 -->
+    <div class="step">
+      <div class="dot">0</div>
+      <div class="phase">The doorway</div>
+      <h2>Paste one line</h2>
+      <div class="time">~30 seconds of your time</div>
+      <p>You open the Terminal app and paste a single command. macOS asks for your Mac password <b>once</b> — the same prompt you see installing any app — to authorize adding software.</p>
+      <div class="shot-label">On your screen — the Terminal app</div>
+      <div class="screen">
+        <div class="bar"><span class="d r"></span><span class="d y"></span><span class="d g"></span><span class="t">Terminal — bash — 80×24</span></div>
+<div class="scr"><span class="p">your-mac:~ you$</span> curl -fsSL https://raw.githubusercontent.com/craigfilek/fpm-agentic-os/main/install.sh | bash
+<span class="c">Password:</span> ••••••••   <span class="c">← macOS asks once, then you walk away</span>
+<span class="cur"> </span></div>
+      </div>
+      <div class="twocol">
+        <div class="lane you"><h4>You</h4><ul><li>Paste the line, press Enter</li><li>Type your Mac password once</li><li>Walk away</li></ul></div>
+        <div class="lane we"><h4>The system</h4><ul><li>Downloads <code>install.sh</code> and starts running it</li><li>Every step checks "already done?" first — safe to re-run</li></ul></div>
+      </div>
+      <div class="callout safe"><b>Safety note:</b> nothing here reads your files or phones home with your data. The script installs standard tools and asks for keys with a <em>hidden</em> prompt that writes only to local files (locked to you, <code>chmod 600</code>). No secret is ever typed on the command line or committed anywhere.</div>
+    </div>
+
+    <!-- PHASE 1 -->
+    <div class="step auto">
+      <div class="dot">1</div>
+      <div class="phase">Walk away</div>
+      <h2>The system builds itself</h2>
+      <div class="time">~30 minutes · fully automatic · you're not here</div>
+      <p>Hands-off. The installer lays down the whole engine in order, checking each piece before it acts.</p>
+      <div class="shot-label">On your screen — the install scrolling by</div>
+      <div class="screen">
+        <div class="bar"><span class="d r"></span><span class="d y"></span><span class="d g"></span><span class="t">Terminal — install.sh</span></div>
+<div class="scr"><span class="h">== Homebrew ==</span>
+brew present: Homebrew 4.x
+<span class="h">== core tools (git, gh, ripgrep, ffmpeg) ==</span>
+<span class="h">== Claude Code ==</span>
+<span class="h">== bun ==</span>     <span class="h">== uv ==</span>
+<span class="h">== gbrain ==</span>   gbrain: 0.9.x
+<span class="h">== clone component repos ==</span>
+  fpm-ai · hermes-agent · stack-primer · gstack
+<span class="h">== Anthropic API key ==</span>
+  Paste your Anthropic API key (input hidden): <span class="c">••••••••</span>
+<span class="h">== doctor (verifying the install end-to-end) ==</span>
+  brain OK · sync OK · recall OK   <span class="ok">READY OK</span>
+<span class="h">== install.sh complete ==</span>
+Next: open Claude Code and run <span class="k">/onboard</span><span class="cur"> </span></div>
+      </div>
+      <div class="twocol">
+        <div class="lane you"><h4>You</h4><ul><li>Nothing. Get a coffee.</li></ul></div>
+        <div class="lane we"><h4>The system installs &amp; wires</h4><ul>
+          <li>Homebrew (the one password prompt)</li>
+          <li>Runtimes: Bun (JavaScript), uv (Python)</li>
+          <li>Tools: git, gh, ripgrep, ffmpeg, markitdown, yt-dlp</li>
+          <li>Claude Code (your assistant)</li>
+          <li>Clones the component repos: fpm-ai, hermes-agent, stack-primer, gstack</li>
+          <li>gbrain — your local memory (no cloud, runs on your Mac)</li>
+          <li>Seeds an Obsidian vault (<code>Inbox/</code> + <code>Distilled/</code>)</li>
+          <li>Registers gbrain as a read-only search tool inside Claude Code &amp; Hermes</li>
+          <li>Lays a safety baseline into <code>~/.claude</code> (auto-compact off, delete/push guards)</li>
+          <li>Runs <code>bin/doctor</code> to prove the install end-to-end</li>
+        </ul></div>
+      </div>
+      <p class="note"><b>Two keys are collected mid-install</b>, each via a hidden prompt (or skip and add later, see <span class="mono">KEYS.md</span>): your <b>Anthropic API key</b> (required — the brain) and a <b>ZeroEntropy key</b> (recommended — upgrades recall from keyword to search-by-meaning).</p>
+    </div>
+
+    <!-- PHASE 2 -->
+    <div class="step">
+      <div class="dot">2</div>
+      <div class="phase">The heart</div>
+      <h2>Meet your CEO — the interview</h2>
+      <div class="time">~15 minutes · this is the only part you actively do</div>
+      <p>You come back to a terminal with the <b>CEO interview</b> running. It talks like a sharp 11th-grader, asks <b>one question at a time</b>, reflects each answer back in a sentence, and pushes vague answers ("give me a specific example"). Every answer becomes part of your system. Here is the full set, and where each one lands.</p>
+
+      <div class="shot-label">On your screen — one question at a time</div>
+      <div class="screen app">
+        <div class="bar"><span class="d r"></span><span class="d y"></span><span class="d g"></span><span class="t">Claude Code — /onboard</span></div>
+        <div class="chat">
+          <div class="bub ceo"><span class="who">CEO</span>What do you ultimately want this system to <b>produce</b> for you?</div>
+          <div class="bub me"><span class="who">You</span>A steady stream of essays drawn from my voice notes.</div>
+          <div class="bub ceo"><span class="who">CEO</span>Got it — the system's job is to turn your voice notes into publishable essays. Next: who are you, and what's this work?</div>
+          <div class="bub me"><span class="who">You</span>I'm a coach; the work is a weekly newsletter for my clients.</div>
+          <div class="bub ceo"><span class="who">CEO</span>A coach building a weekly client newsletter. Now — how do you actually write? Paste 2–3 real samples.</div>
+        </div>
+      </div>
+      <p class="note">Each answer is reflected back, then folded into a file. The table below is the full map.</p>
+
+      <h4 style="margin:22px 0 0;color:var(--soft);font-size:12px;letter-spacing:.1em;text-transform:uppercase">The 14 questions → what they build</h4>
+      <table class="map">
+        <tr><th>What the CEO asks</th><th>Where your answer turns into the system</th></tr>
+        <tr><td>1. What do you ultimately want this system to <b>produce</b> for you?</td><td><span class="arrow">→</span> your north star in <span class="file">FOCUS.md</span> + <span class="file">SOUL.md</span></td></tr>
+        <tr><td>2. Who are you, and what is this project/work?</td><td><span class="arrow">→</span> identity in <span class="file">CLAUDE.md</span>, <span class="file">SOUL.md</span>, <span class="file">context/about-you.md</span></td></tr>
+        <tr><td>3. What role should the AI play for you?</td><td><span class="arrow">→</span> role + decision rights in <span class="file">CLAUDE.md</span></td></tr>
+        <tr><td>4. How do you actually write/talk? (paste 2–3 real samples)</td><td><span class="arrow">→</span> <span class="file">context/voice.md</span> + voice rule in <span class="file">SOUL.md</span> &amp; memory</td></tr>
+        <tr><td>5. What does a great result look like — and what should it always <b>avoid</b>?</td><td><span class="arrow">→</span> quality bar + a "what-to-avoid" memory</td></tr>
+        <tr><td>6. What background should it <b>know</b> but never act on directly?</td><td><span class="arrow">→</span> reference notes in <span class="file">context/</span></td></tr>
+        <tr><td>7. One-off tasks, or a repeatable system? What's specific to <b>you</b> worth building around?</td><td><span class="arrow">→</span> <span class="file">SOUL.md</span> + <span class="file">FOCUS.md</span></td></tr>
+        <tr><td>8. What are your <b>2–4 modes of work</b>?</td><td><span class="arrow">→</span> the <span class="file">departments/</span> folder skeleton (one room per mode)</td></tr>
+        <tr><td>9. For each mode: what's it for, the process, good vs. avoid?</td><td><span class="arrow">→</span> each department's <span class="file">CONTEXT.md</span> charter</td></tr>
+        <tr><td>10. For a task — where does it go, what should it <b>read vs. skip</b>?</td><td><span class="arrow">→</span> the routing table in <span class="file">CLAUDE.md</span></td></tr>
+        <tr><td>11. How should files be <b>named</b> so it files them with no database?</td><td><span class="arrow">→</span> naming convention in <span class="file">CLAUDE.md</span></td></tr>
+        <tr><td>12. Which tools/skills belong to which workspace?</td><td><span class="arrow">→</span> per-department <span class="file">CONTEXT.md</span></td></tr>
+        <tr><td>13. How will you use it day-to-day — building vs. thinking?</td><td><span class="arrow">→</span> <span class="file">FOCUS.md</span></td></tr>
+        <tr><td>14. What's the <b>first real thing</b> you'll build with it?</td><td><span class="arrow">→</span> first build in <span class="file">FOCUS.md</span></td></tr>
+      </table>
+
+      <p class="note">Plus three quick opt-ins folded into the interview:</p>
+      <table class="map">
+        <tr><th>Opt-in</th><th>Becomes</th></tr>
+        <tr><td><b>Connections</b> — what should it reach? (Gmail, Drive, Telegram, calendar) — listed, not wired yet</td><td><span class="arrow">→</span> <span class="file">connections.md</span></td></tr>
+        <tr><td><b>Decision rights</b> — what agents decide alone · surface for your yes · just-do-and-tell</td><td><span class="arrow">→</span> <span class="file">CLAUDE.md</span> + a decision-rights memory</td></tr>
+        <tr><td><b>Keys check</b> — any required key you skipped during install</td><td><span class="arrow">→</span> pointed to <span class="file">KEYS.md</span>; drop it in and continue</td></tr>
+      </table>
+
+      <div class="callout"><b>The long-form intake.</b> A deeper <span class="mono">aios-intake.md</span> can also capture <em>how you want the system to behave</em> — your energy/work style, how plain &amp; short your voice is, your one KPI, lean-vs-feature-rich, how to pressure-test ideas, approval style, how sure it must be before saying "done", sell-vs-produce, how to ask you things, and any hard tech rules. <b>Each durable preference becomes its own one-line memory file</b> that every agent reads forever.</div>
+    </div>
+
+    <!-- PHASE 3 -->
+    <div class="step auto">
+      <div class="dot">3</div>
+      <div class="phase">It writes you down</div>
+      <h2>Your answers become the system</h2>
+      <div class="time">~1–2 minutes · automatic, with your sign-off</div>
+      <p>The CEO writes your words (lightly cleaned, never paraphrased) into the <b>four core files</b> plus the long-form context, then seeds your memory. It shows you the titles and asks <b>"Approve, edit, or scrap?"</b> — nothing finalizes until you say so.</p>
+      <div class="shot-label">On your screen — the sign-off + the proof</div>
+      <div class="screen">
+        <div class="bar"><span class="d r"></span><span class="d y"></span><span class="d g"></span><span class="t">Claude Code — writing your system</span></div>
+<div class="scr">Writing your core files:
+  <span class="ok">✓</span> CLAUDE.md          <span class="c"># your operating manual</span>
+  <span class="ok">✓</span> SOUL.md            <span class="c"># who you are at the core</span>
+  <span class="ok">✓</span> FOCUS.md           <span class="c"># north star + this month</span>
+  <span class="ok">✓</span> memory/MEMORY.md   <span class="c"># the starting brain</span>
+
+Approve, edit, or scrap? › <span class="k">approve</span>
+
+<span class="p">$</span> bin/test-onboard
+  4 core files present · non-empty · anchors OK
+  <span class="ok">READY OK ✓ — you're set up</span><span class="cur"> </span></div>
+      </div>
+      <div class="twocol">
+        <div class="lane we"><h4>It builds</h4><ul>
+          <li><span class="file">CLAUDE.md</span> — your operating manual (identity, voice, decision rights, priorities). Every agent reads this first.</li>
+          <li><span class="file">SOUL.md</span> — who you are at the core: values, voice, what the work is for.</li>
+          <li><span class="file">FOCUS.md</span> — north star + this month's 2–3 priorities + first build.</li>
+          <li><span class="file">memory/MEMORY.md</span> + one short memory per durable preference.</li>
+          <li><span class="file">context/*</span>, <span class="file">connections.md</span>, and a dated line in <span class="file">decisions/log.md</span>.</li>
+        </ul></div>
+        <div class="lane you"><h4>You</h4><ul>
+          <li>Read the titles</li>
+          <li>Say <b>approve</b>, <b>edit</b>, or <b>scrap</b></li>
+        </ul></div>
+      </div>
+      <p class="note"><b>Then it proves it:</b> runs <span class="mono">bin/test-onboard</span> — green means all four core files exist, are non-empty, and carry their anchors. If gbrain is installed, each context file is indexed into <em>your</em> brain so recall works over your own answers.</p>
+      <div class="callout safe"><b>Your answers stay yours.</b> Everything the CEO writes (<span class="mono">CLAUDE.md</span>, <span class="mono">context/*</span>) is git-ignored by the kit, so your personal answers never ship even if you push the repo. They live only on your machine.</div>
+    </div>
+
+    <!-- PHASE 4 -->
+    <div class="step live">
+      <div class="dot">4</div>
+      <div class="phase">It's alive</div>
+      <h2>Day one: two verbs</h2>
+      <div class="time">ongoing · seconds per use</div>
+      <p>The whole system runs on two verbs. That's the entire daily interface.</p>
+      <div class="shot-label">On your screen — capture, check the lamp, recall</div>
+      <div class="screen">
+        <div class="bar"><span class="d r"></span><span class="d y"></span><span class="d g"></span><span class="t">Terminal + Claude Code</span></div>
+<div class="scr"><span class="p">$</span> capture ~/Downloads/client-call.pdf
+  filed → Inbox/  <span class="ok">✓</span>
+<span class="p">$</span> boot
+  brain  OK · sync  OK · recall  OK   <span class="ok">READY OK</span>
+
+<span class="c"># then just ask, in plain English:</span>
+<span class="k">you ›</span> what did I say about pricing on the client call?
+<span class="k">claude ›</span> You said: "anchor at $2k, never discount the first call."
+        <span class="c">— client-call.pdf</span><span class="cur"> </span></div>
+      </div>
+      <div class="twocol">
+        <div class="lane you"><h4>CAPTURE</h4><ul><li><code>capture &lt;file-or-url&gt;</code> — files a doc, web page, PDF, or YouTube link into your brain</li><li>…or just drop a note in your Obsidian <code>Inbox/</code></li></ul></div>
+        <div class="lane we"><h4>RECALL</h4><ul><li>Ask Claude Code in plain English: <em>"What did I save about ___?"</em></li><li>Your own words come back, cited to the source</li></ul></div>
+      </div>
+      <p class="note">Check the lamp anytime with <span class="mono">boot</span> — four OK lines + "READY OK" means the brain is live.</p>
+    </div>
+
+    <!-- PHASE 5 -->
+    <div class="step live">
+      <div class="dot">5</div>
+      <div class="phase">It grows itself</div>
+      <h2>Week one onward: <span class="mono" style="font-size:20px">/level-up</span></h2>
+      <div class="time">weekly · ~10 minutes · opt-in</div>
+      <p>Run it once a week. Each run ships <b>one</b> new workflow and improves <b>one</b> existing one — the system accrues capability one piece at a time, never an org chart drawn up front.</p>
+      <div class="shot-label">On your screen — one workflow shipped, one improved</div>
+      <div class="screen">
+        <div class="bar"><span class="d r"></span><span class="d y"></span><span class="d g"></span><span class="t">Claude Code — /level-up</span></div>
+<div class="scr"><span class="k">/level-up</span>
+  Weakest C this week: <span class="h">Cadence</span>
+  Biggest time sink: sorting podcast clips by hand
+  → <span class="h">Automate.</span> Shipped:
+      departments/content/workflows/clip-sort/
+  Manager retro: tightened CONTEXT.md step 2
+  Logged → decisions/log.md   <span class="ok">✓</span><span class="cur"> </span></div>
+      </div>
+      <div class="twocol">
+        <div class="lane we"><h4>The ritual</h4><ul>
+          <li>30-sec health check on the "Four Cs" (Context · Connections · Capabilities · Cadence)</li>
+          <li>Find the one thing that cost you the most time this week</li>
+          <li>Eliminate / Automate / Delegate it → ship it into the right <code>departments/</code> folder</li>
+          <li>That department's manager does a retro and makes one improvement</li>
+        </ul></div>
+        <div class="lane you"><h4>You</h4><ul>
+          <li>Name the week's biggest time sink</li>
+          <li>Set the autonomy level (draft-for-approval, or just-do-and-tell)</li>
+          <li>Optionally put proven workflows on a schedule</li>
+        </ul></div>
+      </div>
+      <div class="callout"><b>Boring is beautiful.</b> Nothing runs unasked until a human has watched it work manually — that guardrail is on purpose.</div>
+    </div>
+
+  </div>
+
+  <footer>
+    Mapped from the live repo — <span class="mono">install.sh</span>, <span class="mono">ceo-interview.md</span>, <span class="mono">aios-intake.md</span>, <span class="mono">INSTALL.md</span>, and the <span class="mono">/onboard</span> + <span class="mono">/level-up</span> skills. Times are the repo's own estimates.
+  </footer>
+
+</div>
+</body>
+</html>

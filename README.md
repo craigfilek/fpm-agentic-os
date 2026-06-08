@@ -14,6 +14,9 @@ the one-line installer for the full engine (Tier 1).
 > 🗺️ **[See the whole system as a live flowchart →](https://craigfilek.github.io/fpm-agentic-os/rig-map.html)**
 > An interactive map of every piece and how they wire together.
 
+> 🚶 **[Walk through the setup, step by step →](https://craigfilek.github.io/fpm-agentic-os/journey.html)**
+> What you'll see on your screen at each stage — paste one line, the CEO interview, then the two daily verbs.
+
 > ⚠️ **Early preview.** This is shared openly but is not yet battle-tested on a fresh
 > machine — the one-line installer's OS-level steps (Homebrew, Claude Code) still need a
 > real first run by someone other than the author. The Tier 0 path below is the safe,
