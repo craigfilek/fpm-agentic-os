@@ -446,5 +446,11 @@ if [ -x "$PKG/bin/doctor" ]; then
   "$PKG/bin/doctor" || echo "  ! doctor found issues above — installed, but not fully green yet. Fix, then re-run."
 fi
 
-say "install.sh complete"
-echo "Next: open Claude Code and run /onboard — it sets the system up around you."
+say "install.sh complete — the ENGINE is in. But it doesn't know YOU yet."
+echo ""
+echo "  ⚠️  YOU ARE NOT SET UP YET. One step left:"
+echo "      1. Open Claude Code here and run  /onboard   (answer ~14 questions, ~15 min)."
+echo "      2. Then run  bin/test-onboard  — GREEN = your 4 core files are written and you're set up."
+echo ""
+echo "  (doctor green means the wiring works — NOT that the system knows you. Until you onboard,"
+echo "   you have an engine with no owner.)"
