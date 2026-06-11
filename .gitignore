@@ -30,6 +30,7 @@
 !/bin/
 /bin/*
 !/bin/boot
+!/bin/build-queue-resift.py
 !/bin/doctor
 !/bin/capture
 !/bin/instagram-station
