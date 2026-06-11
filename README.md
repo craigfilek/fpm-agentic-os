@@ -189,15 +189,23 @@ a `brew upgrade node`.
 
 ## More
 
-- **[Live interactive map](https://craigfilek.github.io/fpm-agentic-os/rig-map.html)** — the whole system as a flowchart
-- **`/onboard`** & **`/level-up`** — the two skills that set it up and grow it (`.claude/skills/`)
-- **[how-it-works.html](how-it-works.html)** — the shop-floor diagram of the whole machine
-- **[INSTALL.md](INSTALL.md)** — what the Tier-1 installer does, step by step
-- **[KEYS.md](KEYS.md)** — every key, where to get it, where it's stored
-- **[AGENTS.md](AGENTS.md)** — the runbook an AI agent follows to set you up
-- **[DESIGN.md](DESIGN.md)** — why it's built this way
-- **[departments/README.md](departments/README.md)** — how the system grows itself
-- **[OBSIDIAN-MIGRATION.md](OBSIDIAN-MIGRATION.md)** — build your vault + migrate Evernote / Apple Notes / Voice Memos
+Maps and skills:
+
+- **[Live interactive map](https://craigfilek.github.io/fpm-agentic-os/rig-map.html)** — the whole system as a flowchart.
+- **`/onboard`** & **`/level-up`** — the two skills that set it up and grow it (`.claude/skills/`).
+- **[how-it-works.html](how-it-works.html)** — the shop-floor diagram of the whole machine.
+
+Setup references:
+
+- **[INSTALL.md](INSTALL.md)** — what the Tier-1 installer does, step by step.
+- **[KEYS.md](KEYS.md)** — every key, where to get it, where it's stored.
+- **[AGENTS.md](AGENTS.md)** — the runbook an AI agent follows to set you up.
+
+Design and growth:
+
+- **[DESIGN.md](DESIGN.md)** — why it's built this way.
+- **[departments/README.md](departments/README.md)** — how the system grows itself.
+- **[OBSIDIAN-MIGRATION.md](OBSIDIAN-MIGRATION.md)** — build your vault + migrate Evernote / Apple Notes / Voice Memos.
 
 ## Credits
 
