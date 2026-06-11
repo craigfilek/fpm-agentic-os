@@ -17,7 +17,7 @@ the one-line installer for the full engine (Tier 1).
 > 🚶 **[Walk through the setup, step by step →](https://craigfilek.github.io/fpm-agentic-os/journey.html)**
 > What you'll see on your screen at each stage — paste one line, the CEO interview, then the two daily verbs.
 
-> ⚠️ **Early preview.** This is shared openly but is not yet battle-tested on a fresh
+> ⚠️ **Early preview.** Shared openly, but not yet battle-tested on a fresh
 > machine — the one-line installer's OS-level steps (Homebrew, Claude Code) still need a
 > real first run by someone other than the author. The Tier 0 path below is the safe,
 > proven place to start. Expect rough edges and read before you run.
@@ -117,18 +117,18 @@ the system accrues capability one piece at a time, never an org chart drawn up f
 
 ## How it works
 
-A **capture → recall** production line. Raw notes enter on the left, get converted to
-Markdown, land in your Obsidian vault (the source of truth), get indexed by gbrain (the
-searchable catalog), and an AI agent picks them back out on request — in your own cited
-words.
+A **capture → recall** production line. Raw notes enter on the left and turn into
+Markdown. They land in your Obsidian vault (the source of truth), where gbrain (the
+searchable catalog) indexes them. An AI agent picks them back out on request — in your
+own cited words.
 
 > **See it as a flowchart:** the [live interactive map](https://craigfilek.github.io/fpm-agentic-os/rig-map.html)
 > shows the whole system, and [`how-it-works.html`](how-it-works.html) is the shop-floor
 > diagram (intake → process → store → retrieve, with the health "andon" board).
 
 The one idea that unlocks it: **Obsidian = the books (your content, the truth); gbrain = the
-card catalog (an index that points at the books).** Delete the catalog and your brain is
-untouched — you just re-scan the books.
+card catalog (an index that points at the books).** Delete the catalog and your brain
+stays whole — you just re-scan the books.
 
 ## How it grows itself
 
@@ -143,7 +143,7 @@ You never draw an org chart. You run **`/level-up`** weekly:
 Departments are folders; managers are a charter + a retro (not a swarm of always-on bots).
 It grows by accretion — one workflow at a time. See [`departments/README.md`](departments/README.md).
 
-## What gets installed (Tier 1)
+## What Tier 1 installs
 
 Homebrew · git/gh/ripgrep/ffmpeg · Claude Code · Bun + uv runtimes · markitdown + yt-dlp
 (the capture front door) · **gbrain** (your local brain index) · the component repos
