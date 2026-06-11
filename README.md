@@ -122,9 +122,9 @@ Markdown. They land in your Obsidian vault (the source of truth), where gbrain (
 searchable catalog) indexes them. An AI agent picks them back out on request — in your
 own cited words.
 
-> **See it as a flowchart:** the [live interactive map](https://craigfilek.github.io/fpm-agentic-os/rig-map.html)
-> shows the whole system, and [`how-it-works.html`](how-it-works.html) is the shop-floor
-> diagram (intake → process → store → retrieve, with the health "andon" board).
+See it as a flowchart: the [live interactive map](https://craigfilek.github.io/fpm-agentic-os/rig-map.html)
+shows the whole system in one picture. The [`how-it-works.html`](how-it-works.html) page is the
+shop-floor diagram — intake → process → store → retrieve, with the health "andon" board.
 
 The one idea that unlocks it: **Obsidian = the books (your content, the truth); gbrain = the
 card catalog (an index that points at the books).** Delete the catalog and your brain
