@@ -170,18 +170,22 @@ Then just ask your agent: *"what did I save about ___?"*
 
 ## Layout & portability
 
-Repos live **flat** at `~/<repo>` (`~/fpm-agentic-os`, `~/gstack`, `~/hermes-agent`, …) —
-`install.sh` owns that layout. **Don't nest them into folders.** The wiring (skill symlinks,
-the MCP config, Hermes' editable install, `$PATH`) hardcodes these paths; moving a repo
-dangles all of it. Portability here means *"clone onto a fresh Mac, run the installer, it
-works"* — **not** *"drag folders around."* If you ever need to relocate, re-run the installer.
+Repos live **flat** at `~/<repo>` (`~/fpm-agentic-os`, `~/gstack`, `~/hermes-agent`, …).
+`install.sh` owns that layout — **don't nest repos into folders.** The wiring (skill
+symlinks, the MCP config, Hermes' editable install, `$PATH`) hardcodes these paths, so
+moving a repo dangles all of it.
 
-- `./setup` (idempotent) re-links `bin/` tools into `~/.local/bin` as **symlinks** (never
-  copies, so they can't drift), writes `.env.example`, and runs a `doctor` check (all skill
-  symlinks resolve + Hermes up). Run it any time the wiring feels off.
-- **`~/hermes-agent` is load-bearing:** a launchd KeepAlive service with an editable pip
-  install pinning absolute paths. Leave it at root. Its plist pins a specific Homebrew `node`
-  version — swap that to the unversioned `/opt/homebrew/bin` path before a `brew upgrade node`.
+Portability means *"clone onto a fresh Mac, run the installer, it works"* — **not**
+*"drag folders around."* If you ever need to relocate, re-run the installer.
+
+Run `./setup` any time the wiring feels off. It's idempotent: it re-links `bin/` tools
+into `~/.local/bin` as **symlinks** (never copies, so they can't drift). It also writes
+`.env.example` and runs a `doctor` check — all skill symlinks resolve, Hermes up.
+
+Note that **`~/hermes-agent` is load-bearing**: a launchd KeepAlive service with an
+editable pip install pinning absolute paths. Leave it at root. Its plist pins a specific
+Homebrew `node` version — swap that to the unversioned `/opt/homebrew/bin` path before
+a `brew upgrade node`.
 
 ## More
 
