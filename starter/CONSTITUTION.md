@@ -19,7 +19,7 @@ Anything markdown can enter gbrain at any stage. Focus is **not** a gate — it'
 - The folder you file something in decides whether it sticks or fades. Naming is the index.
 
 ## The cascade (install order — structure first)
-**Structure (this) → Engine (`fpm-ai` + gbrain + bin) → Brain (vault/ICM tree) → Face (`onboard` + GSD + lean skills) → Doctor.** Nothing installs outside this; each junction gets a provable test.
+**Structure (this) → Engine (`fpm-ai` + gbrain + bin) → Brain (vault/ICM tree) → Face (`onboard` + router + lean skills) → Doctor.** Nothing installs outside this; each junction gets a provable test.
 
 ## Replicate at scale (the maintenance rule)
 - New area = a folder + its `CLAUDE.md` (Map) + a name under the right prefix. **Two-sided link:** the parent router gets a row pointing at it (no orphans).

@@ -423,12 +423,12 @@ if [ -d "$PKG/.claude/skills" ]; then
   echo "skills installed: $(ls "$PKG/.claude/skills" 2>/dev/null | tr '\n' ' ')"
 fi
 
-# GSD project router — its skill lives in fpm-ai (the thin face that drives
-# fpm-ai's organs: pm/trust/council/promote). Symlink so updates are live.
-if [ -d "$HOME/fpm-ai/skills/gsd" ]; then
+# Board router — the thin face on the gstack build engine. Body lives in
+# this repo so it survives gstack upgrades. Symlink so updates are live.
+if [ -d "$PKG/skills/router" ]; then
   mkdir -p "$HOME/.claude/skills"
-  ln -snf "$HOME/fpm-ai/skills/gsd" "$HOME/.claude/skills/gsd"
-  echo "gsd skill linked: ~/.claude/skills/gsd -> ~/fpm-ai/skills/gsd"
+  ln -snf "$PKG/skills/router" "$HOME/.claude/skills/router"
+  echo "router skill linked: ~/.claude/skills/router -> $PKG/skills/router"
 fi
 
 # ── 20. plist hygiene: never pin a versioned node path (breaks on `brew upgrade node`) ──
