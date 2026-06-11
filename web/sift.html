@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SIFT — the console</title>
+<link rel="stylesheet" href="build-a.css">
+<style>
+  body{padding:0;background:var(--color-bg-page)}
+  .dot{display:inline-block;width:9px;height:9px;border-radius:50%;flex:0 0 9px}
+  .st-built{background:#2e9e6b}.st-partial{background:#d08700}.st-gap{background:#b4bacd}
+  /* flow */
+  .flow{max-width:560px;margin:0 auto}
+  .fbox{background:var(--color-bg-surface,var(--color-bg-page));border:1px solid var(--color-border);border-radius:var(--radius-md);box-shadow:var(--shadow-subtle);padding:13px 16px}
+  .farr{text-align:center;color:var(--color-accent);font-size:22px;margin:6px 0}
+  .farr small{display:block;font-family:var(--mono);color:var(--color-text-secondary);font-size:11px}
+  .loop{margin-top:16px;border:2px dashed var(--color-accent);border-radius:var(--radius-md);background:var(--color-bg-menu-active);padding:13px 16px;text-align:center;color:var(--color-text)}
+  /* kanban */
+  .kb{display:flex;gap:12px;overflow-x:auto;padding-bottom:14px}
+  .kcol{flex:0 0 220px;background:var(--color-bg-menu);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:10px}
+  .kcol h4{margin:0 0 2px;font-size:15px;color:var(--color-text-heading);display:flex;gap:7px;align-items:center}
+  .kcol .sub{font-size:11.5px;color:var(--color-text-secondary);margin-bottom:10px}
+  .kcard{background:var(--color-bg-page);border:1px solid var(--color-border);border-radius:6px;padding:8px 10px;margin-bottom:7px;font-size:13px;color:var(--color-text)}
+  /* grid */
+  .scroll{overflow-x:auto}
+  table.m{min-width:1000px;font-size:13px}
+  table.m thead th{width:16%}
+  .ttier{font-family:var(--mono);font-weight:600;font-size:11px;background:var(--color-bg-page);color:var(--color-text-heading)}
+  table.m td ul{margin:0;padding-left:15px}table.m td li{margin:3px 0}
+  /* kaizen */
+  .kz{display:flex;flex-direction:column;gap:10px}
+  .kzh{display:grid;grid-template-columns:150px 1fr 1fr;font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--color-text-secondary);padding:0 4px}
+  .kzrow{display:grid;grid-template-columns:150px 1fr 1fr;border:1px solid var(--color-border);border-radius:var(--radius-md);overflow:hidden;background:var(--color-bg-page)}
+  .kzrow>div{padding:11px 14px}
+  .kzrow .name{background:var(--color-bg-menu);border-right:1px solid var(--color-border);font-weight:600;color:var(--color-text-heading);display:flex;gap:7px;align-items:flex-start}
+  .kzrow .have{border-right:1px solid var(--color-border)}
+  .have ul,.next ul{margin:4px 0 0;padding-left:16px;font-size:13px}.next b{color:var(--color-accent)}
+</style>
+</head>
+<body>
+
+<div class="appbar">
+  <div class="brand">◆ SIFT <span class="slash">/</span> <span class="sub">the console</span></div>
+  <div class="tt" id="tt">
+    <button data-set="light">Light</button>
+    <button data-set="sand">Sand</button>
+    <button data-set="dark">Dark</button>
+  </div>
+</div>
+
+<div class="app">
+  <!-- LEFT MENU -->
+  <aside class="menu left">
+    <section>
+      <div class="mh">Views</div>
+      <div id="viewnav"></div>
+    </section>
+    <section>
+      <div class="mh">Stages</div>
+      <div id="stagenav"></div>
+    </section>
+    <section>
+      <div class="mh">Canon (wiki)</div>
+      <div id="canonnav"></div>
+    </section>
+  </aside>
+
+  <!-- BODY -->
+  <main class="bodywrap"><div id="view"></div></main>
+
+  <!-- RIGHT MENU -->
+  <aside class="menu right">
+    <section>
+      <div class="mh">Status</div>
+      <div class="note" id="legend"></div>
+    </section>
+    <section>
+      <div class="mh">The rule under each stage</div>
+      <div class="note" id="rules"></div>
+    </section>
+    <section>
+      <div class="mh">Next (the open edges)</div>
+      <div class="note" id="next"></div>
+    </section>
+  </aside>
+</div>
+
+<script>
+// ── ONE SOURCE OF TRUTH ───────────────────────────────────────────────
+const STAGES=[
+ {n:1,name:"Dump",tag:"catch it",status:"partial",what:"Grab the raw thing and park it, untouched.",
+  tools:["capture","markitdown","Obsidian"],canon:["Ocean Floor","Signal > Noise"],
+  carry:"capture grabs it · markitdown → text · lands in Inbox",
+  rule:"Raw is a literal copy. Keep noise out of the signal bucket.",
+  must:["Raw → Inbox untouched (exact copy)","Any source (PDF, video) → text first","Keep noise OUT of the bucket — Instagram/junk separate so search isn't drowned"],
+  nice:["Auto-file raw after it's distilled","One-tap capture from phone"],
+  far:["Every source wired (Drive, iCloud, email), auto-pulled"]},
+ {n:2,name:"Chunk",tag:"pull ideas",status:"built",what:"Read it, write each idea on its own card with the exact quote.",
+  tools:["sift-chunk","Ollama"],canon:["Signal > Noise"],
+  carry:"the smart cut — AI reads, you get cards",
+  rule:"One idea per card. No silent drop; every quote verbatim.",
+  must:["Each idea → card + exact quote + how important","Verbatim check + NO silent drop","Rules tunable in the bench"],
+  nice:["Temperature + slice-size knobs in bench","Salience you trust","'Touches who the user IS' = its own class"],
+  far:["Nested ideas, unlimited depth (Morphogenetic Density)"]},
+ {n:3,name:"Frame",tag:"check what you know",status:"gap",what:"For each new card, look in memory: have it? clash?",
+  tools:["gbrain"],canon:["Two-Axis Memory","Coherence"],
+  carry:"compare the new card to what you already know",
+  rule:"Flag dupes + clashes. Never ship a contradiction.",
+  must:["Each new card auto-checked vs memory for dupes / clashes / connections"],
+  nice:["Show where-it-came-from + clash flags in the bench"],
+  far:["Whole-brain consistency scan; contradictions surface on their own"]},
+ {n:4,name:"Fix",tag:"you decide",status:"built",what:"Keep it, kill it, or fix it. Nothing saves without you.",
+  tools:["sift-bench"],canon:["Signal > Noise"],
+  carry:"you sit at the bench and judge each card",
+  rule:"Sterile cockpit; every card gets an explicit verdict; free undo.",
+  must:["The bench shows each card","Keep / kill / fix + free undo","Sterile cockpit — no new inputs mid-decision"],
+  nice:["Batch the easy yes/no's; real tensions one at a time"],
+  far:["The rig pre-sorts the obvious ones"]},
+ {n:5,name:"Ship",tag:"save it",status:"partial",what:"Write the keepers into your notes + add to search.",
+  tools:["Obsidian","gbrain"],canon:["Two-Axis Memory"],
+  carry:"saved as a real note you can find any time",
+  rule:"One home. Nothing ships without a 'where it came from'.",
+  must:["Keepers → ONE notes home + a note of where it came from","Added to search automatically"],
+  nice:["Show the delta (what changed)","Retire the duplicate folders"],
+  far:["Auto-mapped into a connected web (graphify)"]},
+ {n:6,name:"Return",tag:"loop it back",status:"gap",what:"Later, the saved idea pops back to help you think.",
+  tools:["Hermes"],canon:["Toroid"],
+  carry:"the loop — output becomes fuel for the next thought",
+  rule:"A light 'bring-back-when' hook, not a heavy process.",
+  must:["Each saved idea gets a 'bring-this-back-when' tag","Hermes surfaces it in the right future chat"],
+  nice:["Pops up on its own at the right moment"],
+  far:["Proposes NEW connections from what loops back — gets smarter as it feeds itself"]},
+];
+const ST={built:"built",partial:"partial",gap:"not built"};
+const esc=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const dot=s=>`<span class="dot st-${s}"></span>`;
+const pills=(a,c)=>a.map(x=>`<span class="pill ${c||''}">${esc(x)}</span>`).join(" ");
+
+// ── VIEWS ─────────────────────────────────────────────────────────────
+function flow(){let h='<div class="flow"><div class="fbox" style="text-align:center;font-weight:600">🎙️ a raw thing — voice memo, PDF, video, link</div>';
+  STAGES.forEach(s=>{h+=`<div class="farr">↓<small>${esc(s.carry)}</small></div>
+   <div class="fbox" id="s${s.n}"><div class="mh" style="margin:0 0 4px">${s.n} · ${esc(s.tag)} &nbsp;${dot(s.status)} ${ST[s.status]}</div>
+   <h3>${esc(s.name)}</h3><p style="margin:2px 0 8px;font-size:14px;color:var(--color-text-secondary)">${esc(s.what)}</p>${pills(s.tools)}</div>`;});
+  return h+'<div class="loop">⟲ <b>and back to the top.</b> The idea you saved fuels the next thought — the loop. It\'s the part still open (Return not wired).</div></div>';}
+function kanban(){let h='<div class="kb">';
+  STAGES.forEach(s=>{h+=`<div class="kcol" id="s${s.n}"><h4>${dot(s.status)} ${s.n}. ${esc(s.name)}</h4><div class="sub">${esc(s.tag)} · ${ST[s.status]}</div>`;
+   s.must.forEach(m=>h+=`<div class="kcard">${esc(m)}</div>`);
+   h+=`<div class="mh" style="margin:8px 0 4px">tools</div>${pills(s.tools)}</div>`;});
+  return h+'</div>';}
+function grid(){const row=k=>STAGES.map(s=>`<td><ul>${s[k].map(x=>`<li>${esc(x)}</li>`).join("")}</ul></td>`).join("");
+  return `<div class="scroll"><table class="m"><thead><tr><th></th>`+STAGES.map(s=>`<th>${s.n} · ${esc(s.name)}</th>`).join("")+
+   `</tr></thead><tbody><tr><td class="ttier" style="color:var(--color-accent)">MUST</td>${row("must")}</tr>
+    <tr><td class="ttier">NICE</td>${row("nice")}</tr><tr><td class="ttier">FAR OUT</td>${row("far")}</tr></tbody></table></div>`;}
+function kaizen(){let h='<div class="kz"><div class="kzh"><div>Stage</div><div>✓ what we have</div><div>→ next to improve</div></div>';
+  STAGES.forEach(s=>{const have=s.status==="built"?s.must:(s.status==="partial"?s.must.slice(0,1):[]);
+   const next=s.status==="built"?s.nice.slice(0,1):s.must.filter(m=>!have.includes(m));
+   h+=`<div class="kzrow" id="s${s.n}"><div class="name">${dot(s.status)}<div>${s.n}. ${esc(s.name)}<div class="mh" style="font-weight:400;margin-top:3px">${ST[s.status]}</div></div></div>
+    <div class="have">${have.length?`<ul>${have.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:'<span class="mh">nothing yet</span>'}</div>
+    <div class="next"><ul>${next.map(x=>`<li><b>${esc(x)}</b></li>`).join("")}</ul></div></div>`;});
+  return h+'</div>';}
+const VIEWS={Flow:flow,Kanban:kanban,Grid:grid,Kaizen:kaizen};
+let curView="Flow";
+function show(v){curView=v;document.getElementById("view").innerHTML=VIEWS[v]();
+  [...document.querySelectorAll('#viewnav .mi')].forEach(b=>b.classList.toggle("on",b.dataset.v===v));}
+
+// ── LEFT MENU ─────────────────────────────────────────────────────────
+const vn=document.getElementById("viewnav");
+Object.keys(VIEWS).forEach(v=>{const b=document.createElement("button");b.className="mi";b.dataset.v=v;b.textContent=v;b.onclick=()=>show(v);vn.appendChild(b);});
+document.getElementById("stagenav").innerHTML=STAGES.map(s=>`<div class="mi" onclick="jump(${s.n})">${dot(s.status)} ${s.n}. ${esc(s.name)}</div>`).join("");
+const allCanon=[...new Set(STAGES.flatMap(s=>s.canon))];
+document.getElementById("canonnav").innerHTML=allCanon.map(c=>`<div class="mi" style="font-size:13px">${esc(c)}</div>`).join("");
+function jump(n){if(curView!=="Flow"&&curView!=="Kanban"&&curView!=="Kaizen")show("Flow");
+  const el=document.getElementById("s"+n);if(el){el.scrollIntoView({behavior:"smooth",block:"center"});el.style.outline="2px solid var(--color-accent)";setTimeout(()=>el.style.outline="",1400);}}
+
+// ── RIGHT MENU ────────────────────────────────────────────────────────
+const cnt=k=>STAGES.filter(s=>s.status===k).length;
+document.getElementById("legend").innerHTML=
+ `<div><span class="dot st-built"></span> built — <b>${cnt("built")}</b></div>
+  <div style="margin-top:5px"><span class="dot st-partial"></span> partial — <b>${cnt("partial")}</b></div>
+  <div style="margin-top:5px"><span class="dot st-gap"></span> not built — <b>${cnt("gap")}</b></div>`;
+document.getElementById("rules").innerHTML=STAGES.map(s=>`<div style="margin-bottom:7px"><b>${esc(s.name)}:</b> ${esc(s.rule)}</div>`).join("");
+document.getElementById("next").innerHTML=STAGES.filter(s=>s.status!=="built").map(s=>`<div style="margin-bottom:7px">${dot(s.status)} <b>${esc(s.name)}</b> — ${esc((s.status==="gap"?s.must[0]:s.must.find(m=>m.includes("noise"))||s.must[s.must.length-1]))}</div>`).join("");
+
+// ── THEME TOGGLE ──────────────────────────────────────────────────────
+function setTheme(t){
+  if(t==="light")document.documentElement.removeAttribute("data-theme");
+  else document.documentElement.setAttribute("data-theme",t);
+  localStorage.setItem("sift-theme",t);
+  [...document.querySelectorAll("#tt button")].forEach(b=>b.classList.toggle("on",b.dataset.set===t));
+}
+[...document.querySelectorAll("#tt button")].forEach(b=>b.onclick=()=>setTheme(b.dataset.set));
+setTheme(localStorage.getItem("sift-theme")||"light");
+show("Flow");
+</script>
+</body>
+</html>

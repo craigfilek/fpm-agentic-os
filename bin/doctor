@@ -12,12 +12,18 @@ sec()  { printf "\n\033[1m%s\033[0m\n" "$1"; }
 
 VAULT="${OBSIDIAN_VAULT:-$HOME/Obsidian Vault}"
 LOCAL_BIN="${LOCAL_BIN:-$HOME/.local/bin}"
+# Stage folders are owned by sift_stages (the ONE source of truth). Ask it.
+BINDIR="$(cd "$(dirname "$0")" && pwd)"
+CHUNKS="${SIFT_OUT:-$(python3 -c 'import sys; sys.path.insert(0,sys.argv[1]); import sift_stages as s; print(s.CHUNK)' "$BINDIR" 2>/dev/null || echo "$HOME/Obsidian Vault/01 Projects/SIFT/02-chunk")}"
 
 sec "STRUCTURE"
 if [ -d "$VAULT" ]; then ok "vault present: $VAULT"; else bad "vault missing: $VAULT"; fi
-for d in Inbox Distilled; do
-  [ -d "$VAULT/$d" ] && ok "vault/$d" || bad "vault/$d missing"
-done
+[ -d "$VAULT/Inbox" ] && ok "vault/Inbox" || bad "vault/Inbox missing"
+[ -d "$CHUNKS" ] && ok "chunks dir: $CHUNKS" || bad "chunks dir missing: $CHUNKS (sift-chunk writes here)"
+# All 6 canonical SIFT stage folders must exist (FRAME + RETURN can never vanish again).
+while IFS= read -r d; do
+  [ -d "$d" ] && ok "sift stage: $(basename "$d")" || bad "sift stage MISSING: $d"
+done < <(python3 -c 'import sys; sys.path.insert(0,sys.argv[1]); import sift_stages as s; [print(st.path()) for st in s.STAGES]' "$BINDIR" 2>/dev/null)
 dang=0
 while IFS= read -r l; do [ -e "$l" ] || { dang=$((dang+1)); }; done < <(find "$HOME/.claude" -type l 2>/dev/null)
 [ "$dang" -eq 0 ] && ok "all ~/.claude symlinks resolve" || bad "$dang dangling symlink(s) under ~/.claude (run setup)"

@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claims · SIFT</title>
+<link rel="stylesheet" href="build-a.css">
+<style>
+  body{padding:0}
+  .doc{max-width:860px;margin:0 auto;padding:0 24px 80px}
+  .raw{background:var(--color-bg-input);border:1px solid var(--color-border);border-radius:var(--radius-md);
+    padding:14px 16px;color:var(--color-text-secondary);font-size:14px;line-height:1.5}
+  .gates{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 4px}
+  .claim{margin:12px 0}
+  .claim .top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+  .claim h3{margin:0;font-size:17px;color:var(--color-text-heading)}
+  .quote{margin:10px 0 0;padding:8px 0 8px 14px;border-left:3px solid var(--color-accent);
+    color:var(--color-text-secondary);font-size:14px;font-style:italic}
+  .quote .vmark{font-style:normal;font-family:var(--mono);font-size:10px;text-transform:uppercase;
+    color:var(--color-accent);letter-spacing:.06em;display:block;margin-bottom:3px}
+  .acts{display:flex;gap:8px;margin-top:12px}
+  .n{font-family:var(--mono);color:var(--color-placeholder);font-size:12px;min-width:20px}
+</style>
+</head>
+<body>
+<div class="appbar">
+  <div class="brand">◆ SIFT <span class="slash">/</span> <span class="sub">claims</span></div>
+  <div class="tt" id="tt">
+    <button data-set="light">Light</button>
+    <button data-set="sand">Sand</button>
+    <button data-set="dark">Dark</button>
+  </div>
+</div>
+
+<div class="doc">
+  <header style="border:0;padding:26px 0 6px">
+    <h1>Claims</h1>
+    <div class="meta">From <code>2020-11-11 2217 — voice memo.md</code> · chunked locally (qwen2.5) · approve each below.</div>
+  </header>
+
+  <h2>The raw (the ocean floor)</h2>
+  <div class="raw">These are the four domains. These are why it's relevant to you and your work every single day, plus in your life. So what we're going to do is this… So how would you all like to be able to do this by the end of our 60 minutes together? Boom. Yes… This particular piece of understanding the difference between, you know, introvert, whatever, interior and exterior is the key to boom, you know? And so I think it's like that for everything, why it matters.</div>
+
+  <h2>The claims <span class="meta" style="font-weight:400">(every quote is an exact substring — no made-up words)</span></h2>
+  <div class="gates">
+    <span class="pill solid">5 kept</span>
+    <span class="pill soft">5/5 verbatim</span>
+    <span class="pill">0 dropped</span>
+    <span class="pill">0 failed</span>
+  </div>
+
+  <div id="list"></div>
+
+  <footer>Built to <a href="styleguide.html">build-a.css</a> · this is the bench view, styled · raw stays untouched in <code>Inbox/</code></footer>
+</div>
+
+<script>
+const claims = [
+  {t:"There are four domains.", q:"These are the four domains.", k:"fact", c:"medium"},
+  {t:"The four domains are relevant to your daily work and life.", q:"These are why it's relevant to you and your work every single day, plus in your life.", k:"belief", c:"medium"},
+  {t:"The call is 60 minutes.", q:"So how would you all like to be able to do this by the end of our 60 minutes together?", k:"fact", c:"low"},
+  {t:"Understanding interior vs exterior is the key.", q:"This particular piece of understanding the difference between, you know, introvert, whatever, interior and exterior is the key to boom, you know?", k:"belief", c:"high"},
+  {t:"Everything has a reason why it matters.", q:"And so I think it's like that for everything, why it matters.", k:"belief", c:"low"},
+];
+const pillClass = k => k==="fact" ? "solid" : "soft";
+document.getElementById("list").innerHTML = claims.map((c,i)=>`
+  <div class="card claim">
+    <div class="top">
+      <h3><span class="n">${i+1}</span> ${c.t}</h3>
+      <span class="pill ${pillClass(c.k)}">${c.k} · ${c.c}</span>
+    </div>
+    <div class="quote"><span class="vmark">✓ verbatim</span>"${c.q}"</div>
+    <div class="acts">
+      <button class="primary">Keep</button>
+      <button>Kill</button>
+      <button>Edit</button>
+    </div>
+  </div>`).join("");
+
+function setTheme(t){if(t==="light")document.documentElement.removeAttribute("data-theme");else document.documentElement.setAttribute("data-theme",t);
+  localStorage.setItem("sift-theme",t);[...document.querySelectorAll("#tt button")].forEach(b=>b.classList.toggle("on",b.dataset.set===t));}
+[...document.querySelectorAll("#tt button")].forEach(b=>b.onclick=()=>setTheme(b.dataset.set));
+setTheme(localStorage.getItem("sift-theme")||"light");
+</script>
+</body>
+</html>

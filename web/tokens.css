@@ -1,0 +1,647 @@
+/* ============================================================
+   GENERATED — do not hand-edit.
+   Verbatim copy of purpose.ai/src/app/tokens.css (the one source of truth).
+   To update: re-copy that file here. See web/sync-tokens.sh.
+   ------------------------------------------------------------
+   PMAP Design Tokens — Framed from dwiki (19 chunk nodes)
+   Source: Figma file IellKKRe68vhPHpL35Apl8 (2026 PMAP)
+   Generated: 2026-02-25
+   ============================================================ */
+
+/* ============================================================
+   1. COLOUR — Grey palette (default)
+   dwiki node: colour → grey_palette
+   ============================================================ */
+:root {
+  /* --- Semantic colour --- */
+  --color-text:             #131313;
+  --color-text-secondary:   #69749c;
+  --color-text-heading:     #3c4156;
+  --color-text-disabled:    #b4bacd;
+
+  --color-accent:           #69749c;
+  --color-accent-hover:     #3c4156;
+
+  --color-bg-page:          #ffffff;
+  --color-bg-surface:       #ffffff;
+  --color-bg-input:         #f2f5f9;
+  --color-bg-hover:         #e8ecf4;
+  --color-bg-disabled:      #f3f3f3;
+  --color-bg-tab:           #f2f5f9;
+  --color-bg-menu:          #f3f3f3;
+  --color-bg-menu-active:   #dee3f2;
+
+  --color-border:           #dee3f2;
+  --color-border-input:     #69749c;
+  --color-border-hover:     #e8ecf4;
+  --color-border-tab-active:#3c4156;
+  --color-border-tab-inactive:#373960;
+
+  --color-placeholder:      #b4bacd;
+
+  --color-error:            #eb0f37;
+  --color-error-tint:       #fef3f6;
+
+  --color-white:            #ffffff;
+  --color-deep-navy:        #373960;
+  --color-checkbox-fill:    #3c4156;
+  --color-tab-badge-bg:     #373960;
+
+  /* --- Raw palette (for direct use) --- */
+  --grey-131313: #131313;
+  --grey-373960: #373960;
+  --grey-3c4156: #3c4156;
+  --grey-69749c: #69749c;
+  --grey-b4bacd: #b4bacd;
+  --grey-dadeef: #dadeef;
+  --grey-dee3f2: #dee3f2;
+  --grey-e8ecf4: #e8ecf4;
+  --grey-eb0f37: #eb0f37;
+  --grey-f2f5f9: #f2f5f9;
+  --grey-f3f3f3: #f3f3f3;
+  --grey-fef3f6: #fef3f6;
+  --grey-ffffff: #ffffff;
+
+
+  /* ============================================================
+     2. TYPOGRAPHY
+     dwiki node: typography
+     ============================================================ */
+  --font-family:       'Open Sans', sans-serif;
+  --font-weight-light:  300;
+  --font-weight-regular:400;
+  --font-weight-semi:   600;
+  --font-weight-extra:  800;
+  --letter-spacing:     0;
+
+  /* Type scale: --type-{size}-{lineHeight}-{weight} */
+  /* H1 */    --type-40-48: 40px/48px;
+  /* H2 */    --type-36-44: 36px/44px;
+  /* H3 */    --type-32-40: 32px/40px;
+  /* H3.5 */  --type-30-38: 30px/38px;
+  /* H4 */    --type-28-36: 28px/36px;
+  /* H5 */    --type-24-32: 24px/32px;
+  /* Sub */   --type-20-28: 20px/28px;
+  /* Large */ --type-18-26: 18px/26px;
+  /* Body */  --type-16-24: 16px/24px;
+  /* Small */ --type-14-22: 14px/22px;
+  /* Cap */   --type-12-20: 12px/20px;
+  /* Micro */ --type-10-18: 10px/18px;
+
+
+  /* ============================================================
+     3. SPACING
+     dwiki node: spacing → gap_scale, padding_scale, margin_scale
+     ============================================================ */
+  --space-0:   0px;
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-2h:  10px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   20px;
+  --space-6:   24px;
+  --space-8:   32px;
+  --space-8h:  34px;
+  --space-10:  40px;
+  --space-14:  56px;
+
+  /* Named gaps (from Figma component analysis) */
+  --gap-icon-text:       4px;
+  --gap-label-input:     8px;
+  --gap-input-row:       8px;
+  --gap-tab-inner:       10px;
+  --gap-btn-group:       12px;
+  --gap-section-inner:   16px;
+  --gap-section:         24px;
+  --gap-header-main:     32px;
+  --gap-form-submit:     34px;
+  --gap-nav-footer:      40px;
+  --gap-two-column:      56px;
+
+
+  /* ============================================================
+     4. DIMENSIONS
+     dwiki node: dimensions
+     ============================================================ */
+  /* Component widths */
+  --w-counter-input:   49px;
+  --w-count-btn:       60px;
+  --w-logo:            62px;
+  --w-bucket-input:    121px;
+  --w-tab:             122px;
+  --w-tab-triple:      207px;
+  --w-body-triple:     217px;
+  --w-notification:    280px;
+  --w-menu-section:    298px;
+  --w-two-col-field:   306px;
+  --w-panel-side:      330px;
+  --w-plan-default:    320px;
+  --w-plan-selected:   360px;
+  --w-body-content:    668px;
+  --w-body-panel:      780px;
+  --w-notes-panel:     960px;
+  --w-desktop:         1440px;
+
+  /* Component heights */
+  --h-counter-input:   30px;
+  --h-notification-btn:36px;
+  --h-secondary-btn:   38px;
+  --h-primary-input:   42px;
+  --h-social-btn:      44px;
+  --h-primary-btn:     46px;
+  --h-tab:             48px;
+  --h-support-btn:     56px;
+  --h-logo:            62px;
+  --h-header:          94px;
+
+  /* Icon sizes */
+  --icon-xs:           16px;
+  --icon-sm:           20px;
+  --icon-md:           24px;
+  --icon-lg:           32px;
+  --icon-touch-target: 36px;
+
+  /* Avatar/logo */
+  --avatar-menu:       46px;
+  --logo-outer:        62px;
+  --logo-inner:        48px;
+
+
+  /* ============================================================
+     5. BORDERS
+     dwiki node: borders
+     ============================================================ */
+  /* Radii */
+  --radius-xs:    2px;   /* checkbox */
+  --radius-sm:    4px;   /* colour swatch, sticker badge */
+  --radius-menu:  6px;   /* menu sub-items */
+  --radius-md:    8px;   /* buttons, inputs, cards, tabs, snackbar, sections */
+  --radius-plan:  9px;   /* plan card selected */
+  --radius-pill: 100px;  /* tab score badge, stepper circles, review dots */
+  --radius-circle:200px; /* notification btn, FAB, support btn */
+  --radius-full: 300px;  /* social button */
+
+  /* Widths */
+  --border-w-default:  1px;
+  --border-w-tab:      2px;
+  --border-w-checkbox: 1.5px;
+  --border-w-plan:     1.125px;
+
+
+  /* ============================================================
+     6. EFFECTS
+     dwiki node: effects
+     ============================================================ */
+  /* Elevation scale */
+  --shadow-0:      none;
+  --shadow-subtle: 0 8px 16px rgba(0,0,0,0.03);   /* header, menu, chat panel */
+  --shadow-glow:   0 8px 40px rgba(255,255,255,1);  /* selected plan card */
+
+  /* Blur */
+  --blur-plan:     4px;  /* blurred/locked plan cards */
+
+
+  /* ============================================================
+     7. LAYOUT
+     dwiki node: layout
+     ============================================================ */
+  /* Desktop 3-column */
+  --layout-left:     330px;
+  --layout-center:   780px;
+  --layout-right:    330px;
+  --layout-total:    1440px;
+
+  /* Body padding */
+  --body-pad-y:      16px;
+  --body-pad-x:      56px;
+
+  /* Breakpoints (for reference — use @media directly) */
+  /* XS: 0–599     (4 col, 16dp margins)  */
+  /* TabS: 600–904  (8 col, 32dp margins)  */
+  /* TabM: 905–1239 (12 col, 32dp margins) */
+  /* LapS: 1240–1439(12 col, 32dp margins) */
+  /* LapM: 1440+    (12 col, 32dp margins) */
+
+
+  /* ============================================================
+     8. MOTION
+     dwiki node: motion
+     ============================================================ */
+  --ease-default:  cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-in:       cubic-bezier(0.4, 0, 1, 1);
+  --ease-out:      cubic-bezier(0, 0, 0.2, 1);
+  --duration-fast:   100ms;
+  --duration-normal: 150ms;
+  --duration-slow:   200ms;
+  --duration-slower:  300ms;
+
+
+  /* ============================================================
+     9. Z-INDEX
+     ============================================================ */
+  --z-base:     0;
+  --z-dropdown: 100;
+  --z-sticky:   200;
+  --z-modal-bg: 300;
+  --z-modal:    400;
+  --z-toast:    500;
+  --z-tooltip:  600;
+}
+
+
+/* ============================================================
+   10. SAND THEME — from Figma page 3 node 19:57037
+   dwiki node: colour → sand_palette_figma
+   ============================================================ */
+[data-theme="sand"] {
+  --color-text:             #131313;
+  --color-text-secondary:   #3f3029;
+  --color-text-heading:     #3f3029;
+  --color-text-disabled:    #d9d9d9;
+
+  --color-accent:           #3e5b93;
+  --color-accent-hover:     #3b302a;
+
+  --color-bg-page:          #f9f6ee;
+  --color-bg-surface:       #fdfaf4;
+  --color-bg-input:         #e7eaef;
+  --color-bg-hover:         #f0e7d4;
+  --color-bg-disabled:      #d9d9d9;
+  --color-bg-tab:           #f0e7d4;
+  --color-bg-menu:          #f0e7d4;
+  --color-bg-menu-active:   #e4dfdc;
+
+  --color-border:           #e4dfdc;
+  --color-border-input:     #3e5b93;
+  --color-border-hover:     #e4dfdd;
+  --color-border-tab-active:#3f3029;
+  --color-border-tab-inactive:#3b302a;
+
+  --color-placeholder:      #5b4941;
+
+  --color-error:            #eb0f37;
+  --color-error-tint:       #fef3f6;
+
+  --color-white:            #ffffff;
+  --color-deep-navy:        #2e231f;
+  --color-checkbox-fill:    #3f3029;
+  --color-tab-badge-bg:     #2e231f;
+}
+
+
+/* ============================================================
+   COMPONENT TOKENS
+   Derived from dwiki nodes: buttons, inputs, navigation,
+   cards, feedback, badges, forms, icons, dividers, states
+   ============================================================ */
+
+/* ============================================================
+   11. BUTTONS
+   dwiki node: buttons (8 variants × 6 states)
+   Pattern: hover = pressed = focused (except notification)
+   ============================================================ */
+:root {
+  /* Primary */
+  --btn-primary-h:           46px;
+  --btn-primary-r:           8px;
+  --btn-primary-px:          20px;
+  --btn-primary-py:          12px;
+  --btn-primary-font:        600;
+  --btn-primary-bg:          #69749c;
+  --btn-primary-text:        #ffffff;
+  --btn-primary-bg-hover:    #3c4156;
+  --btn-primary-text-hover:  #ffffff;
+  --btn-primary-bg-disabled: #f3f3f3;
+  --btn-primary-text-disabled:#b4bacd;
+
+  /* Secondary (outlined) */
+  --btn-secondary-h:           38px;
+  --btn-secondary-r:           8px;
+  --btn-secondary-px:          20px;
+  --btn-secondary-py:          8px;
+  --btn-secondary-font:        400;
+  --btn-secondary-bg:          #ffffff;
+  --btn-secondary-text:        #3c4156;
+  --btn-secondary-stroke:      #3c4156;
+  --btn-secondary-bg-hover:    #f2f5f9;
+  --btn-secondary-text-hover:  #3c4156;
+  --btn-secondary-stroke-hover:#3c4156;
+  --btn-secondary-bg-disabled: #f3f3f3;
+  --btn-secondary-text-disabled:#b4bacd;
+  --btn-secondary-stroke-disabled:#f3f3f3;
+
+  /* Count Filled */
+  --btn-count-filled-size:        60px;
+  --btn-count-filled-h:           46px;
+  --btn-count-filled-r:           8px;
+  --btn-count-filled-bg:          #69749c;
+  --btn-count-filled-bg-hover:    #3c4156;
+  --btn-count-filled-bg-disabled: #f3f3f3;
+
+  /* Count Outlined */
+  --btn-count-outlined-size:          60px;
+  --btn-count-outlined-h:            46px;
+  --btn-count-outlined-r:            8px;
+  --btn-count-outlined-stroke:        #69749c;
+  --btn-count-outlined-bg-hover:      #f2f5f9;
+  --btn-count-outlined-stroke-hover:  #69749c;
+  --btn-count-outlined-bg-disabled:   #f3f3f3;
+
+  /* Notification */
+  --btn-notification-size:    36px;
+  --btn-notification-r:       200px;
+  --btn-notification-bg:      transparent;
+  --btn-notification-bg-hover:#e8ecf4;
+  --btn-notification-stroke-pressed:#69749c;
+  --btn-notification-bg-disabled:#f3f3f3;
+
+  /* Social */
+  --btn-social-size:          44px;
+  --btn-social-r:             300px;
+  --btn-social-bg:            #f2f5f9;
+  --btn-social-bg-hover:      #e8ecf4;
+  --btn-social-bg-disabled:   #f3f3f3;
+
+  /* Support (FAB) */
+  --btn-support-size:         56px;
+  --btn-support-r:            200px;
+  --btn-support-bg:           #69749c;
+  --btn-support-bg-hover:     #3c4156;
+  --btn-support-bg-disabled:  #f3f3f3;
+
+  /* Checkbox */
+  --checkbox-size:            16px;
+  --checkbox-r:               2px;
+  --checkbox-stroke:          #b4bacd;
+  --checkbox-stroke-w:        1.5px;
+  --checkbox-fill-selected:   #3c4156;
+  --checkbox-check-colour:    #ffffff;
+  --checkbox-label-font:      400;
+  --checkbox-label-colour:    #131313;
+  --checkbox-label-disabled:  #b4bacd;
+
+
+  /* ============================================================
+     12. INPUTS
+     dwiki node: inputs (2 variants × 6 states)
+     ============================================================ */
+  /* Primary input */
+  --input-h:                42px;
+  --input-r:                8px;
+  --input-px:               16px;
+  --input-py:               4px;
+  --input-bg:               #f2f5f9;
+  --input-text:             #131313;
+  --input-placeholder:      #b4bacd;
+  --input-caret:            #131313;
+  --input-icon-size:        40px;
+  --input-bg-error:         #fef3f6;
+  --input-text-error:       #eb0f37;
+  --input-stroke-error:     #eb0f37;
+  --input-bg-disabled:      #f3f3f3;
+  --input-text-disabled:    #b4bacd;
+
+  /* Secondary input (counter) */
+  --input-counter-h:        30px;
+  --input-counter-r:        8px;
+  --input-counter-px:       12px;
+  --input-counter-py:       4px;
+  --input-counter-stroke:   #69749c;
+  --input-counter-text:     #69749c;
+  --input-counter-stroke-error:#eb0f37;
+  --input-counter-text-error:  #eb0f37;
+  --input-counter-stroke-disabled:#dee3f2;
+  --input-counter-text-disabled:  #dee3f2;
+
+
+  /* ============================================================
+     13. NAVIGATION — Header, Menu, Tabs, FAB, Links
+     dwiki node: navigation
+     ============================================================ */
+  /* Header */
+  --header-h:               94px;
+  --header-bg:              #ffffff;
+  --header-pad:             16px;
+  --header-logo-size:       62px;
+  --header-brand-font:      600;
+  --header-brand-size:      18px;
+  --header-brand-colour:    #3c4156;
+  --header-session-font:    600;
+  --header-session-size:    16px;
+  --header-session-colour:  #3c4156;
+
+  /* Menu (left panel) */
+  --menu-w:                 330px;
+  --menu-bg:                #f3f3f3;
+  --menu-section-h:         46px;
+  --menu-section-r:         8px;
+  --menu-section-px:        16px;
+  --menu-section-py:        12px;
+  --menu-section-font:      400;
+  --menu-section-size:      14px;
+  --menu-section-colour:    #3c4156;
+  --menu-section-bg:        #ffffff;
+  --menu-section-bg-active: #dee3f2;
+  --menu-profile-h:         94px;
+  --menu-profile-px:        16px;
+  --menu-profile-py:        24px;
+
+  /* Tabs */
+  --tab-h:                  48px;
+  --tab-px:                 24px;
+  --tab-py:                 12px;
+  --tab-active-font:        600;
+  --tab-active-size:        16px;
+  --tab-active-colour:      #3c4156;
+  --tab-active-border:      #3c4156;
+  --tab-inactive-font:      400;
+  --tab-inactive-size:      16px;
+  --tab-inactive-colour:    #69749c;
+  --tab-inactive-border:    #373960;
+  --tab-badge-bg:           #373960;
+  --tab-badge-text:         #ffffff;
+  --tab-badge-font:         600;
+  --tab-badge-size:         14px;
+  --tab-badge-h:            28px;
+  --tab-badge-px:           12px;
+  --tab-badge-r:            100px;
+  --tab-badge-min-w:        36px;
+
+  /* FAB Chat */
+  --fab-size:               56px;
+  --fab-r:                  200px;
+  --fab-pad:                16px;
+  --fab-bg:                 #69749c;
+  --fab-bg-opened:          #3c4156;
+  --fab-label-font:         600;
+  --fab-label-size:         14px;
+  --fab-label-colour:       #ffffff;
+  --fab-panel-w:            330px;
+  --fab-panel-h:            600px;
+
+  /* Links */
+  --link-primary-font:      600;
+  --link-primary-size:      16px;
+  --link-primary-colour:    #3c4156;
+  --link-secondary-font:    400;
+  --link-secondary-size:    12px;
+  --link-secondary-colour:  #3c4156;
+  --link-disabled-colour:   #dee3f2;
+
+  /* Scrollbar */
+  --scrollbar-w:            6px;
+
+
+  /* ============================================================
+     14. CARDS — Plans, Stickers, Notes, Reviews
+     dwiki node: cards
+     ============================================================ */
+  /* Plan card — default */
+  --plan-w:                 320px;
+  --plan-h:                 436px;
+  --plan-r:                 8px;
+  --plan-bg:                #ffffff;
+  --plan-title-size:        24px;
+  --plan-title-weight:      800;
+  --plan-title-colour:      #3c4156;
+  --plan-desc-size:         14px;
+  --plan-desc-weight:       400;
+  --plan-desc-colour:       #3c4156;
+
+  /* Plan card — selected */
+  --plan-sel-w:             360px;
+  --plan-sel-h:             488px;
+  --plan-sel-r:             9px;
+  --plan-sel-title-size:    28px;
+  --plan-sel-title-colour:  #ffffff;
+
+  /* Sticker badge */
+  --sticker-h:              28px;
+  --sticker-r:              4px;
+  --sticker-px:             24px;
+  --sticker-py:             4px;
+  --sticker-font:           600;
+  --sticker-size:           12px;
+  --sticker-filled-bg:      #69749c;
+  --sticker-filled-text:    #ffffff;
+  --sticker-outlined-bg:    #ffffff;
+  --sticker-outlined-text:  #3c4156;
+
+  /* Notes panel */
+  --notes-w:                960px;
+  --notes-header-bg:        #dee3f2;
+  --notes-header-h:         104px;
+  --notes-header-pad:       12px 16px;
+  --notes-body-bg:          #f3f3f3;
+  --notes-body-pad:         0px 16px;
+
+  /* Review carousel */
+  --review-carousel-w:      1000px;
+  --review-carousel-h:      326px;
+  --review-dots-w:          108px;
+  --review-dot-active:      12px;
+  --review-dot-inactive:    8px;
+  --review-dot-active-bg:   #3c4156;
+  --review-dot-inactive-bg: #e8ecf4;
+
+
+  /* ============================================================
+     15. FEEDBACK — Progress bar, Progress report, Notifications
+     dwiki node: feedback
+     ============================================================ */
+  /* Stepper / progress bar */
+  --stepper-circle-size:    24px;
+  --stepper-circle-r:       100px;
+  --stepper-circle-pad:     4px;
+  --stepper-bg-pending:     #ffffff;
+  --stepper-bg-complete:    #3c4156;
+  --stepper-num-font:       600;
+  --stepper-num-size:       14px;
+  --stepper-text-pending:   #b4bacd;
+  --stepper-text-complete:  #3c4156;
+  --stepper-text-size:      16px;
+  --stepper-text-weight:    400;
+
+  /* Progress report */
+  --report-header-h:        46px;
+  --report-header-bg:       #ffffff;
+  --report-header-pad:      12px 16px;
+  --report-body-bg:         #f3f3f3;
+  --report-score-bg:        #69749c;
+  --report-score-w:         298px;
+  --report-score-r:         8px;
+  --report-detail-w:        614px;
+  --report-detail-r:        8px;
+
+  /* Notification panel */
+  --notif-panel-w:          320px;
+  --notif-panel-h:          480px;
+  --notif-panel-header-bg:  #ffffff;
+  --notif-panel-body-r:     8px;
+  --notif-panel-search:     288px;
+
+
+  /* ============================================================
+     16. FORMS — Layout patterns
+     dwiki node: forms
+     ============================================================ */
+  --form-section-gap:       24px;
+  --form-vertical-gap:      8px;
+  --form-two-col-gap:       56px;
+  --form-submit-gap:        34px;
+  --form-label-font:        600;
+  --form-label-size:        14px;
+  --form-label-colour:      #131313;
+
+
+  /* ============================================================
+     17. ICONS
+     dwiki node: icons
+     ============================================================ */
+  --icon-colour-default:    #69749c;
+  --icon-colour-active:     #3c4156;
+  --icon-colour-disabled:   #b4bacd;
+  --icon-colour-on-primary: #ffffff;
+
+
+  /* ============================================================
+     18. DIVIDERS
+     dwiki node: dividers
+     ============================================================ */
+  --divider-colour:         #e8ecf4;
+  --divider-colour-alt:     #dee3f2;
+  --divider-colour-heading: #b4bacd;
+  --divider-w:              1px;
+
+
+  /* ============================================================
+     19. BADGES (non-tab)
+     dwiki node: badges
+     ============================================================ */
+  --badge-sticker-w:        110px;
+  --badge-sticker-h:        28px;
+  --badge-sticker-r:        4px;
+  --badge-dot-active-size:  12px;
+  --badge-dot-inactive-size:8px;
+  --badge-dot-active-bg:    #3c4156;
+  --badge-dot-inactive-bg:  #e8ecf4;
+}
+
+
+/* ============================================================
+   SECTIONS — Collapsible content areas
+   dwiki node: layout → sections
+   ============================================================ */
+:root {
+  --section-collapsed-h:    46px;
+  --section-collapsed-bg:   #dee3f2;
+  --section-collapsed-r:    8px;
+  --section-collapsed-px:   16px;
+  --section-collapsed-py:   12px;
+  --section-collapsed-font: 400;
+  --section-collapsed-size: 14px;
+  --section-collapsed-colour:#3c4156;
+  --section-expanded-bg:    #ffffff;
+  --section-expanded-pad:   16px;
+}

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="grey">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Product page template — Purpose.ai</title>
+<link rel="stylesheet" href="shell.css">
+</head>
+<!--
+  Product page template. Mobile-first; expands to Nataliia's 330·780·330 + 94px
+  header at >=1100px. Links ONE file (shell.css), which pulls in tokens.css.
+  Copy this file, change the markup inside <main class="body">, done.
+  Red-dashed = BLANKS still needed from Nataliia: real icons + dark-mode colours.
+  (Logo is now real — from the 2023 brandbook.)
+-->
+<body>
+
+<header class="header">
+  <button class="hamburger" aria-label="Menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+  <div class="logo"><img src="logos/Blue_compass.svg" alt="Purpose.ai"></div>
+  <div class="brand">Purpose Mapping<span class="sub">Founding Session</span></div>
+  <div class="spacer"></div>
+  <button class="upgrade">Upgrade</button>
+</header>
+
+<div class="scrim"></div>
+
+<div class="shell">
+  <!-- LEFT MENU -->
+  <aside class="lmenu">
+    <div class="profile">
+      <div class="avatar">CF</div>
+      <div>
+        <div class="pname">Your Name</div>
+        <div class="pdob">12.03.1987 (35)</div>
+      </div>
+    </div>
+    <nav class="nav">
+      <a class="active"><span class="ico blank" title="BLANK — emoji placeholder, need real icons">&#127968;</span>Home</a>
+      <a><span class="ico blank">&#10003;</span>Check-In</a>
+      <a><span class="ico blank">&#128204;</span>Projects</a>
+      <a><span class="ico blank">&#128203;</span>PRDs</a>
+      <a><span class="ico blank">&#128206;</span>Captures</a>
+      <a><span class="ico blank">&#127744;</span>Holonic Canvas</a>
+      <a><span class="ico blank">&#129302;</span>Bots</a>
+      <a><span class="ico blank">&#127963;</span>Agents</a>
+      <a><span class="ico blank">&#128218;</span>Wiki</a>
+      <a><span class="ico blank">&#128208;</span>Design Wiki</a>
+      <a><span class="ico blank">&#128214;</span>Library</a>
+      <a><span class="ico blank">&#128210;</span>Ledger</a>
+      <a><span class="ico blank">&#127912;</span>Style Guide</a>
+    </nav>
+  </aside>
+
+  <!-- CENTER BODY -->
+  <main class="body">
+    <div class="tabs">
+      <div class="tab active">Map</div>
+      <div class="tab">Notes</div>
+      <div class="tab">Review</div>
+      <div class="tab">History</div>
+    </div>
+    <div class="field"><label>Purpose</label><input placeholder="What you're here to do"></div>
+    <div class="field"><label>Essence</label><input placeholder="Who you are"></div>
+    <div class="field"><label>Gold</label><input placeholder="Your gift"></div>
+    <div class="field"><label>Strengths</label><input placeholder="What you're great at"></div>
+    <button class="submit">Submit</button>
+  </main>
+
+  <!-- RIGHT MENU -->
+  <aside class="rmenu">
+    <h3>Questions</h3>
+    <div class="sec">Feedback</div>
+    <div class="sec">Notes</div>
+    <div class="sec">Exercises</div>
+  </aside>
+</div>
+
+<script>
+  const b = document.body;
+  document.querySelector('.hamburger').onclick = () => b.classList.toggle('menu-open');
+  document.querySelector('.scrim').onclick = () => b.classList.remove('menu-open');
+</script>
+</body>
+</html>

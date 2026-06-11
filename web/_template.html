@@ -1,0 +1,50 @@
+<!-- Copy me → rename → fill between the CONTENT markers. Calm/product voice. See DESIGN.md. -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page Title · SIFT</title>
+<link rel="stylesheet" href="build-a.css">
+</head>
+<body>
+
+<div class="appbar">
+  <div class="brand">◆ SIFT <span class="slash">/</span> <span class="sub">page-name</span></div>
+  <div class="tt" id="tt">
+    <button data-set="light">Light</button>
+    <button data-set="sand">Sand</button>
+    <button data-set="dark">Dark</button>
+  </div>
+</div>
+
+<div class="doc">
+
+<!-- CONTENT START -->
+
+<header>
+  <h1>Page Title</h1>
+  <div class="meta">One sentence: what is this page and who is it for.</div>
+</header>
+
+<p>Start with the thing that matters most. Short sentences. Plain words. No jargon.</p>
+
+<div class="card">
+  <h3>Card Title</h3>
+  <p style="margin:4px 0 0;color:var(--color-text-secondary);font-size:14px">Use a card to group a concept, a step, or a fact. Keep it tight — one idea per card.</p>
+</div>
+
+<!-- CONTENT END -->
+
+<footer class="meta" style="margin-top:48px;padding-top:16px;border-top:1px solid var(--color-border)">SIFT · build-a.css</footer>
+
+</div>
+
+<script>
+function setTheme(t){if(t==="light")document.documentElement.removeAttribute("data-theme");else document.documentElement.setAttribute("data-theme",t);
+  localStorage.setItem("sift-theme",t);[...document.querySelectorAll("#tt button")].forEach(b=>b.classList.toggle("on",b.dataset.set===t));}
+[...document.querySelectorAll("#tt button")].forEach(b=>b.onclick=()=>setTheme(b.dataset.set));
+setTheme(localStorage.getItem("sift-theme")||"light");
+</script>
+</body>
+</html>

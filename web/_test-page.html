@@ -1,0 +1,50 @@
+<!-- Copy me → rename → fill between the CONTENT markers. Calm/product voice. See DESIGN.md. -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hello, kit · SIFT</title>
+<link rel="stylesheet" href="build-a.css">
+</head>
+<body>
+
+<div class="appbar">
+  <div class="brand">◆ SIFT <span class="slash">/</span> <span class="sub">hello-kit</span></div>
+  <div class="tt" id="tt">
+    <button data-set="light">Light</button>
+    <button data-set="sand">Sand</button>
+    <button data-set="dark">Dark</button>
+  </div>
+</div>
+
+<div class="doc">
+
+<!-- CONTENT START -->
+
+<header>
+  <h1>Hello, kit.</h1>
+  <div class="meta">A test page. Proves the template renders styled with the theme toggle working.</div>
+</header>
+
+<p>This page was made by copying <code>_template.html</code> and filling in content between the markers. No raw colors. No forked CSS. Just <code>build-a.css</code> and its classes.</p>
+
+<div class="card">
+  <h3>It works if you see this card</h3>
+  <p style="margin:4px 0 0;color:var(--color-text-secondary);font-size:14px">White surface, soft border, 8px radius, subtle shadow — all from the <code>.card</code> class. Toggle the theme above to confirm Light, Sand, and Dark all react.</p>
+</div>
+
+<!-- CONTENT END -->
+
+<footer class="meta" style="margin-top:48px;padding-top:16px;border-top:1px solid var(--color-border)">SIFT · build-a.css</footer>
+
+</div>
+
+<script>
+function setTheme(t){if(t==="light")document.documentElement.removeAttribute("data-theme");else document.documentElement.setAttribute("data-theme",t);
+  localStorage.setItem("sift-theme",t);[...document.querySelectorAll("#tt button")].forEach(b=>b.classList.toggle("on",b.dataset.set===t));}
+[...document.querySelectorAll("#tt button")].forEach(b=>b.onclick=()=>setTheme(b.dataset.set));
+setTheme(localStorage.getItem("sift-theme")||"light");
+</script>
+</body>
+</html>

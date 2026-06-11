@@ -135,9 +135,9 @@ stays whole — you just re-scan the books.
 You never draw an org chart. You run **`/level-up`** weekly:
 
 1. It finds the one thing that cost you the most time, and scopes a workflow to handle it.
-2. It ships that workflow into a **department** (`departments/sales/`, `ops/`, `content/`…),
+2. It ships that workflow into a **department** (`departments/sales/`, `ops/`…),
    creating the department if it's new.
-3. That department's **manager** runs a retro on its own workflows — reads what actually
+3. That department's **manager** runs a retro on its own workflows — reads what
    happened, and applies one improvement. The system gets better on its own.
 
 Departments are folders; managers are a charter + a retro (not a swarm of always-on bots).

@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Styleguide · SIFT</title>
+<link rel="stylesheet" href="build-a.css">
+<style>
+  body{padding:0}
+  .doc{max-width:860px;margin:0 auto;padding:0 24px 80px}
+  .sw{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:8px 0}
+  .swatch{border:1px solid var(--color-border);border-radius:var(--radius-sm);overflow:hidden;font-size:11px}
+  .swatch .chip{height:54px}
+  .swatch .lbl{padding:6px 8px;font-family:var(--mono);color:var(--color-text-secondary);background:var(--color-bg-page)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:8px 0}
+  input.demo{padding:8px 11px;border:1px solid var(--color-border);border-radius:var(--radius-md);background:var(--color-bg-input);color:var(--color-text);min-width:220px;font:inherit}
+  .layout-spec{display:grid;grid-template-columns:330px 1fr 330px;gap:0;border:1px solid var(--color-border);border-radius:var(--radius-md);overflow:hidden;font-family:var(--mono);font-size:12px;color:var(--color-text-secondary)}
+  .layout-spec>div{padding:18px 12px;text-align:center}
+  .layout-spec .m{background:var(--color-bg-menu)}
+  .layout-spec .b{background:var(--color-bg-page);border-left:1px solid var(--color-border);border-right:1px solid var(--color-border)}
+</style>
+</head>
+<body>
+<div class="appbar">
+  <div class="brand">◆ SIFT <span class="slash">/</span> <span class="sub">styleguide</span></div>
+  <div class="tt" id="tt">
+    <button data-set="light">Light</button>
+    <button data-set="sand">Sand</button>
+    <button data-set="dark">Dark</button>
+  </div>
+</div>
+
+<div class="doc">
+<header style="border:0;padding:26px 0 6px">
+  <h1>Styleguide</h1>
+  <div class="meta">Build A design system, ported. Source: <code>~/purpose.ai/src/app/tokens.css</code> (Figma, by Nataliia). Flip the theme top-right.</div>
+</header>
+
+<h2>1 · Colours</h2>
+<p class="meta">Reactive to the theme. Grey is default; Sand + Dark swap the tokens.</p>
+<div class="sw">
+  <div class="swatch"><div class="chip" style="background:var(--color-bg-page)"></div><div class="lbl">bg-page</div></div>
+  <div class="swatch"><div class="chip" style="background:var(--color-bg-menu)"></div><div class="lbl">bg-menu</div></div>
+  <div class="swatch"><div class="chip" style="background:var(--color-bg-menu-active)"></div><div class="lbl">menu-active</div></div>
+  <div class="swatch"><div class="chip" style="background:var(--color-bg-input)"></div><div class="lbl">bg-input</div></div>
+  <div class="swatch"><div class="chip" style="background:var(--color-accent)"></div><div class="lbl">accent</div></div>
+  <div class="swatch"><div class="chip" style="background:var(--color-accent-hover)"></div><div class="lbl">accent-hover</div></div>
+  <div class="swatch"><div class="chip" style="background:var(--color-text)"></div><div class="lbl">text</div></div>
+  <div class="swatch"><div class="chip" style="background:var(--color-text-secondary)"></div><div class="lbl">text-secondary</div></div>
+  <div class="swatch"><div class="chip" style="background:var(--color-text-heading)"></div><div class="lbl">heading</div></div>
+  <div class="swatch"><div class="chip" style="background:var(--color-border)"></div><div class="lbl">border</div></div>
+  <div class="swatch"><div class="chip" style="background:var(--color-placeholder)"></div><div class="lbl">placeholder</div></div>
+  <div class="swatch"><div class="chip" style="background:var(--color-bg-hover)"></div><div class="lbl">bg-hover</div></div>
+</div>
+
+<h2>2 · Typography</h2>
+<p style="font-family:var(--mono);font-size:11px;color:var(--color-text-secondary)">Open Sans · #131313 text · #69749c secondary · #b4bacd placeholder</p>
+<div style="font-size:34px;font-weight:700;color:var(--color-text-heading);letter-spacing:-.02em">Display — Open Sans 700</div>
+<div style="font-size:20px;font-weight:600;color:var(--color-text-heading)">Heading — Open Sans 600</div>
+<div style="font-size:16px;color:var(--color-text)">Body — Open Sans 400, the workhorse. Short sentences read best.</div>
+<div style="font-size:13px;color:var(--color-text-secondary)">Secondary — captions, sub-labels.</div>
+<div class="label" style="margin-top:6px">Detail — IBM Plex Mono, uppercase</div>
+
+<h2>3 · Buttons + Links</h2>
+<div class="row">
+  <button class="primary">Primary</button>
+  <button>Secondary</button>
+  <span class="pill">Tokens pill</span>
+  <span class="pill solid">solid</span>
+  <span class="pill soft">soft</span>
+  <a href="#">a link</a>
+</div>
+
+<h2>4 · Inputs</h2>
+<div class="row"><input class="demo" placeholder="placeholder text…"></div>
+
+<h2>5 · Card / Section</h2>
+<div class="card"><h3>Card title</h3><p style="margin:4px 0 0;color:var(--color-text-secondary);font-size:14px">White surface, soft border, 8px radius, the subtle <code>0 8px 16px</code> shadow.</p></div>
+
+<h2>6 · Layout (the Figma spec — what the console must match)</h2>
+<p class="meta">Desktop 1440px: three columns, centered. Header 94px. Body content 668px (780 minus 56+56 padding).</p>
+<div class="layout-spec">
+  <div class="m">LEFT MENU<br>330px<br>bg-menu</div>
+  <div class="b">BODY 780px<br>content 668<br>pad 16 / 56</div>
+  <div class="m">RIGHT MENU<br>330px<br>bg-menu</div>
+</div>
+<p class="meta" style="margin-top:8px">Header (94px): logo 62×62 circle + title + " / " + view name on the left; accent button on the right.</p>
+
+<footer>Styleguide · build-a.css · the live console (<a href="sift.html">sift.html</a>) is built to this spec</footer>
+</div>
+
+<script>
+function setTheme(t){if(t==="light")document.documentElement.removeAttribute("data-theme");else document.documentElement.setAttribute("data-theme",t);
+  localStorage.setItem("sift-theme",t);[...document.querySelectorAll("#tt button")].forEach(b=>b.classList.toggle("on",b.dataset.set===t));}
+[...document.querySelectorAll("#tt button")].forEach(b=>b.onclick=()=>setTheme(b.dataset.set));
+setTheme(localStorage.getItem("sift-theme")||"light");
+</script>
+</body>
+</html>
