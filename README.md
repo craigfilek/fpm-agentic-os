@@ -5,47 +5,47 @@ throw at it, remembers it, and hands it back in your own cited words. It **sets 
 up** from a short interview and **grows itself** one workflow a week. Start
 featherweight; add the heavy engine only when you want it.
 
-**Who it's for:** anyone with a Mac who wants a private, local assistant that actually
+Who it's for: **anyone with a Mac** who wants a private, local assistant that
 remembers their stuff — no servers, no lock-in. You don't need to know how to code.
 
-**What you run:** clone the repo and run `/onboard` in Claude Code (Tier 0, below), or
-the one-line installer for the full engine (Tier 1).
+What you run: clone the repo and run `/onboard` in Claude Code (Tier 0, below).
+Or paste the one-line installer for the full engine (Tier 1).
 
-> 🗺️ **[See the whole system as a live flowchart →](https://craigfilek.github.io/fpm-agentic-os/rig-map.html)**
-> An interactive map of every piece and how they wire together.
+🗺️ **[See the whole system as a live flowchart →](https://craigfilek.github.io/fpm-agentic-os/rig-map.html)**
+An interactive map of every piece and how they wire together.
 
-> 🚶 **[Walk through the setup, step by step →](https://craigfilek.github.io/fpm-agentic-os/journey.html)**
-> What you'll see on your screen at each stage — paste one line, the CEO interview, then the two daily verbs.
+🚶 **[Walk through the setup, step by step →](https://craigfilek.github.io/fpm-agentic-os/journey.html)**
+What you'll see on your screen at each stage — paste one line, the CEO interview, then the two daily verbs.
 
-> ⚠️ **Early preview.** Shared openly, but not yet battle-tested on a fresh
-> machine — the one-line installer's OS-level steps (Homebrew, Claude Code) still need a
-> real first run by someone other than the author. The Tier 0 path below is the safe,
-> proven place to start. Expect rough edges and read before you run.
+⚠️ **Early preview.** Shared openly, but not yet battle-tested on a fresh machine.
+The one-line installer's OS-level steps (Homebrew, Claude Code) still need a
+real first run by someone other than the author. The Tier 0 path below is the safe,
+proven place to start. Expect rough edges and read before you run.
 
-> ## ⚡ Start here — Tier 0 (15 minutes, nothing to install)
->
-> If you have **Claude Code**, this is the whole start:
->
-> 1. Clone this repo and open the folder in Claude Code.
-> 2. Run **`/onboard`** — a short interview. It fills your operating manual + `context/`
->    folder so the system knows who it works for.
-> 3. Use it. Each week, run **`/level-up`** — it ships one new workflow and improves an
->    existing one. The system builds itself by accretion.
->
-> No runtimes, no API keys beyond Claude Code, nothing that can break. This is the door.
->
-> ## ⬆️ Tier 1 — add the engine (when you want real memory + automation)
->
-> When you want it to *remember everything and recall by meaning*, capture from anywhere,
-> and message you on a schedule — install the engine (gbrain + the capture belt + Hermes):
->
-> ```bash
-> curl -fsSL https://raw.githubusercontent.com/craigfilek/fpm-agentic-os/main/install.sh | bash
-> ```
->
-> One Mac-password prompt, an Anthropic key (free at
-> [console.anthropic.com/settings/keys](https://console.anthropic.com/settings/keys)), ~30 min.
-> Everything from Tier 0 keeps working — this just adds power under it. See [INSTALL.md](INSTALL.md).
+## ⚡ Start here — Tier 0 (15 minutes, nothing to install)
+
+If you have **Claude Code**, this is the whole start:
+
+1. Clone this repo and open the folder in Claude Code.
+2. Run **`/onboard`** — a short interview. It fills your operating manual + `context/`
+   folder so the system knows who it works for.
+3. Use it. Each week, run **`/level-up`** — it ships one new workflow and improves an
+   existing one. The system builds itself by accretion.
+
+No runtimes, no API keys beyond Claude Code, nothing that can break. This is the door.
+
+## ⬆️ Tier 1 — add the engine (when you want real memory + automation)
+
+When you want it to *remember everything and recall by meaning*, capture from anywhere,
+and message you on a schedule — install the engine (gbrain + the capture belt + Hermes):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/craigfilek/fpm-agentic-os/main/install.sh | bash
+```
+
+One Mac-password prompt, an Anthropic key (free at
+[console.anthropic.com/settings/keys](https://console.anthropic.com/settings/keys)), ~30 min.
+Everything from Tier 0 keeps working — this just adds power under it. See [INSTALL.md](INSTALL.md).
 
 ---
 
