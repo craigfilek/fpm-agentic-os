@@ -6,6 +6,9 @@
 
 # ── kit files that DO ship (the public shelf) ───────────────────────────────
 !/.gitignore
+!/skills/
+!/skills/router/
+!/skills/router/SKILL.md
 !/AGENTS.md
 !/ceo-interview.md
 !/claude-settings.json
