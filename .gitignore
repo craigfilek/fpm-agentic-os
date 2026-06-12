@@ -34,6 +34,7 @@
 /bin/*
 !/bin/boot
 !/bin/build-queue-resift.py
+!/bin/sift_core.py
 !/bin/doctor
 !/bin/capture
 !/bin/instagram-station
